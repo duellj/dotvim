@@ -89,6 +89,10 @@ set updatecount=50
 " show line numbers
 set number
 
+" Autowrap comments using textwidth
+set fo=crq
+set textwidth=80
+
 " Remember things between sessions
 "
 " '20  - remember marks for 20 previous files
