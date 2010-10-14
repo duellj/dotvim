@@ -24,8 +24,8 @@ augroup filetypedetect
 	" Detect .test as 'php', for Drupal
 	au BufRead,BufNewFile *.test setfiletype php
 
-  " Detect class, inc as 'php', for Gallery
-  au BufRead,BufNewFile *.class,*.inc setfiletype php
+	" Detect .profile as 'php', for Drupal
+	au BufRead,BufNewFile *.profile setfiletype php
 
 	" Detect .dwt as 'html'
 	au BufRead,BufNewFile *.dwt setfiletype html
