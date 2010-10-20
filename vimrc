@@ -2,6 +2,10 @@
 " MAIN CUSTOMIZATION FILE
 "
 
+" Active pathogen bundle manager
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
 " Enable loading filetype and indentation plugins
 filetype plugin on
 filetype indent on
