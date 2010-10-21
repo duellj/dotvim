@@ -13,3 +13,9 @@
 [submodule "bundle/nerdcommenter"]
 	path = bundle/nerdcommenter
 	url = http://github.com/scrooloose/nerdcommenter.git
+[submodule "bundle/piv"]
+	path = bundle/piv
+	url = http://github.com/spf13/PIV.git
+[submodule "bundle/delimiMate"]
+	path = bundle/delimiMate
+	url = http://github.com/Raimondi/delimitMate.git
