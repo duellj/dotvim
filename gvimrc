@@ -1,2 +1,2 @@
-colorscheme ir_black
+colorscheme evening
 set background=dark
