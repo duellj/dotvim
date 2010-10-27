@@ -174,6 +174,11 @@ vnoremap > >gv
 " highlight netrwDir cterm=none ctermfg=Cyan
 
 "
+" SuperTab configuration
+"
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+
+"
 " NERDTree configuration
 "
 
