@@ -30,8 +30,10 @@ augroup filetypedetect
 	" Detect .profile as 'php', for Drupal
 	au BufRead,BufNewFile *.profile setfiletype php.drupal
 
+  " Detect .tpl.php as 'php' and 'html'
+  au BufRead,BufNewFile *.tpl.php setfiletype php.drupal.html
+
 	" Detect .dwt as 'html'
 	au BufRead,BufNewFile *.dwt setfiletype html
-
 
 augroup END
