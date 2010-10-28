@@ -106,9 +106,6 @@ set textwidth=80
 " n    - set name of viminfo file
 set viminfo='20,\"50,:20,%,n~/.viminfo
 
-" Use menu to show command-line completion (in 'full' case)
-set wildmenu
-
 " Set command-line completion mode:
 "   - on first <Tab>, when more than one match, list all matches and complete
 "     the longest common  string
@@ -117,10 +114,6 @@ set wildmode=list:longest,full
 
 " Go back to the position the cursor was on the last time this file was edited
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")|execute("normal `\"")|endif
-
-" Fix my <Backspace> key (in Mac OS X Terminal)
-" set t_kb=
-" fixdel
 
 " Avoid loading MatchParen plugin
 let loaded_matchparen = 1
@@ -146,37 +139,28 @@ imap <C-F> 
 " map ,f to display all lines with keyword under cursor and ask which one to
 " jump to
 nmap ,f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
-" use <F6> to toggle line numbers
-nmap <silent> <F6> :set number!<CR>
+
 " page down with <Space>
 nmap <Space> <PageDown>
 " page up with -
 noremap - <PageUp>
 
-" open filename under cursor in a new window (use current file's working
-" directory) 
-nmap gf :new %:p:h/<cfile><CR>
-" map <Alt-p> and <Alt-P> to paste below/above and reformat
-nnoremap <Esc>P  P'[v']=
-nnoremap <Esc>p  p'[v']=
 " visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv 
 
-" Generic highlight changes
-" highlight Comment cterm=none ctermfg=Gray
-" highlight IncSearch cterm=none ctermfg=Black ctermbg=DarkYellow
-" highlight Search cterm=none ctermfg=Black ctermbg=DarkYellow
-" highlight String cterm=none ctermfg=DarkGreen
-" highlight treeDir cterm=none ctermfg=Cyan
-" highlight treeUp cterm=none ctermfg=DarkYellow
-" highlight treeCWD cterm=none ctermfg=DarkYellow
-" highlight netrwDir cterm=none ctermfg=Cyan
-
 "
 " SuperTab configuration
 "
+
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+set completeopt=longest,menuone
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
 
 "
 " NERDTree configuration
@@ -191,3 +175,8 @@ nmap <silent> <F7> :NERDTreeToggle<CR>
 " Configure vim so it can be called from crontab -e
 au BufEnter /private/tmp/crontab.* setl backupcopy=yes
 set backupskip=/tmp/*,/private/tmp/*
+
+"
+" SnipMate configuration
+"
+let g:snips_author = 'Jon Duell'
