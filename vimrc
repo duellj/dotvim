@@ -16,6 +16,9 @@ syntax on
 "
 " GLOBAL SETTINGS
 "
+set fo=crq
+set textwidth=80
+
 
 " Set autoindent for all files
 set autoindent
@@ -92,10 +95,6 @@ set updatecount=50
 
 " show line numbers
 set number
-
-" Autowrap comments using textwidth
-set fo=crq
-set textwidth=80
 
 " Remember things between sessions
 "
@@ -180,3 +179,8 @@ set backupskip=/tmp/*,/private/tmp/*
 " SnipMate configuration
 "
 let g:snips_author = 'Jon Duell'
+
+"
+" DelimitMate configuration
+"
+let delimitMate_expand_cr = 1
