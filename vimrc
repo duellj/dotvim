@@ -179,8 +179,3 @@ set backupskip=/tmp/*,/private/tmp/*
 " SnipMate configuration
 "
 let g:snips_author = 'Jon Duell'
-
-"
-" DelimitMate configuration
-"
-let delimitMate_expand_cr = 1
