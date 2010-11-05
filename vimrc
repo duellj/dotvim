@@ -148,6 +148,19 @@ noremap - <PageUp>
 vnoremap < <gv
 vnoremap > >gv 
 
+" Open URL in the current line
+function! HandleURI()
+  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
+  echo s:uri
+  if s:uri != ""
+	  exec "!open \"" . s:uri . "\""
+  else
+	  echo "No URI found in line."
+  endif
+endfunction
+map <Leader>w :call HandleURI()<CR>
+
+
 "
 " SuperTab configuration
 "
@@ -179,3 +192,8 @@ set backupskip=/tmp/*,/private/tmp/*
 " SnipMate configuration
 "
 let g:snips_author = 'Jon Duell'
+
+"
+" PHPFolding configuration
+"
+map <F6> <Esc>:EnablePHPFolds<Cr>
