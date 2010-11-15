@@ -22,3 +22,9 @@
 [submodule "bundle/snipmate"]
 	path = bundle/snipmate
 	url = git@github.com:duellj/snipmate.vim.git
+[submodule "bundle/PIV"]
+	path = bundle/PIV
+	url = git@github.com:duellj/PIV.git
+[submodule "bundle/ack"]
+	path = bundle/ack
+	url = https://github.com/mileszs/ack.vim.git
