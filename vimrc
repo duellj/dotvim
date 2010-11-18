@@ -3,12 +3,14 @@
 "
 
 " Active pathogen bundle manager
+filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
 " Enable loading filetype and indentation plugins
-filetype plugin on
-filetype indent on
+filetype plugin indent on
+
+set nocompatible
 
 " Turn syntax highlighting on
 syntax on
@@ -53,6 +55,7 @@ set laststatus=2
 
 " Jump to matching bracket for 2/10th of a second (works with showmatch)
 set matchtime=2
+
 
 " Don't highlight results of a search
 set nohlsearch
@@ -124,12 +127,14 @@ let g:netrw_browse_split = 1
 " MAPPINGS
 "
 
+let mapleader = ","
+
 " save changes
-map ,s :w<CR>
+map <leader>s :w<CR>
 " exit vim without saving any changes
-map ,q :q!<CR>
+map <leader>q :q!<CR>
 " exit vim saving changes
-map ,w :x<CR>
+map <leader>w :x<CR>
 " switch to upper/lower window quickly
 map <C-J> <C-W>j
 map <C-K> <C-W>k
@@ -138,6 +143,17 @@ imap <C-F> 
 " map ,f to display all lines with keyword under cursor and ask which one to
 " jump to
 nmap ,f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+" reselect text that was just pasted
+nnoremap <leader>v V`]
+
+" Quickly edit/reload the vimrc file
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" Map <tab to match bracket pairs
+nnoremap <tab> %
+vnoremap <tab> %
+
 
 " page down with <Space>
 nmap <Space> <PageDown>
@@ -148,7 +164,7 @@ noremap - <PageUp>
 vnoremap < <gv
 vnoremap > >gv 
 
-" Open URL in the current line
+" open URL in the current line
 function! HandleURI()
   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
   echo s:uri
@@ -160,6 +176,8 @@ function! HandleURI()
 endfunction
 map <Leader>w :call HandleURI()<CR>
 
+" open ACK
+nnoremap <leader>a :Ack 
 
 "
 " SuperTab configuration
