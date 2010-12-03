@@ -99,6 +99,9 @@ set updatecount=50
 " show line numbers
 set number
 
+" Wrap long lines
+set wrap
+
 " Remember things between sessions
 "
 " '20  - remember marks for 20 previous files
@@ -131,18 +134,20 @@ let mapleader = ","
 
 " save changes
 map <leader>s :w<CR>
-" exit vim without saving any changes
-map <leader>q :q!<CR>
+" exit vim 
+map <leader>q :q<CR>
 " exit vim saving changes
 map <leader>w :x<CR>
-" switch to upper/lower window quickly
+" switch to split windows quickly
 map <C-J> <C-W>j
 map <C-K> <C-W>k
+map <C-l> <C-W>l
+map <C-h> <C-W>h
 " use CTRL-F for omni completion
 imap <C-F> 
-" map ,f to display all lines with keyword under cursor and ask which one to
+" map <leader>f to display all lines with keyword under cursor and ask which one to
 " jump to
-nmap ,f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+nmap <leader>f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 " reselect text that was just pasted
 nnoremap <leader>v V`]
 
@@ -196,8 +201,8 @@ inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
 " NERDTree configuration
 "
 
-" Increase window size to 35 columns
-let NERDTreeWinSize=35
+" Increase window size to 30 columns
+let NERDTreeWinSize=30
 
 " map <F7> to toggle NERDTree window
 nmap <silent> <F7> :NERDTreeToggle<CR>
