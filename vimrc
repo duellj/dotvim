@@ -123,8 +123,9 @@ au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")|execute("normal 
 " Avoid loading MatchParen plugin
 let loaded_matchparen = 1
 
-" netRW: Open files in a split window
-let g:netrw_browse_split = 1
+" Configure vim so it can be called from crontab -e
+au BufEnter /private/tmp/crontab.* setl backupcopy=yes
+set backupskip=/tmp/*,/private/tmp/*
 
 "
 " MAPPINGS
@@ -190,11 +191,6 @@ nnoremap <leader>a :Ack
 
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 set completeopt=longest,menuone
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
 
 "
@@ -207,10 +203,6 @@ let NERDTreeWinSize=30
 " map <F7> to toggle NERDTree window
 nmap <silent> <F7> :NERDTreeToggle<CR>
 
-" Configure vim so it can be called from crontab -e
-au BufEnter /private/tmp/crontab.* setl backupcopy=yes
-set backupskip=/tmp/*,/private/tmp/*
-
 "
 " SnipMate configuration
 "
@@ -220,3 +212,8 @@ let g:snips_author = 'Jon Duell'
 " PHPFolding configuration
 "
 map <F6> <Esc>:EnablePHPFolds<Cr>
+
+"
+" delimitMate configuration
+"
+let delimitMate_expand_cr = 1
