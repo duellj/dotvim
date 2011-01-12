@@ -31,3 +31,6 @@
 [submodule "bundle/delimitMate"]
 	path = bundle/delimitMate
 	url = https://github.com/Raimondi/delimitMate.git
+[submodule "bundle/taglist"]
+	path = bundle/taglist
+	url = git@github.com:duellj/taglist.vim.git

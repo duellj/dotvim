@@ -102,6 +102,9 @@ set number
 " Wrap long lines
 set wrap
 
+" Save backups outside of current directory
+set directory=~/.vimbackup//
+
 " Remember things between sessions
 "
 " '20  - remember marks for 20 previous files
