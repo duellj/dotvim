@@ -185,8 +185,13 @@ function! HandleURI()
 endfunction
 map <Leader>w :call HandleURI()<CR>
 
-" open ACK
+" Change directory to directory of current file
+map <Leader>cd :cd %:p:h<CR>
+
+" open Ack
 nnoremap <leader>a :Ack 
+" run Ack against word under cursor
+nnoremap <leader>A :Ack <c-r><c-w><CR>
 
 "
 " SuperTab configuration
