@@ -34,3 +34,6 @@
 [submodule "bundle/taglist"]
 	path = bundle/taglist
 	url = git@github.com:duellj/taglist.vim.git
+[submodule "bundle/unimpaired"]
+	path = bundle/unimpaired
+	url = https://github.com/tpope/vim-unimpaired.git
