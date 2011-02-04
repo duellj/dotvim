@@ -1,4 +1,4 @@
-au BufNewFile,BufRead *.js set makeprg=gjslint\ %
+au BufNewFile,BufRead *.js set makeprg=jsl\ %
 
 " The ^G at the end is an actual <Ctrl-G> char.
 " Gist won't let me include it, so you'll have to delete the last two characters
