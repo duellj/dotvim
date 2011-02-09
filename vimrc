@@ -225,3 +225,11 @@ map <F6> <Esc>:EnablePHPFolds<Cr>
 " delimitMate configuration
 "
 let delimitMate_expand_cr = 1
+
+"
+" Taglist configuration
+"
+let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
+let Tlist_WinWidth = 40
+let Tlist_Auto_Highlight_Tag = 1
+map <F4> :TlistToggle<cr>
