@@ -40,6 +40,3 @@
 [submodule "bundle/tabular"]
 	path = bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
-[submodule "bundle/indexer"]
-	path = bundle/indexer
-	url = https://github.com/vim-scripts/indexer.tar.gz.git
