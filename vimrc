@@ -103,7 +103,7 @@ set number
 set wrap
 
 " Save backups outside of current directory
-set directory=~/.vimbackup//
+set directory=~/.vimbackup/
 
 " Remember things between sessions
 "
@@ -113,6 +113,9 @@ set directory=~/.vimbackup//
 " %    - remember the buffer list (if vim started without a file arg)
 " n    - set name of viminfo file
 set viminfo='20,\"50,:20,%,n~/.viminfo
+
+" More useful command-line completion
+set wildmenu
 
 " Set command-line completion mode:
 "   - on first <Tab>, when more than one match, list all matches and complete
@@ -187,6 +190,21 @@ map <Leader>w :call HandleURI()<CR>
 
 " open ACK
 nnoremap <leader>a :Ack 
+
+" write file as sudo
+cmap w!! w !sudo tee % >/dev/null
+
+"Shortcut for editing  vimrc file in a new tab
+nmap <leader>ev :tabedit $MYVIMRC<cr>
+
+" Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes.
+if has("autocmd")
+ augroup myvimrchooks
+  au!
+  autocmd bufwritepost .vimrc source ~/.vimrc
+ augroup END
+endif
+
 
 "
 " SuperTab configuration
