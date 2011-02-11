@@ -2,6 +2,7 @@
 " MAIN CUSTOMIZATION FILE
 "
 
+" Preliminary definitions {{{
 " Active pathogen bundle manager
 filetype off
 call pathogen#runtime_append_all_bundles()
@@ -10,14 +11,14 @@ call pathogen#helptags()
 " Enable loading filetype and indentation plugins
 filetype plugin indent on
 
+" Don't need VI
 set nocompatible
 
 " Turn syntax highlighting on
 syntax on
+"}}}
 
-"
-" GLOBAL SETTINGS
-"
+" GLOBAL SETTINGS {{{
 set fo=crq
 set textwidth=80
 
@@ -133,28 +134,35 @@ let loaded_matchparen = 1
 au BufEnter /private/tmp/crontab.* setl backupcopy=yes
 set backupskip=/tmp/*,/private/tmp/*
 
-"
-" MAPPINGS
-"
+" Find tags file in parent directories
+set tags=./tags;
+"}}}
 
+" MAPPINGS {{{
 let mapleader = ","
 
 " save changes
 map <leader>s :w<CR>
+
 " exit vim 
 map <leader>q :q<CR>
+
 " exit vim saving changes
 map <leader>w :x<CR>
+
 " switch to split windows quickly
 map <C-J> <C-W>j
 map <C-K> <C-W>k
 map <C-l> <C-W>l
 map <C-h> <C-W>h
+
 " use CTRL-F for omni completion
 imap <C-F> 
+
 " map <leader>f to display all lines with keyword under cursor and ask which one to
 " jump to
 nmap <leader>f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+
 " reselect text that was just pasted
 nnoremap <leader>v V`]
 
@@ -166,9 +174,9 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nnoremap <tab> %
 vnoremap <tab> %
 
-
 " page down with <Space>
 nmap <Space> <PageDown>
+
 " page up with -
 noremap - <PageUp>
 
@@ -201,7 +209,10 @@ cmap w!! w !sudo tee % >/dev/null
 
 "Shortcut for editing  vimrc file in a new tab
 nmap <leader>ev :tabedit $MYVIMRC<cr>
+"}}}
 
+" Filetype configuration {{{
+au FileType vim setlocal foldmethod=marker
 " Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes.
 if has("autocmd")
  augroup myvimrchooks
@@ -209,45 +220,45 @@ if has("autocmd")
   autocmd bufwritepost .vimrc source ~/.vimrc
  augroup END
 endif
+" }}}
 
+" Plugin configuration {{{
 
-"
-" SuperTab configuration
-"
-
+" SuperTab configuration {{{
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 set completeopt=longest,menuone
+" }}}
 
-
-"
-" NERDTree configuration
-"
-
+" NERDTree configuration {{{
 " Increase window size to 30 columns
 let NERDTreeWinSize=30
 
 " map <F7> to toggle NERDTree window
 nmap <silent> <F7> :NERDTreeToggle<CR>
+" }}}
 
-"
-" SnipMate configuration
-"
+" SnipMate configuration {{{
 let g:snips_author = 'Jon Duell'
+" }}}
 
-"
-" PHPFolding configuration
-"
+" PHPFolding configuration {{{
 map <F6> <Esc>:EnablePHPFolds<Cr>
+" }}}
 
-"
-" delimitMate configuration
-"
+" delimitMate configuration {{{
 let delimitMate_expand_cr = 1
+" }}}
 
-"
-" Taglist configuration
-"
+" Taglist configuration {{{
 let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
 let Tlist_WinWidth = 40
 let Tlist_Auto_Highlight_Tag = 1
+let Tlist_Exit_OnlyWindow = 1
 map <F4> :TlistToggle<cr>
+" }}}
+
+" AutoTag configuration {{{
+let autotagCtagsCmd = "/usr/local/bin/ctags --langmap=php:.install.inc.module.theme.php --php-kinds=cdfi --languages=php"
+" }}}
+
+" }}}
