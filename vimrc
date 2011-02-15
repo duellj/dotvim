@@ -103,8 +103,13 @@ set number
 " Wrap long lines
 set wrap
 
+" Highlight cursor line
+set cursorline
+
 " Save backups outside of current directory
 set directory=~/.vimbackup/
+
+set shell=/bin/bash
 
 " Remember things between sessions
 "
@@ -259,6 +264,12 @@ map <F4> :TlistToggle<cr>
 
 " AutoTag configuration {{{
 let autotagCtagsCmd = "/usr/local/bin/ctags --langmap=php:.install.inc.module.theme.php --php-kinds=cdfi --languages=php"
+" }}}
+
+" IndentGuides configuration {{{
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
 " }}}
 
 " }}}
