@@ -40,3 +40,6 @@
 [submodule "bundle/autotag"]
 	path = bundle/autotag
 	url = https://github.com/vim-scripts/AutoTag.git
+[submodule "bundle/PIV"]
+	path = bundle/PIV
+	url = git@github.com:duellj/PIV.git
