@@ -61,8 +61,8 @@ set matchtime=2
 " Don't highlight results of a search
 set nohlsearch
 
-" Enable CTRL-A/CTRL-X to work on octal and hex numbers, as well as characters
-set nrformats=octal,hex,alpha
+" Enable CTRL-A/CTRL-X to work on octal and hex numbers
+set nrformats=octal,hex
 
 " Use F10 to toggle 'paste' mode
 set pastetoggle=<F10>
@@ -214,6 +214,10 @@ cmap w!! w !sudo tee % >/dev/null
 
 "Shortcut for editing  vimrc file in a new tab
 nmap <leader>ev :tabedit $MYVIMRC<cr>
+
+" Quick returns
+inoremap <c-cr> <esc>A<cr>
+
 "}}}
 
 " Filetype configuration {{{
@@ -270,6 +274,14 @@ let autotagCtagsCmd = "/usr/local/bin/ctags --langmap=php:.install.inc.module.th
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
+" }}}
+
+" CheckSyntax configuration {{{
+nnoremap <F3> :CheckSyntax<CR>
+" }}}
+
+" Gundo configuration {{{
+nnoremap <F5> :GundoToggle<CR>
 " }}}
 
 " }}}
