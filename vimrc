@@ -19,97 +19,47 @@ syntax on
 "}}}
 
 " GLOBAL SETTINGS {{{
+
+colorscheme molokai
+set background=dark
+
+set statusline=%f%m%r%h%w%=%y\ (line\ %l\/%L,\ col\ %c)
+
+set autoindent              " Set autoindent for all files
+set autowrite               " Write contents of the file, if it has been modified, on buffer exit
+set enc=utf-8               " Use UTF-8 as the default buffer encoding
+set history=100             " Remember up to 100 'colon' commmands and search patterns
+set incsearch               " Enable incremental search
+set ignorecase              " Enable case insensitive search
+set smartcase               " Ignore ignorecase when search pattern contains an upper case character
+set laststatus=2            " Always show status line, even for one window
+set shiftwidth=2            " Use 2 spaces for (auto)indent
+set tabstop=2               " Use 2 spaces for <Tab> and :retab
+set expandtab               " expand tabs to spaces
+set matchtime=2             " Jump to matching bracket for 2/10th of a second (works with showmatch)
+set nohlsearch              " Don't highlight results of a search
+set wrap                    " Wrap long lines
+set textwidth=80            " Wrap at 80 characters
+set nrformats=octal,hex     " Enable CTRL-A/CTRL-X to work on octal and hex numbers
+set pastetoggle=<F10>       " Use F10 to toggle 'paste' mode
+set ruler                   " Show line, column number, and relative position within a file in the status line
+set number                  " show line numbers
+set scrolloff=3             " Scroll when cursor gets within 3 characters of top/bottom edge
+set shiftround              " Round indent to multiple of 'shiftwidth' for > and < commands
+set showcmd                 " Show (partial) commands (or size of selection in Visual mode) in the status line
+set showmatch               " When a bracket is inserted, briefly jump to a matching one
+set t_RV=                   " Don't request terminal version string (for xterm)
+set updatecount=50          " Write swap file to disk after every 50 characters
+set cursorline              " Highlight cursor line
+set directory=~/.vimbackup/ " Save backups outside of current directory
+set wildmenu                " More useful command-line completion
 set fo=crq
-set textwidth=80
-
-
-" Set autoindent for all files
-set autoindent
-
-" Write contents of the file, if it has been modified, on buffer exit
-set autowrite
-
-" Allow backspacing over everything
-set backspace=indent,eol,start
-
-" Insert mode completion options
-set completeopt=menu,longest,preview
-
-" Use UTF-8 as the default buffer encoding
-set enc=utf-8
-
-" Remember up to 100 'colon' commmands and search patterns
-set history=100
-
-" Enable incremental search
-set incsearch
-
-" Enable case insensitive search
-set ignorecase
-let b:match_ignorecase=0
-
-" Ignore ignorecase when search pattern contains an upper case character
-set smartcase
-
-" Always show status line, even for one window
-set laststatus=2
-
-" Jump to matching bracket for 2/10th of a second (works with showmatch)
-set matchtime=2
-
-
-" Don't highlight results of a search
-set nohlsearch
-
-" Enable CTRL-A/CTRL-X to work on octal and hex numbers
-set nrformats=octal,hex
-
-" Use F10 to toggle 'paste' mode
-set pastetoggle=<F10>
-
-" Show line, column number, and relative position within a file in the status line
-set ruler
-
-" Scroll when cursor gets within 3 characters of top/bottom edge
-set scrolloff=3
-
-" Round indent to multiple of 'shiftwidth' for > and < commands
-set shiftround
-
-" Use 2 spaces for (auto)indent
-set shiftwidth=2
-
-" Use 2 spaces for <Tab> and :retab
-set tabstop=2
-
-" Show (partial) commands (or size of selection in Visual mode) in the status line
-set showcmd
-
-" When a bracket is inserted, briefly jump to a matching one
-set showmatch
-
-" Don't request terminal version string (for xterm)
-set t_RV=
-
-" expand tabs to spaces
-set expandtab
-
-" Write swap file to disk after every 50 characters
-set updatecount=50
-
-" show line numbers
-set number
-
-" Wrap long lines
-set wrap
-
-" Highlight cursor line
-set cursorline
-
-" Save backups outside of current directory
-set directory=~/.vimbackup/
 
 set shell=/bin/bash
+
+
+set backspace=indent,eol,start       " Allow backspacing over everything
+set completeopt=menu,longest,preview " Insert mode completion options
 
 " Remember things between sessions
 "
@@ -120,8 +70,6 @@ set shell=/bin/bash
 " n    - set name of viminfo file
 set viminfo='20,\"50,:20,%,n~/.viminfo
 
-" More useful command-line completion
-set wildmenu
 
 " Set command-line completion mode:
 "   - on first <Tab>, when more than one match, list all matches and complete
@@ -233,9 +181,12 @@ endif
 
 " Plugin configuration {{{
 
+" MatchIt configuration {{{
+let b:match_ignorecase=0
+" }}}
+
 " SuperTab configuration {{{
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-set completeopt=longest,menuone
 " }}}
 
 " NERDTree configuration {{{
@@ -271,7 +222,6 @@ let autotagCtagsCmd = "/usr/local/bin/ctags --langmap=php:.install.inc.module.th
 " }}}
 
 " IndentGuides configuration {{{
-let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 " }}}
@@ -284,4 +234,8 @@ nnoremap <F3> :CheckSyntax<CR>
 nnoremap <F5> :GundoToggle<CR>
 " }}}
 
+" AutoComplPop configuration {{{
+let g:acp_enableAtStartup = 0
+let g:acp_completeoptPreview = 1
+" }}}
 " }}}

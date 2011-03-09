@@ -34,6 +34,9 @@ map! <S-Insert> <MiddleMouse>
 " Hide toolbar in GUI
 set guioptions-=T
 
+" Only enable IndentGuides in GUI
+let g:indent_guides_enable_on_vim_startup = 1
+
 " Only do this for Vim version 5.0 and later.
 if version >= 500
 
