@@ -13,9 +13,6 @@
 [submodule "bundle/nerdcommenter"]
 	path = bundle/nerdcommenter
 	url = http://github.com/scrooloose/nerdcommenter.git
-[submodule "bundle/checksyntax_vim"]
-	path = bundle/checksyntax_vim
-	url = http://github.com/tomtom/checksyntax_vim.git
 [submodule "bundle/supertab"]
 	path = bundle/supertab
 	url = http://github.com/ervandew/supertab.git
@@ -67,3 +64,6 @@
 [submodule "bundle/repeat"]
 	path = bundle/repeat
 	url = https://github.com/tpope/vim-repeat.git
+[submodule "bundle/syntastic"]
+	path = bundle/syntastic
+	url = git@github.com:duellj/syntastic.git
