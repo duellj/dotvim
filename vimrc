@@ -36,7 +36,7 @@ set laststatus=2            " Always show status line, even for one window
 set shiftwidth=2            " Use 2 spaces for (auto)indent
 set tabstop=2               " Use 2 spaces for <Tab> and :retab
 set expandtab               " expand tabs to spaces
-set matchtime=2             " Jump to matching bracket for 2/10th of a second (works with showmatch)
+set matchtime=3             " Jump to matching bracket for 3/10th of a second (works with showmatch)
 set nohlsearch              " Don't highlight results of a search
 set wrap                    " Wrap long lines
 set textwidth=80            " Wrap at 80 characters
@@ -166,9 +166,30 @@ nmap <leader>ev :tabedit $MYVIMRC<cr>
 " Quick returns
 inoremap <c-cr> <esc>A<cr>
 
+""""""""""""""""""""""""""""""
+" => Phpcs                {{{
+" see: http://www.koch.ro/blog/index.php?/archives/62-Integrate-PHP-CodeSniffer-in-VIM.html
+""""""""""""""""""""""""""""""
+function! RunPhpcs()
+    let l:filename=@%
+    let l:phpcs_output=system('/usr/local/zend/bin/phpcs --report=csv --standard=Drupal '.l:filename)
+    let l:phpcs_list=split(l:phpcs_output, "\n")
+    unlet l:phpcs_list[0]
+    cexpr l:phpcs_list
+    cwindow
+endfunction
+
+"set errorformat+="%f"\\,%l\\,%c\\,%t%*[a-zA-Z]\\,"%m"
+set errorformat+=\"%f\"\\,%l\\,%c\\,%t%*[a-zA-Z]\\,\"%m\"\\,%*[a-zA-Z0-9_.-]
+command! Phpcs execute RunPhpcs()
+nnoremap <leader>ps :Phpcs<CR>
+"}}}
+
 "}}}
 
 " Filetype configuration {{{
+
+" Vim {{{
 au FileType vim setlocal foldmethod=marker
 " Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes.
 if has("autocmd")
@@ -177,6 +198,36 @@ if has("autocmd")
   autocmd bufwritepost .vimrc source ~/.vimrc
  augroup END
 endif
+"}}}
+
+" Drupal {{{
+au BufRead,BufNewFile *.module setfiletype php
+au BufRead,BufNewFile *.theme setfiletype php
+au BufRead,BufNewFile *.inc setfiletype php
+au BufRead,BufNewFile *.install setfiletype php
+au BufRead,BufNewFile *.test setfiletype php
+au BufRead,BufNewFile *.profile setfiletype php
+au BufRead,BufNewFile *.tpl.php setfiletype php
+" }}}
+
+" LessCSS {{{
+au BufRead,BufNewFile *.less setfiletype css
+" Auto compress less files
+autocmd FileWritePost,BufWritePost *.less :call LessCSSCompress()
+function! LessCSSCompress()
+  let cwd = expand('<afile>:p:h')
+  let name = expand('<afile>:t:r')
+  if (executable('lessc'))
+    cal system('lessc '.cwd.'/'.name.'.less > '.cwd.'/'.name.'.css &')
+  endif
+endfunction
+" }}}
+
+" Word Docs (haha suckit Office) {{{
+autocmd BufReadPre *.doc set ro
+autocmd BufReadPre *.doc set hlsearch!
+autocmd BufReadPost *.doc %!antiword "%"
+" }}}
 " }}}
 
 " Plugin configuration {{{
@@ -235,7 +286,12 @@ nnoremap <F5> :GundoToggle<CR>
 " }}}
 
 " AutoComplPop configuration {{{
-let g:acp_enableAtStartup = 0
+let g:acp_enableAtStartup = 1
 let g:acp_completeoptPreview = 1
+let g:acp_completeOption = ".,w,b,k,t,i"
+" }}}
+
+" VimPager configuration {{{
+let vimpager_use_gvim = 1
 " }}}
 " }}}
