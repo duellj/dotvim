@@ -23,7 +23,12 @@ syntax on
 colorscheme molokai
 set background=dark
 
-set statusline=%f%m%r%h%w%=%y\ (line\ %l\/%L,\ col\ %c)
+set statusline=%f%m%r%h%w%=
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+set statusline+=%y\ (line\ %l\/%L,\ col\ %c)
 
 set autoindent              " Set autoindent for all files
 set autowrite               " Write contents of the file, if it has been modified, on buffer exit
@@ -208,6 +213,7 @@ au BufRead,BufNewFile *.install setfiletype php
 au BufRead,BufNewFile *.test setfiletype php
 au BufRead,BufNewFile *.profile setfiletype php
 au BufRead,BufNewFile *.tpl.php setfiletype php
+au BufRead,BufNewFile *.make setfiletype dosini
 " }}}
 
 " LessCSS {{{
@@ -293,5 +299,9 @@ let g:acp_completeOption = ".,w,b,k,t,i"
 
 " VimPager configuration {{{
 let vimpager_use_gvim = 1
+" }}}
+
+" Syntastic configuration {{{
+let g:syntastic_enable_signs=1
 " }}}
 " }}}
