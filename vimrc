@@ -20,7 +20,7 @@ syntax on
 
 " GLOBAL SETTINGS {{{
 
-colorscheme molokai
+colorscheme tomorrow_night
 set background=dark
 
 set statusline=%f%m%r%h%w%=
@@ -217,7 +217,7 @@ au BufRead,BufNewFile *.make setfiletype dosini
 " }}}
 
 " LessCSS {{{
-au BufRead,BufNewFile *.less setfiletype css
+au BufRead,BufNewFile *.less setfiletype less
 " Auto compress less files
 autocmd FileWritePost,BufWritePost *.less :call LessCSSCompress()
 function! LessCSSCompress()
@@ -295,6 +295,7 @@ nnoremap <F5> :GundoToggle<CR>
 let g:acp_enableAtStartup = 1
 let g:acp_completeoptPreview = 1
 let g:acp_completeOption = ".,w,b,k,t,i"
+let g:acp_behaviorSnipmateLength = 1
 " }}}
 
 " VimPager configuration {{{

@@ -18,7 +18,6 @@ set columns=150
 set lines=60
 
 " set colorscheme
-color molokai
 set background=dark
 
 " Make command line two lines high
