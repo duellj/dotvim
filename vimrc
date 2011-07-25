@@ -4,9 +4,8 @@
 
 " Preliminary definitions {{{
 " Active pathogen bundle manager
-filetype off
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+source ~/.vim/bundle/pathogen/autoload/pathogen.vim
+call pathogen#infect()
 
 " Enable loading filetype and indentation plugins
 filetype plugin indent on
@@ -62,7 +61,6 @@ set fo=crq
 
 set shell=/bin/bash
 
-
 set backspace=indent,eol,start       " Allow backspacing over everything
 set completeopt=menu,longest,preview " Insert mode completion options
 
@@ -94,6 +92,7 @@ set backupskip=/tmp/*,/private/tmp/*
 
 " Find tags file in parent directories
 set tags=./tags;
+
 "}}}
 
 " MAPPINGS {{{
@@ -171,6 +170,16 @@ nmap <leader>ev :tabedit $MYVIMRC<cr>
 " Quick returns
 inoremap <c-cr> <esc>A<cr>
 
+" Pulls in Drupal variables (from Drush) and outputs variable_set() calls for
+" each variable.
+" Todo: Should probably check to see if drush can bootstrap
+function! s:DrushVariableGet(args)
+  exec "normal o"
+  exec "r !drush variable-get --pipe " . a:args . " | sed 's/$variables\\[\\(.*\\)\\] = /variable_set(\\1, /' | sed 's/;$/);/'"
+  exec "normal ={"
+endfunction
+command! -bang -nargs=* -complete=file Dvar call s:DrushVariableGet(<q-args>)
+
 """"""""""""""""""""""""""""""
 " => Phpcs                {{{
 " see: http://www.koch.ro/blog/index.php?/archives/62-Integrate-PHP-CodeSniffer-in-VIM.html
@@ -229,6 +238,15 @@ function! LessCSSCompress()
 endfunction
 " }}}
 
+" JavaScript {{{
+au FileType javascript setlocal foldmethod=marker
+au FileType javascript setlocal foldmarker={,}
+" }}}
+
+" Markdown {{{
+au BufRead,BufNewFile *.md setfiletype markdown
+" }}}
+"
 " Word Docs (haha suckit Office) {{{
 autocmd BufReadPre *.doc set ro
 autocmd BufReadPre *.doc set hlsearch!
@@ -279,6 +297,7 @@ let autotagCtagsCmd = "/usr/local/bin/ctags --langmap=php:.install.inc.module.th
 " }}}
 
 " IndentGuides configuration {{{
+let g:indent_guides_enable_on_vim_startup = 0
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 " }}}
@@ -304,5 +323,9 @@ let vimpager_use_gvim = 1
 
 " Syntastic configuration {{{
 let g:syntastic_enable_signs=1
+" }}}
+
+" EasyMotion configuration {{{
+let g:EasyMotion_leader_key = '<Leader>m'
 " }}}
 " }}}
