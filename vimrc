@@ -41,7 +41,7 @@ set shiftwidth=2            " Use 2 spaces for (auto)indent
 set tabstop=2               " Use 2 spaces for <Tab> and :retab
 set expandtab               " expand tabs to spaces
 set matchtime=3             " Jump to matching bracket for 3/10th of a second (works with showmatch)
-set nohlsearch              " Don't highlight results of a search
+set hlsearch                " Highlight results of a search
 set wrap                    " Wrap long lines
 set textwidth=80            " Wrap at 80 characters
 set nrformats=octal,hex     " Enable CTRL-A/CTRL-X to work on octal and hex numbers
@@ -58,6 +58,8 @@ set cursorline              " Highlight cursor line
 set directory=~/.vimbackup/ " Save backups outside of current directory
 set wildmenu                " More useful command-line completion
 set fo=crq
+set list
+set listchars=tab:▸\ ,trail:· " Highlight extra whitespace
 
 set shell=/bin/bash
 
@@ -226,7 +228,8 @@ au BufRead,BufNewFile *.make setfiletype dosini
 " }}}
 
 " LessCSS {{{
-au BufRead,BufNewFile *.less setfiletype less
+au BufRead,BufNewFile *.less setfiletype less setlocal foldmethod=marker foldmarker={,}
+
 " Auto compress less files
 autocmd FileWritePost,BufWritePost *.less :call LessCSSCompress()
 function! LessCSSCompress()
@@ -239,8 +242,7 @@ endfunction
 " }}}
 
 " JavaScript {{{
-au FileType javascript setlocal foldmethod=marker
-au FileType javascript setlocal foldmarker={,}
+au FileType javascript setlocal foldmethod=marker foldmarker={,}
 " }}}
 
 " Markdown {{{
