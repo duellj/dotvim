@@ -282,10 +282,6 @@ let g:snips_author = 'Jon Duell'
 map <F6> <Esc>:EnablePHPFolds<Cr>
 " }}}
 
-" delimitMate configuration {{{
-let delimitMate_expand_cr = 1
-" }}}
-
 " Taglist configuration {{{
 let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
 let Tlist_WinWidth = 40
@@ -329,5 +325,9 @@ let g:syntastic_enable_signs=1
 
 " EasyMotion configuration {{{
 let g:EasyMotion_leader_key = '<Leader>m'
+" }}}
+
+" AutoClose configuration {{{
+nmap <Leader>x <Plug>ToggleAutoCloseMappings
 " }}}
 " }}}
