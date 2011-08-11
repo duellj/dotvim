@@ -60,11 +60,16 @@ set wildmenu                " More useful command-line completion
 set fo=crq
 set list
 set listchars=tab:▸\ ,trail:· " Highlight extra whitespace
+set undofile
+set undodir=~/.vimundo/
 
 set shell=/bin/bash
 
 set backspace=indent,eol,start       " Allow backspacing over everything
 set completeopt=menu,longest,preview " Insert mode completion options
+
+" Ignore VCS and image files during wildmoe (and command-t)
+set wildignore=*.git,*.hg,*.svn,*.jpg,*.jpeg,*.gif,*.png
 
 " Remember things between sessions
 "
@@ -182,6 +187,13 @@ function! s:DrushVariableGet(args)
 endfunction
 command! -bang -nargs=* -complete=file Dvar call s:DrushVariableGet(<q-args>)
 
+" Add an 'in next ()' text object, e.g.
+"   din( - 'Delete in next ()'
+"   vin( - 'Select in next ()'
+"   cin( - 'Change in next () (great for function calls)'
+vnoremap <silent> in( :<C-U>normal! f(vi(<cr>
+onoremap <silent> in( :<C-U>normal! f(vi(<cr>
+
 """"""""""""""""""""""""""""""
 " => Phpcs                {{{
 " see: http://www.koch.ro/blog/index.php?/archives/62-Integrate-PHP-CodeSniffer-in-VIM.html
@@ -225,6 +237,7 @@ au BufRead,BufNewFile *.test setfiletype php
 au BufRead,BufNewFile *.profile setfiletype php
 au BufRead,BufNewFile *.tpl.php setfiletype php
 au BufRead,BufNewFile *.make setfiletype dosini
+au BufRead,BufNewFile *.info setfiletype ini
 " }}}
 
 " LessCSS {{{
@@ -246,7 +259,8 @@ au FileType javascript setlocal foldmethod=marker foldmarker={,}
 " }}}
 
 " Markdown {{{
-au BufRead,BufNewFile *.md setfiletype markdown
+au BufRead,BufNewFile *.md :set filetype=markdown
+au BufRead,BufNewFile *.md :setlocal spell spelllang=en
 " }}}
 "
 " Word Docs (haha suckit Office) {{{
