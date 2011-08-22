@@ -68,7 +68,11 @@ set shell=/bin/bash
 set backspace=indent,eol,start       " Allow backspacing over everything
 set completeopt=menu,longest,preview " Insert mode completion options
 
-" Ignore VCS and image files during wildmoe (and command-t)
+" Make horizontal scrolling less horrible.
+set sidescroll=1
+set sidescrolloff=10
+
+" Ignore VCS and image files during wildmode (and command-t)
 set wildignore=*.git,*.hg,*.svn,*.jpg,*.jpeg,*.gif,*.png
 
 " Remember things between sessions
@@ -194,6 +198,11 @@ command! -bang -nargs=* -complete=file Dvar call s:DrushVariableGet(<q-args>)
 vnoremap <silent> in( :<C-U>normal! f(vi(<cr>
 onoremap <silent> in( :<C-U>normal! f(vi(<cr>
 
+" Go away, help key.
+set fuoptions=maxvert,maxhorz
+noremap <F1> :set invfullscreen<CR>
+inoremap <F1> <ESC>:set invfullscreen<CR>a
+
 """"""""""""""""""""""""""""""
 " => Phpcs                {{{
 " see: http://www.koch.ro/blog/index.php?/archives/62-Integrate-PHP-CodeSniffer-in-VIM.html
@@ -241,17 +250,18 @@ au BufRead,BufNewFile *.info setfiletype ini
 " }}}
 
 " LessCSS {{{
-au BufRead,BufNewFile *.less setfiletype less setlocal foldmethod=marker foldmarker={,}
+au BufRead,BufNewFile *.less setfiletype less
+au FileType less setlocal foldmethod=marker foldmarker={,}
 
 " Auto compress less files
-autocmd FileWritePost,BufWritePost *.less :call LessCSSCompress()
-function! LessCSSCompress()
-  let cwd = expand('<afile>:p:h')
-  let name = expand('<afile>:t:r')
-  if (executable('lessc'))
-    cal system('lessc '.cwd.'/'.name.'.less > '.cwd.'/'.name.'.css &')
-  endif
-endfunction
+"autocmd FileWritePost,BufWritePost *.less :call LessCSSCompress()
+"function! LessCSSCompress()
+  "let cwd = expand('<afile>:p:h')
+  "let name = expand('<afile>:t:r')
+  "if (executable('lessc'))
+    "cal system('lessc '.cwd.'/'.name.'.less > '.cwd.'/'.name.'.css &')
+  "endif
+"endfunction
 " }}}
 
 " JavaScript {{{
