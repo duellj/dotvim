@@ -23,6 +23,9 @@ set background=dark
 " Make command line two lines high
 set ch=2
 
+" Turn off beep
+set visualbell
+
 " Hide the mouse when typing text
 set mousehide
 

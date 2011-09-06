@@ -354,4 +354,12 @@ let g:EasyMotion_leader_key = '<Leader>m'
 " AutoClose configuration {{{
 nmap <Leader>x <Plug>ToggleAutoCloseMappings
 " }}}
+
+" BufExplorer configuration {{{
+let g:bufExplorerShowRelativePath=1
+" }}}
+
+" Commentary configuration {{{
+autocmd FileType php set commentstring=//\ %s
+" }}}
 " }}}
