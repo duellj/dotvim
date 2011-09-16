@@ -76,12 +76,15 @@
 [submodule "bundle/pathogen"]
 	path = bundle/pathogen
 	url = https://github.com/tpope/vim-pathogen.git
-[submodule "bundle/AutoClose"]
-	path = bundle/AutoClose
-	url = git@github.com:duellj/AutoClose.git
 [submodule "bundle/ini"]
 	path = bundle/ini
 	url = git@github.com:duellj/ini-syntax-definition.git
 [submodule "bundle/commentary"]
 	path = bundle/commentary
 	url = https://github.com/tpope/vim-commentary.git
+[submodule "bundle/SQLUtilities"]
+	path = bundle/SQLUtilities
+	url = https://github.com/vim-scripts/SQLUtilities.git
+[submodule "bundle/Align"]
+	path = bundle/Align
+	url = https://github.com/vim-scripts/Align.git

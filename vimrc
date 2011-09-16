@@ -104,6 +104,10 @@ set backupskip=/tmp/*,/private/tmp/*
 " Find tags file in parent directories
 set tags=./tags;
 
+" Highlight statusbar when in insert mode
+au InsertEnter * hi StatusLine ctermfg=196 guifg=#CD5907
+au InsertLeave * hi StatusLine ctermfg=130 guifg=#8e8f8d
+
 "}}}
 
 " MAPPINGS {{{
@@ -198,10 +202,19 @@ command! -bang -nargs=* -complete=file Dvar call s:DrushVariableGet(<q-args>)
 vnoremap <silent> in( :<C-U>normal! f(vi(<cr>
 onoremap <silent> in( :<C-U>normal! f(vi(<cr>
 
+" Disable search highlighting
+nnoremap <esc> :nohl<CR>
+
 " Go away, help key.
 set fuoptions=maxvert,maxhorz
 noremap <F1> :set invfullscreen<CR>
 inoremap <F1> <ESC>:set invfullscreen<CR>a
+
+" Show the syntax rule for text under the cursor
+function! SynStack()
+  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
+endfunc
+nno ß :call SynStack()<CR>
 
 """"""""""""""""""""""""""""""
 " => Phpcs                {{{
@@ -237,7 +250,7 @@ if has("autocmd")
 endif
 "}}}
 
-" Drupal {{{
+" PHP/Drupal {{{
 au BufRead,BufNewFile *.module setfiletype php
 au BufRead,BufNewFile *.theme setfiletype php
 au BufRead,BufNewFile *.inc setfiletype php
@@ -247,6 +260,7 @@ au BufRead,BufNewFile *.profile setfiletype php
 au BufRead,BufNewFile *.tpl.php setfiletype php
 au BufRead,BufNewFile *.make setfiletype dosini
 au BufRead,BufNewFile *.info setfiletype ini
+autocmd BufWritePre php :%s/\s\+$//e
 " }}}
 
 " LessCSS {{{
@@ -272,11 +286,21 @@ au FileType javascript setlocal foldmethod=marker foldmarker={,}
 au BufRead,BufNewFile *.md :set filetype=markdown
 au BufRead,BufNewFile *.md :setlocal spell spelllang=en
 " }}}
-"
+
 " Word Docs (haha suckit Office) {{{
 autocmd BufReadPre *.doc set ro
 autocmd BufReadPre *.doc set hlsearch!
 autocmd BufReadPost *.doc %!antiword "%"
+autocmd BufReadPre *.docx set ro
+autocmd BufReadPre *.docx set hlsearch!
+autocmd BufReadPost *.docx %!antiword "%"
+" }}}
+
+" Quickfix {{{
+" Clean up the QuickFix window (great for Ack)
+au Filetype qf setl nolist
+au Filetype qf setl nocursorline
+au Filetype qf setl nowrap
 " }}}
 " }}}
 
@@ -351,8 +375,9 @@ let g:syntastic_enable_signs=1
 let g:EasyMotion_leader_key = '<Leader>m'
 " }}}
 
-" AutoClose configuration {{{
-nmap <Leader>x <Plug>ToggleAutoCloseMappings
+" delimitMate configuration {{{
+let delimitMate_expand_cr = 1
+let delimitMate_expand_space = 1
 " }}}
 
 " BufExplorer configuration {{{
