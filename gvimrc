@@ -36,6 +36,9 @@ map! <S-Insert> <MiddleMouse>
 " Hide toolbar in GUI
 set guioptions-=T
 
+" Hide scrollbar in GUI
+set guioptions-=r
+
 " Only enable IndentGuides in GUI
 let g:indent_guides_enable_on_vim_startup = 1
 

@@ -62,6 +62,7 @@ set list
 set listchars=tab:▸\ ,trail:· " Highlight extra whitespace
 set undofile
 set undodir=~/.vimundo/
+set autoread
 
 set shell=/bin/bash
 
@@ -260,7 +261,6 @@ au BufRead,BufNewFile *.profile setfiletype php
 au BufRead,BufNewFile *.tpl.php setfiletype php
 au BufRead,BufNewFile *.make setfiletype dosini
 au BufRead,BufNewFile *.info setfiletype ini
-autocmd BufWritePre php :%s/\s\+$//e
 " }}}
 
 " LessCSS {{{
@@ -330,12 +330,9 @@ let g:snips_author = 'Jon Duell'
 map <F6> <Esc>:EnablePHPFolds<Cr>
 " }}}
 
-" Taglist configuration {{{
-let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
-let Tlist_WinWidth = 40
-let Tlist_Auto_Highlight_Tag = 1
-let Tlist_Exit_OnlyWindow = 1
-map <F4> :TlistToggle<cr>
+" TagBar configuration {{{
+let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
+map <F4> :TagbarToggle<cr>
 " }}}
 
 " AutoTag configuration {{{
