@@ -82,9 +82,6 @@
 [submodule "bundle/commentary"]
 	path = bundle/commentary
 	url = https://github.com/tpope/vim-commentary.git
-[submodule "bundle/SQLUtilities"]
-	path = bundle/SQLUtilities
-	url = https://github.com/vim-scripts/SQLUtilities.git
-[submodule "bundle/Align"]
-	path = bundle/Align
-	url = https://github.com/vim-scripts/Align.git
+[submodule "bundle/help"]
+	path = bundle/help
+	url = git://github.com/juanpabloaj/help.vim.git
