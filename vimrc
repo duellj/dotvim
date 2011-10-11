@@ -115,40 +115,40 @@ au InsertLeave * hi StatusLine ctermfg=130 guifg=#8e8f8d
 let mapleader = ","
 
 " save changes
-map <leader>s :w<CR>
+noremap <leader>s :w<CR>
 
 " exit vim 
-map <leader>q :q<CR>
+noremap <leader>q :q<CR>
 
 " exit vim saving changes
-map <leader>w :x<CR>
+noremap <leader>w :x<CR>
 
 " switch to split windows quickly
-map <C-J> <C-W>j
-map <C-K> <C-W>k
-map <C-l> <C-W>l
-map <C-h> <C-W>h
+noremap <C-J> <C-W>j
+noremap <C-K> <C-W>k
+noremap <C-l> <C-W>l
+noremap <C-h> <C-W>h
 
 " use CTRL-F for omni completion
-imap <C-F> 
+inoremap <C-F> 
 
 " map <leader>f to display all lines with keyword under cursor and ask which one to
 " jump to
-nmap <leader>f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+nnoremap <leader>f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
 " reselect text that was just pasted
 nnoremap <leader>v V`]
 
 " Quickly edit/reload the vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
+nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " Map <tab to match bracket pairs
 nnoremap <tab> %
 vnoremap <tab> %
 
 " page down with <Space>
-nmap <Space> <PageDown>
+nnoremap <Space> <PageDown>
 
 " page up with -
 noremap - <PageUp>
@@ -167,10 +167,10 @@ function! HandleURI()
 	  echo "No URI found in line."
   endif
 endfunction
-map <Leader>w :call HandleURI()<CR>
+nnoremap <Leader>w :call HandleURI()<CR>
 
 " Change directory to directory of current file
-map <Leader>cd :cd %:p:h<CR>
+nnoremap <Leader>cd :cd %:p:h<CR>
 
 " open Ack
 nnoremap <leader>a :Ack 
@@ -178,10 +178,10 @@ nnoremap <leader>a :Ack
 nnoremap <leader>A :Ack <c-r><c-w><CR>
 
 " write file as sudo
-cmap w!! w !sudo tee % >/dev/null
+cnoremap w!! w !sudo tee % >/dev/null
 
 "Shortcut for editing  vimrc file in a new tab
-nmap <leader>ev :tabedit $MYVIMRC<cr>
+nnoremap <leader>ev :tabedit $MYVIMRC<cr>
 
 " Quick returns
 inoremap <c-cr> <esc>A<cr>
@@ -320,7 +320,7 @@ let g:SuperTabCrMapping = 0
 let NERDTreeWinSize=30
 
 " map <F7> to toggle NERDTree window
-nmap <silent> <F7> :NERDTreeToggle<CR>
+nnoremap <silent> <F7> :NERDTreeToggle<CR>
 " }}}
 
 " SnipMate configuration {{{
@@ -328,13 +328,13 @@ let g:snips_author = 'Jon Duell'
 " }}}
 
 " PIV configuration {{{
-map <F6> <Esc>:EnablePHPFolds<Cr>
+nnoremap <F6> <Esc>:EnablePHPFolds<Cr>
 let PHP_vintage_case_default_indent = 1
 " }}}
 
 " TagBar configuration {{{
 let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
-map <F4> :TagbarToggle<cr>
+nnoremap <F4> :TagbarToggle<cr>
 " }}}
 
 " AutoTag configuration {{{
