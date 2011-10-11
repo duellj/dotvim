@@ -312,6 +312,7 @@ let b:match_ignorecase=0
 
 " SuperTab configuration {{{
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabCrMapping = 0
 " }}}
 
 " NERDTree configuration {{{
@@ -326,8 +327,9 @@ nmap <silent> <F7> :NERDTreeToggle<CR>
 let g:snips_author = 'Jon Duell'
 " }}}
 
-" PHPFolding configuration {{{
+" PIV configuration {{{
 map <F6> <Esc>:EnablePHPFolds<Cr>
+let PHP_vintage_case_default_indent = 1
 " }}}
 
 " TagBar configuration {{{
@@ -374,7 +376,6 @@ let g:EasyMotion_leader_key = '<Leader>m'
 
 " delimitMate configuration {{{
 let delimitMate_expand_cr = 1
-let delimitMate_expand_space = 1
 " }}}
 
 " BufExplorer configuration {{{
