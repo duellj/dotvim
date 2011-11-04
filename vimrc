@@ -109,6 +109,9 @@ set tags=./tags;
 au InsertEnter * hi StatusLine ctermfg=196 guifg=#CD5907
 au InsertLeave * hi StatusLine ctermfg=130 guifg=#8e8f8d
 
+" Resize splits when the window is resized
+au VimResized * exe "normal! \<c-w>="
+
 "}}}
 
 " MAPPINGS {{{
@@ -196,6 +199,9 @@ function! s:DrushVariableGet(args)
 endfunction
 command! -bang -nargs=* -complete=file Dvar call s:DrushVariableGet(<q-args>)
 
+" Quick clear cache
+nnoremap <leader>c :!drush cc all<CR>
+
 " Add an 'in next ()' text object, e.g.
 "   din( - 'Delete in next ()'
 "   vin( - 'Select in next ()'
@@ -216,6 +222,13 @@ function! SynStack()
   echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
 endfunc
 nno ß :call SynStack()<CR>
+
+" Strip trailing whitespace.
+function! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
 
 """"""""""""""""""""""""""""""
 " => Phpcs                {{{
@@ -241,66 +254,109 @@ nnoremap <leader>ps :Phpcs<CR>
 " Filetype configuration {{{
 
 " Vim {{{
-au FileType vim setlocal foldmethod=marker
-" Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes.
-if has("autocmd")
- augroup myvimrchooks
+augroup ft_vim
   au!
-  autocmd bufwritepost .vimrc source ~/.vimrc
- augroup END
-endif
+
+  au FileType vim setlocal foldmethod=marker
+
+  " Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes.
+  if has("autocmd")
+    autocmd bufwritepost .vimrc source ~/.vimrc
+  endif
+augroup END
 "}}}
 
 " PHP/Drupal {{{
-au BufRead,BufNewFile *.module setfiletype php
-au BufRead,BufNewFile *.theme setfiletype php
-au BufRead,BufNewFile *.inc setfiletype php
-au BufRead,BufNewFile *.install setfiletype php
-au BufRead,BufNewFile *.test setfiletype php
-au BufRead,BufNewFile *.profile setfiletype php
-au BufRead,BufNewFile *.tpl.php setfiletype php
-au BufRead,BufNewFile *.make setfiletype dosini
-au BufRead,BufNewFile *.info setfiletype ini
+augroup ft_php
+  au!
+
+  au BufRead,BufNewFile *.module setfiletype php
+  au BufRead,BufNewFile *.theme setfiletype php
+  au BufRead,BufNewFile *.inc setfiletype php
+  au BufRead,BufNewFile *.install setfiletype php
+  au BufRead,BufNewFile *.test setfiletype php
+  au BufRead,BufNewFile *.profile setfiletype php
+  au BufRead,BufNewFile *.tpl.php setfiletype php
+  au BufRead,BufNewFile *.make setfiletype dosini
+  au BufRead,BufNewFile *.info setfiletype ini
+
+  au FileType php au BufWrite <buffer> :call DeleteTrailingWS()
+augroup END
 " }}}
 
-" LessCSS {{{
-au BufRead,BufNewFile *.less setfiletype less
-au FileType less setlocal foldmethod=marker foldmarker={,}
+" Less/CSS {{{
+augroup ft_css
+  au!
 
-" Auto compress less files
-"autocmd FileWritePost,BufWritePost *.less :call LessCSSCompress()
-"function! LessCSSCompress()
-  "let cwd = expand('<afile>:p:h')
-  "let name = expand('<afile>:t:r')
-  "if (executable('lessc'))
-    "cal system('lessc '.cwd.'/'.name.'.less > '.cwd.'/'.name.'.css &')
-  "endif
-"endfunction
+  au BufRead,BufNewFile *.less setfiletype less
+
+  au FileType css,less setlocal foldmethod=marker
+  au FileType css,less setlocal foldmarker={,}
+  au Filetype less,css setlocal omnifunc=csscomplete#CompleteCSS
+  au Filetype less,css setlocal iskeyword+=-
+
+  " Auto compress less files
+  "autocmd FileWritePost,BufWritePost *.less :call LessCSSCompress()
+  "function! LessCSSCompress()
+    "let cwd = expand('<afile>:p:h')
+    "let name = expand('<afile>:t:r')
+    "if (executable('lessc'))
+      "cal system('lessc '.cwd.'/'.name.'.less > '.cwd.'/'.name.'.css &')
+    "endif
+  "endfunction
+augroup END
 " }}}
 
 " JavaScript {{{
-au FileType javascript setlocal foldmethod=marker foldmarker={,}
+augroup ft_javascript
+  au!
+
+  au FileType javascript setlocal foldmethod=marker
+  au FileType javascript setlocal foldmarker={,}
+augroup END
 " }}}
 
 " Markdown {{{
-au BufRead,BufNewFile *.md :set filetype=markdown
-au BufRead,BufNewFile *.md :setlocal spell spelllang=en
+augroup ft_markdown
+  au!
+
+  au BufNewFile,BufRead *.m*down setlocal filetype=markdown
+
+  au Filetype markdown setlocal spell spelllang=en
+
+  " QuickLook preview
+  nnoremap <leader>p :!qlmanage -p % >& /dev/null<CR>
+
+  " Use <localleader>1/2/3 to add headings.
+  au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=
+  au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-
+  au Filetype markdown nnoremap <buffer> <localleader>3 I### <ESC>
+augroup END
 " }}}
 
 " Word Docs (haha suckit Office) {{{
-autocmd BufReadPre *.doc set ro
-autocmd BufReadPre *.doc set hlsearch!
-autocmd BufReadPost *.doc %!antiword "%"
-autocmd BufReadPre *.docx set ro
-autocmd BufReadPre *.docx set hlsearch!
-autocmd BufReadPost *.docx %!antiword "%"
+augroup ft_doc
+  au!
+
+  autocmd BufReadPre *.doc set ro
+  autocmd BufReadPre *.doc set hlsearch!
+  autocmd BufReadPost *.doc %!antiword "%"
+  autocmd BufReadPre *.docx set ro
+  autocmd BufReadPre *.docx set hlsearch!
+  autocmd BufReadPost *.docx %!antiword "%"
+augroup END
 " }}}
 
 " Quickfix {{{
 " Clean up the QuickFix window (great for Ack)
-au Filetype qf setl nolist
-au Filetype qf setl nocursorline
-au Filetype qf setl nowrap
+augroup ft_qf
+  au!
+
+  au Filetype qf setlocal colorcolumn=0
+  au Filetype qf setlocal nolist
+  au Filetype qf setlocal nocursorline
+  au Filetype qf setlocal nowrap
+augroup END
 " }}}
 " }}}
 
@@ -384,5 +440,11 @@ let g:bufExplorerShowRelativePath=1
 
 " Commentary configuration {{{
 autocmd FileType php set commentstring=//\ %s
+" }}}
+
+" CtrlP configuration {{{
+let g:ctrlp_match_window_reversed = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_by_filename = 1
 " }}}
 " }}}
