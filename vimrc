@@ -146,6 +146,9 @@ nnoremap <leader>v V`]
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
+" Quickly edit snippets
+nnoremap <leader>es <C-w>s :Exp ~/.vim/bundle/snipmate/snippets/<cr>
+
 " Map <tab to match bracket pairs
 nnoremap <tab> %
 vnoremap <tab> %
@@ -200,7 +203,7 @@ endfunction
 command! -bang -nargs=* -complete=file Dvar call s:DrushVariableGet(<q-args>)
 
 " Quick clear cache
-nnoremap <leader>c :!drush cc all<CR>
+nnoremap <leader>cc :!drush cc all<CR>
 
 " Add an 'in next ()' text object, e.g.
 "   din( - 'Delete in next ()'
@@ -331,6 +334,8 @@ augroup ft_markdown
   au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=
   au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-
   au Filetype markdown nnoremap <buffer> <localleader>3 I### <ESC>
+
+  au FileType markdown au BufWrite <buffer> :call DeleteTrailingWS()
 augroup END
 " }}}
 
@@ -358,6 +363,12 @@ augroup ft_qf
   au Filetype qf setlocal nowrap
 augroup END
 " }}}
+
+" Snippets {{{
+augroup ft_snippets
+  au FileType snippets setlocal foldmethod=marker
+augroup END
+" }}}
 " }}}
 
 " Plugin configuration {{{
@@ -371,14 +382,6 @@ let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabCrMapping = 0
 " }}}
 
-" NERDTree configuration {{{
-" Increase window size to 30 columns
-let NERDTreeWinSize=30
-
-" map <F7> to toggle NERDTree window
-nnoremap <silent> <F7> :NERDTreeToggle<CR>
-" }}}
-
 " SnipMate configuration {{{
 let g:snips_author = 'Jon Duell'
 " }}}
@@ -389,6 +392,7 @@ let PHP_vintage_case_default_indent = 1
 " }}}
 
 " TagBar configuration {{{
+let g:tagbar_foldlevel = 0
 let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
 nnoremap <F4> :TagbarToggle<cr>
 " }}}
@@ -424,6 +428,7 @@ let vimpager_use_gvim = 1
 
 " Syntastic configuration {{{
 let g:syntastic_enable_signs=1
+let g:syntastic_phpcs_config='--standard=DrupalCodingStandard'
 " }}}
 
 " EasyMotion configuration {{{
@@ -440,11 +445,22 @@ let g:bufExplorerShowRelativePath=1
 
 " Commentary configuration {{{
 autocmd FileType php set commentstring=//\ %s
+autocmd FileType ini set commentstring=;\ %s
 " }}}
 
 " CtrlP configuration {{{
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_by_filename = 1
+let g:ctrlp_extensions = ['tag']
+" }}}
+
+" VimDebugger configuration {{{
+map <F11> :DbgStepInto<CR>
+map <F10> :DbgStepOver<CR>
+map <S-F11> :DbgStepOut<CR>
+map <F7> :DbgRun<CR>
+map <S-F7> :DbgDetach<CR>
+map <F8> :DbgToggleBreakpoint<CR>
 " }}}
 " }}}

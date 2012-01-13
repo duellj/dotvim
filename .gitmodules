@@ -1,21 +1,12 @@
-[submodule "bundle/nerdtree"]
-	path = bundle/nerdtree
-	url = http://github.com/scrooloose/nerdtree.git
 [submodule "bundle/vim-matchit"]
 	path = bundle/vim-matchit
 	url = http://github.com/edsono/vim-matchit.git
 [submodule "bundle/vim-fugitive"]
 	path = bundle/vim-fugitive
 	url = http://github.com/tpope/vim-fugitive.git
-[submodule "bundle/nerdcommenter"]
-	path = bundle/nerdcommenter
-	url = http://github.com/scrooloose/nerdcommenter.git
 [submodule "bundle/supertab"]
 	path = bundle/supertab
 	url = http://github.com/ervandew/supertab.git
-[submodule "bundle/snipmate"]
-	path = bundle/snipmate
-	url = git@github.com:duellj/snipmate.vim.git
 [submodule "bundle/ack"]
 	path = bundle/ack
 	url = https://github.com/mileszs/ack.vim.git
@@ -31,9 +22,6 @@
 [submodule "bundle/autotag"]
 	path = bundle/autotag
 	url = https://github.com/vim-scripts/AutoTag.git
-[submodule "bundle/indent-guides"]
-	path = bundle/indent-guides
-	url = https://github.com/nathanaelkane/vim-indent-guides.git
 [submodule "bundle/PIV"]
 	path = bundle/PIV
 	url = git@github.com:duellj/PIV.git
@@ -91,3 +79,12 @@
 [submodule "bundle/VimDebugger"]
 	path = bundle/VimDebugger
 	url = https://github.com/taxilian/VimDebugger.git
+[submodule "bundle/notes"]
+	path = bundle/notes
+	url = https://github.com/xolox/vim-notes.git
+[submodule "bundle/ragtag"]
+	path = bundle/ragtag
+	url = https://github.com/tpope/vim-ragtag.git
+[submodule "bundle/UltiSnips"]
+	path = bundle/UltiSnips
+	url = git@github.com:duellj/UltiSnips.git

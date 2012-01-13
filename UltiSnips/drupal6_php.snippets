@@ -1,0 +1,169 @@
+snippet db_query6 "db_query"
+$result = db_query('${1:/* Query */}', ${2:/* Arguments */});
+endsnippet
+
+snippet drupal_add_js6 "drupal_add_js"
+drupal_add_js(${1:/* Data */}, '${2:/* Type 'core', 'module', 'theme', 'inline' and 'setting' */}', '${3:/* Scope: header or footer */}', ${4:/* Defer TRUE of FALSE */}, ${5:/* Cache TRUE or FALSE*/}, ${6: /* Preprocess TRUE or FALSE */});
+endsnippet
+
+snippet hook_block6 "hook_block" b
+/**
+ * Implementation of hook_block()
+ */
+function `!p snip.basename`_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      $blocks['${1}'] = array(
+        'info' => t('${2:Admin Title}')
+        'cache' => BLOCK_CACHE_GLOBAL,
+      );
+
+      return $blocks;
+      break;
+
+    case 'configure':
+      break;
+
+    case 'save':
+      break;
+
+    case 'view':
+      $block = array();
+      switch ($delta) {
+        case $1:
+          $block = array(
+            'subject' => t('${3:$2}'),
+            'content' => ${4:/* Block content */}
+          );
+          break;
+      }
+      return $block;
+      break;
+  }
+}
+
+endsnippet
+
+snippet hook_cron6 "hook_cron" b
+/**
+ * Implementation of hook_cron()
+ */
+function `!p snip.basename`_cron() {
+      ${1:// Your code here.}
+}
+
+endsnippet
+
+snippet hook_form_alter6 "hook_form_alter" b
+/**
+ * Implementation of hook_form_alter()
+ */
+function `!p snip.basename`_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case '${1:/* your form */}':
+      ${2:// your code.}
+  }
+}
+
+endsnippet
+
+snippet hook_help6 "hook_help" b
+/**
+ * Implementation of hook_help
+ */
+function `!p snip.basename`_help($path, $arg) {
+  switch ($path) {
+    case '${1:/* path */}':
+      // Enter your help text below
+      return t('${2:/* text */}');
+  }
+}
+
+endsnippet
+
+snippet hook_init6 "hook_init" b
+/**
+ * Implementation of hook_init().
+ */
+function `!p snip.basename`_init() {
+  ${1:/* your code here */}
+}
+
+endsnippet
+
+snippet hook_install6 "hook_install" b
+/**
+ * Implementation of hook_install().
+ */
+function `!p snip.basename`_install() {
+  ${1:/* your code here */}
+}
+
+endsnippet
+
+snippet hook_mail_alter6 "hook_mail_alter" b
+/**
+ * Implementation of hook_mail_alter()
+ */
+function `!p snip.basename`_mail_alter(&$message) {
+  ${1:// Your code here.}
+}
+
+endsnippet
+
+snippet hook_menu6 "hook_menu" b
+/**
+ * Implementation of hook_menu()
+ */
+function `!p snip.basename`_menu() {
+  $${1:items} = array();
+
+  // Put your menu items here.
+  $$1['${2:path}'] = array(
+    ${3}
+  );
+
+  return $$1;
+}
+
+endsnippet
+
+snippet hook_menu_alter6 "hook_menu_alter" b
+/**
+ * Implementation of hook_menu_alter().
+ */
+function `!p snip.basename`_menu_alter(&$${1:items}) {
+  $$1['${2:/* your code here */}']
+}
+
+endsnippet
+
+snippet hook_node_info6 "hook_node_info" b
+/**
+ * Implementation of hook_node_info().
+ */
+function `!p snip.basename`_node_info() {
+  return array(
+    '${1:/* machine-readable name */}' => array(
+      'name' => t('${2:/* human-readable name */}'),
+      'module' => '`!p snip.basename`',
+      'description' => t('${3:/* description */}'),
+    ),
+  );
+}
+
+endsnippet
+
+snippet hook_theme6 "hook_theme" b
+/**
+ * Implementation of hook_theme()
+ */
+function `!p snip.basename`_theme($existing, $type, $theme, $path) {
+  return array(
+    '${1:theme_function}' => array(
+      ${2:/* See for options */}
+    ),
+  );
+}
+
+endsnippet

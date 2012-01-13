@@ -1,0 +1,581 @@
+# Form Elements {{{
+
+snippet checkbox "checkbox" b
+$form['${1:/* form element */'] = array(
+  '#type' => 'checkbox', 
+  '#title' => t('${2:/* title */}'),
+  '#description' => t('${3:/* description */}'),
+);
+endsnippet
+
+snippet checkboxes "checkboxes" b
+$form['${1:/* form element */'] = array(
+  '#type' => 'checkboxes', 
+  '#title' => t('${2:/* title */}'),
+  '#description' => t('${3:/* description */}'),
+  '#options' => array(
+    '${4:/* key */}' => t('${5:/* value */}),
+  );
+);
+endsnippet
+
+snippet file "file" b
+$form['${1:/* form element */}'] = array(
+  '#type' => 'file', 
+  '#title' => t('${2:/* title */}'), 
+  '#description' => t('${3:/* description */}'),
+);
+endsnippet
+
+snippet fieldset "fieldset" b
+$form['${1:/* form element */}'] = array(
+  '#type' => 'fieldset', 
+  '#title' => t('${2:/* title */}'),
+  '#description' => t('${3:/* description */}'),
+  '#collapsible' => ${4:TRUE},
+  '#collapsed' => ${5:TRUE},
+);
+endsnippet
+
+snippet markup "markup" b
+$form['${1:/* form element */}'] = array(
+  '#value' => '${2:/* markup */}',
+);
+endsnippet
+
+snippet select "select" b
+$form['${1:/* form element */}'] = array(
+  '#type' => 'select',
+  '#title' => t('${2:/* title */}'),
+  '#description' => t('${3:/* description */}'),
+  '#options' => array(
+    '${4:/* key */}' => t('${5:/* value */}'),
+  ),
+);
+endsnippet
+
+snippet submit "submit" b
+$form['${1:/* form element */}'] = array(
+  '#type' => 'submit',
+  '#value' => t('${2:/* value */}'),
+);
+endsnippet
+
+snippet textarea "textarea" b
+$form['${1:/* form element */}'] = array(
+  '#type' => 'textarea', 
+  '#title' => t('${2:/* title */}'), 
+  '#rows' => ${3:/* default:5 */},
+);
+endsnippet
+
+snippet textfield "textfield" b
+$form['${1:/* form element */}'] = array(
+  '#type' => 'textfield', 
+  '#title' => t('${2:/* title */}'), 
+  '#size' => ${3:/* default:60 */},
+);
+endsnippet
+
+# }}}
+
+# Functions {{{
+
+snippet db_fetch_array "db_fetch_array" b
+while ($${1:row} = db_fetch_array($result)) {
+  ${2:// Your code here}
+}
+endsnippet
+
+snippet db_fetch_object "db_fetch_object" b
+while ($${1:row} = db_fetch_object($result)) {
+  ${2:// Your code here}
+}
+endsnippet
+
+snippet db_query "db_query" b
+$result = db_query('${1:/* Query */}', array(${2:/* Arguments */}));
+foreach ($result as $record) {
+  ${3:/* Perform operations */}
+}
+endsnippet
+
+snippet db_rewrite_sql "db_rewrite_sql" b
+$result = db_query(db_rewrite_sql('${1:/* Query */}), ${2:/* Arguments */});
+endsnippet
+
+snippet drupal_add_js "drupal_add_js" b
+drupal_add_js(${1:/* Data */}, '${2:/* Type 'core', 'module', 'theme', 'inline' and 'setting' or associative array */}');
+endsnippet
+
+snippet drupal_get_form "drupal_get_form" b
+drupal_get_form('${1:/* Form ID */}', $${2:argument});
+endsnippet
+
+snippet drupal_get_path "drupal_get_path" b
+drupal_get_path('${1:/* Type: module, theme or theme_engine */}', '${2:/* Name */}');
+endsnippet
+
+snippet drupal_get_path_alias "drupal_get_path_alias" b
+drupal_get_path_alias('node/${1:nid}', ${2:language (optional)});
+endsnippet
+
+snippet drupal_goto "drupal_goto" b
+drupal_goto('${1:path}', '${2:query}', '${3:anchor}', '${4:http_response_code}');
+endsnippet
+
+snippet dsm "dsm" b
+drupal_set_message('${1:message}.', '${2:status, warning, or error}', ${3:repeat (default:TRUE)});
+endsnippet
+
+snippet l "l" b
+l(${1:/* text */}, ${2:/* link */})
+endsnippet
+
+snippet t "t" b
+t('${1:/* Your text */}', array(${1:/* arguments */}))
+endsnippet
+
+snippet watchdog "watchdog" b
+watchdog('${1:/* type */}', '${2:/* message */}'${3});
+endsnippet
+
+# }}}
+
+# Hooks {{{
+
+snippet hook "hook" b
+/**
+ * Implements hook_${1:name}().
+ */
+function `!p snip.rv = snip.basename`_$1(${2}) {
+  ${3:/* your code here */}
+}
+
+endsnippet
+
+snippet hook_block "hook_block" b
+/**
+ * Implements hook_block_info().
+ */
+function `!p snip.rv = snip.basename`_block_info() {
+  $blocks['${1:delta}'] = array(
+    'info' => t('${2:Admin Title}'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function `!p snip.rv = snip.basename`_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case '$1':
+      $block = array(
+        'subject' => t('${3:$2}'),
+        'content' => ${4:/* Block content: theme function or render array */},
+      );
+      break;
+  }
+  return $block;
+}
+
+endsnippet
+
+snippet hook_comment "hook_comment" b
+/**
+ * Implementation of hook_comment().
+ */
+function `!p snip.rv = snip.basename`_comment(&$a1, $op) {
+  switch ($op) {
+    case '${1:/* See http://api.drupal.org/api/function/hook_comment/6 for options */}':
+      ${2:// Your code here}
+  }
+}
+
+endsnippet
+
+snippet hook_cron "hook_cron" b
+/**
+ * Implements hook_cron().
+ */
+function `!p snip.rv = snip.basename`_cron() {
+  ${1:// Your code here.}
+}
+
+endsnippet
+
+snippet hook_form_alter "hook_form_alter" b
+/**
+ * Implements hook_form_alter().
+ */
+function `!p snip.rv = snip.basename`_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case '${1:/* your form */}':
+      ${2:// your code.}
+  }
+}
+
+endsnippet
+
+snippet hook_help "hook_help" b
+/**
+ * Implements hook_help().
+ */
+function `!p snip.rv = snip.basename`_help($path, $arg) {
+  switch ($path) {
+    case '${1:/* path */}':
+      // Enter your help text below
+      return t('${2:/* text */}');
+  }
+}
+
+endsnippet
+
+snippet hook_init "hook_init" b
+/**
+ * Implements hook_init().
+ */
+function `!p snip.rv = snip.basename`_init() {
+  ${1:/* your code here */}
+}
+
+endsnippet
+
+snippet hook_install "hook_install" b
+/**
+ * Implements hook_install().
+ */
+function `!p snip.rv = snip.basename`_install() {
+  ${1:/* your code here */}
+}
+
+endsnippet
+
+snippet hook_mail_alter "hook_mail_alter" b
+/**
+ * Implements hook_mail_alter().
+ */
+function `!p snip.rv = snip.basename`_mail_alter(&$message) {
+  ${1:// Your code here.}
+}
+
+endsnippet
+
+snippet hook_menu "hook_menu" b
+/**
+ * Implements hook_menu().
+ */
+function `!p snip.rv = snip.basename`_menu() {
+  $${1:items} = array();
+
+  // Put your menu items here.
+  $$1['${2:path}'] = array(
+    ${3}
+  );
+
+  return $$1;
+}
+
+endsnippet
+
+snippet hook_menu_alter "hook_menu_alter" b
+/**
+ * Implements hook_menu_alter().
+ */
+function `!p snip.rv = snip.basename`_menu_alter(&$${1:items}) {
+  $$1['${2:/* your code here */}']
+}
+
+endsnippet
+
+snippet hook_module_implements_alter "hook_module_implements_alter" b
+/**
+ * Implements hook_module_implements_alter().
+ */
+function `!p snip.rv = snip.basename`_module_implements_alter(&$implmentations, $hook) {
+  if ($hook == '{1:hook name}') {
+    $group = $implementations['`!p snip.rv = snip.basename`'];
+    unset($implementations['`!p snip.rv = snip.basename`']);
+    $implementations['`!p snip.rv = snip.basename`'] = $group;
+  }
+}
+
+endsnippet
+
+snippet hook_node_delete "hook_node_delete" b
+/**
+ * Implements hook_node_delete().
+ */
+function `!p snip.rv = snip.basename`_node_delete($node) {
+  ${1:// Your code here.}
+}
+
+endsnippet
+
+snippet hook_node_info "hook_node_info" b
+/**
+ * Implements hook_node_info().
+ */
+function `!p snip.rv = snip.basename`_node_info() {
+  return array(
+    '${1:/* machine-readable name */}' => array(
+      'name' => t('${2:/* human-readable name */}'),
+      'module' => '`!p snip.rv = snip.basename`',
+      'description' => t('${3:/* description */}'),
+    ),
+  );
+}
+
+endsnippet
+
+snippet hook_node_insert "hook_node_insert" b
+/**
+ * Implements hook_node_insert().
+ */
+function `!p snip.rv = snip.basename`_node_insert($node) {
+  ${1:// Your code here.}
+}
+
+endsnippet
+
+snippet hook_node_operations "hook_node_operations" b
+/**
+ * Implementation of hook_node_operations()
+ */
+function `!p snip.rv = snip.basename`_node_operations() {
+  $operations = array(
+    '${1:/* operation */}' => array(
+      'label' => t('${2:/* label */}'),
+      'callback' => '${3:/* callback */}',
+    ),
+  );
+  return $operations;
+}
+
+/**
+ * Callback function
+ */
+function $3 {
+  ${4:// Your code here.}
+}
+
+endsnippet
+
+snippet hook_node_presave "hook_node_presave" b
+/**
+ * Implements hook_node_presave().
+ */
+function `!p snip.rv = snip.basename`_node_presave($node) {
+    ${1}
+}
+
+endsnippet
+
+snippet hook_node_type "hook_node_type" b
+/**
+ * Implementation of hook_node_type()
+ */
+function `!p snip.rv = snip.basename`_node_type($op, $info) {
+  switch ($op) {
+    case '${1:See http://api.drupal.org/api/function/hook_node_type/6 for options}':
+      ${2:// Your code here.}
+  }
+}
+
+endsnippet
+
+snippet hook_node_update "hook_node_update" b
+/**
+ * Implements hook_node_update().
+ */
+function `!p snip.rv = snip.basename`_node_update($node) {
+  ${1:// Your code here.}
+}
+
+endsnippet
+
+snippet hook_node_view "hook_node_view" b
+/**
+ * Implements hook_node_view().
+ */
+function `!p snip.rv = snip.basename`_node_view($node, $view_mode, $langcode) {
+    ${1}
+  }
+}
+
+endsnippet
+
+snippet hook_nodeapi "hook_nodeapi" b
+/**
+ * Implementation of hook_nodeapi()
+ */
+function `!p snip.rv = snip.basename`_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  switch ($op) {
+    case '${1:/* See http://api.drupal.org/api/function/hook_nodeapi/6 for options}':
+      ${2:// Your code here.}
+  }
+}
+
+endsnippet
+
+snippet hook_perm "hook_perm" b
+/**
+ * Implementation of hook_perm()
+ */
+function `!p snip.rv = snip.basename`_perm() {
+  return array('${1:/* permission */}');
+}
+
+endsnippet
+
+snippet hook_permission "hook_permission" b
+/**
+ * Implements hook_permission().
+ */
+function `!p snip.rv = snip.basename`_permission() {
+  return array(
+    '${1:short name}' => array(
+      'title' => t('${2:Readable Title}'),
+      'description' => t('${3:Description}'),
+    ),
+  );
+}
+
+endsnippet
+
+snippet hook_schema "hook_schema" b
+/**
+ * Implementation of hook_schema()
+ */
+function `!p snip.rv = snip.basename`_schema() {
+  $schema['${1:table}'] = array(
+    'description' => '${2}',
+    'fields' => array(
+      '${3:column}' => array(
+        'description' => '${4}',
+        'type' => '${5}',
+        'unsigned' => ${6},
+        'not null' => ${7},
+      ),
+    ),
+    'indexes' => array(
+      ${8}
+    ),
+    'unique keys' => array(
+      ${9}
+    ),
+    'primary key' => array(${10}),
+  );
+  return $schema;
+}
+
+endsnippet
+
+snippet hook_taxonomy "hook_taxonomy" b
+/**
+ * Implementation of hook_taxonomy()
+ */
+function `!p snip.rv = snip.basename`_taxonomy($op, $type, $array = NULL) {
+  switch ($op) {
+    case '${1:See http://api.drupal.org/api/function/hook_taxonomy/6 for options}':
+      ${2:// Your code here.}
+  }
+}
+
+endsnippet
+
+snippet hook_theme "hook_theme" b
+/**
+ * Implements hook_theme()
+ */
+function `!p snip.rv = snip.basename`_theme($existing, $type, $theme, $path) {
+  return array(
+    '${1:theme_function}' => array(
+      'variables' => array(${2:/*Theme variables*/}),
+    ),
+  );
+}
+
+endsnippet
+
+snippet hook_update "hook_update" b
+/**
+ * ${1:Update description}
+ */
+function `!p snip.rv = snip.basename`_update_${2:count}() {
+  $ret = array();
+
+  ${3:// Your code here.}
+
+  return $ret;
+}
+
+endsnippet
+
+snippet hook_user "hook_user" b
+/**
+ * Implementation of hook_user()
+ */
+function `!p snip.rv = snip.basename`_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case '${1:/* See http://api.drupal.org/api/function/hook_user/6 for options}':
+      ${2:// Your code here.}
+  }
+}
+
+endsnippet
+
+snippet hook_user_operations "hook_user_operations" b
+/**
+ * Implementation of hook_user_operations()
+ */
+
+function `!p snip.rv = snip.basename`_user_operations() {
+  $operations = array(
+    '${1:/* operation */}' => array(
+      'label' => t('${2:/* label */}'),
+      'callback' => '${3:/* callback */}',
+    ),
+  );
+  return $operations;
+}
+
+/**
+ * Callback function
+ */
+function $3 {
+  ${4:// Your code here.}
+}
+
+endsnippet
+
+snippet hook_views_api "hook_views_api" b
+/**
+ * Implementation of hook_views_api()
+ */
+function `!p snip.rv = snip.basename`_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', '`!p snip.rv = snip.basename`') . '/views',
+  );
+}
+
+endsnippet
+
+snippet hook_views_query_alter "hook_views_query_alter" b
+/**
+ * Implementation of hook_views_query_alter()
+ */
+function `!p snip.rv = snip.basename`_views_query_alter(&$view, &$query) {
+  ${2:// Your code here.}
+}
+
+endsnippet
+
+# }}}
+
