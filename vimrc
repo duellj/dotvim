@@ -74,7 +74,7 @@ set sidescroll=1
 set sidescrolloff=10
 
 " Ignore VCS and image files during wildmode (and command-t)
-set wildignore=*.git,*.hg,*.svn,*.jpg,*.jpeg,*.gif,*.png
+set wildignore=*.git,*.hg,*.svn,*.jpg,*.jpeg,*.gif,*.png,*.gz
 
 " Remember things between sessions
 "
@@ -462,5 +462,9 @@ map <S-F11> :DbgStepOut<CR>
 map <F7> :DbgRun<CR>
 map <S-F7> :DbgDetach<CR>
 map <F8> :DbgToggleBreakpoint<CR>
+" }}}
+
+" Powerline {{{
+let g:Powerline_symbols = 'fancy'
 " }}}
 " }}}

@@ -57,3 +57,5 @@ if version >= 500
   set hlsearch
 
 endif
+
+set guifont=Menlo\ for\ Powerline:h12
