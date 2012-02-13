@@ -62,7 +62,8 @@ set list
 set listchars=tab:▸\ ,trail:· " Highlight extra whitespace
 set undofile
 set undodir=~/.vimundo/
-set autoread
+set autoread                " Auto reload files when changed on disk
+set hidden                  " Manage multiple buffer history
 
 set shell=/bin/bash
 
@@ -233,6 +234,9 @@ function! DeleteTrailingWS()
   exe "normal `z"
 endfunc
 
+" Easily replace the current word.
+nnoremap <Leader>S :%s/<c-r>=expand("<cword>")<cr>//c<left><left>
+
 """"""""""""""""""""""""""""""
 " => Phpcs                {{{
 " see: http://www.koch.ro/blog/index.php?/archives/62-Integrate-PHP-CodeSniffer-in-VIM.html
@@ -389,6 +393,7 @@ let g:snips_author = 'Jon Duell'
 " PIV configuration {{{
 nnoremap <F6> <Esc>:EnablePHPFolds<Cr>
 let PHP_vintage_case_default_indent = 1
+let PIVAutoClose = 1
 " }}}
 
 " TagBar configuration {{{
@@ -466,5 +471,9 @@ map <F8> :DbgToggleBreakpoint<CR>
 
 " Powerline {{{
 let g:Powerline_symbols = 'fancy'
+" }}}
+
+" UltiSnips {{{
+let g:UltiSnipsEditSplit = 'vertical'
 " }}}
 " }}}
