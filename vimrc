@@ -133,6 +133,9 @@ noremap <C-K> <C-W>k
 noremap <C-l> <C-W>l
 noremap <C-h> <C-W>h
 
+" jump to tag in a split
+nnoremap <silent> ,] :let word=expand("<cword>")<CR>:vsp<CR>:wincmd w<cr>:exec("tag ". word)<cr>
+
 " use CTRL-F for omni completion
 inoremap <C-F> 
 
@@ -236,6 +239,9 @@ endfunc
 
 " Easily replace the current word.
 nnoremap <Leader>S :%s/<c-r>=expand("<cword>")<cr>//c<left><left>
+
+" Yank selection to system clipboard
+vnoremap Y "*y
 
 """"""""""""""""""""""""""""""
 " => Phpcs                {{{
@@ -475,5 +481,6 @@ let g:Powerline_symbols = 'fancy'
 
 " UltiSnips {{{
 let g:UltiSnipsEditSplit = 'vertical'
+let g:UltiSnipsExpandTrigger = '<tab>'
 " }}}
 " }}}
