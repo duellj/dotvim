@@ -128,7 +128,7 @@
   update = rebase
 [submodule "bundle/jellybeans"]
 	path = bundle/jellybeans
-	url = git@github.com:duellj/jellybeans.git
+	url = git@github.com:duellj/jellybeans.vim.git
 
 [submodule "bundle/smartinput"]
 	path = bundle/smartinput
