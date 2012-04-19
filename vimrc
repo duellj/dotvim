@@ -19,7 +19,7 @@ syntax on
 
 " GLOBAL SETTINGS {{{
 
-colorscheme tomorrow_night
+colorscheme jellybeans
 set background=dark
 
 set statusline=%f%m%r%h%w%=
@@ -86,6 +86,8 @@ set wildignore=*.git,*.hg,*.svn,*.jpg,*.jpeg,*.gif,*.png,*.gz
 " n    - set name of viminfo file
 set viminfo='20,\"50,:20,%,n~/.viminfo
 
+" Add session support
+set sessionoptions=blank,buffers,curdir,folds,globals,help,resize,tabpages,winsize,winpos
 
 " Set command-line completion mode:
 "   - on first <Tab>, when more than one match, list all matches and complete
@@ -112,6 +114,10 @@ au InsertLeave * hi StatusLine ctermfg=130 guifg=#8e8f8d
 
 " Resize splits when the window is resized
 au VimResized * exe "normal! \<c-w>="
+
+" Use sane regexes.
+nnoremap / /\v
+vnoremap / /\v
 
 "}}}
 
@@ -224,11 +230,14 @@ set fuoptions=maxvert,maxhorz
 noremap <F1> :set invfullscreen<CR>
 inoremap <F1> <ESC>:set invfullscreen<CR>a
 
-" Show the syntax rule for text under the cursor
-function! SynStack()
-  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
+" Show syntax highlighting groups for word under cursor
+nmap <C-S-P> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
-nno ß :call SynStack()<CR>
 
 " Strip trailing whitespace.
 function! DeleteTrailingWS()
@@ -242,6 +251,9 @@ nnoremap <Leader>S :%s/<c-r>=expand("<cword>")<cr>//c<left><left>
 
 " Yank selection to system clipboard
 vnoremap Y "*y
+
+" Open a Quickfix window for the last search.
+nnoremap <silent> <leader>? :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 
 """"""""""""""""""""""""""""""
 " => Phpcs                {{{
@@ -399,7 +411,7 @@ let g:snips_author = 'Jon Duell'
 " PIV configuration {{{
 nnoremap <F6> <Esc>:EnablePHPFolds<Cr>
 let PHP_vintage_case_default_indent = 1
-let PIVAutoClose = 1
+let PIVAutoClose = 0
 " }}}
 
 " TagBar configuration {{{
@@ -439,7 +451,7 @@ let vimpager_use_gvim = 1
 
 " Syntastic configuration {{{
 let g:syntastic_enable_signs=1
-let g:syntastic_phpcs_config='--standard=DrupalCodingStandard'
+let g:syntastic_phpcs_conf=' --standard=Drupal --extensions=php,module,inc,install,test,profile,theme'
 " }}}
 
 " EasyMotion configuration {{{
@@ -482,5 +494,9 @@ let g:Powerline_symbols = 'fancy'
 " UltiSnips {{{
 let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsExpandTrigger = '<tab>'
+" }}}
+
+" Sessions {{{
+  let g:sessions_project_path = "$HOME/Dropbox/Sites"
 " }}}
 " }}}

@@ -224,9 +224,29 @@ snippet hook_form_alter "hook_form_alter" b
  * Implements hook_form_alter().
  */
 function `!p snip.rv = snip.basename`_form_alter(&$form, $form_state, $form_id) {
+  ${2:// your code.}
+}
+
+endsnippet
+
+snippet hook_form_base_alter "hook_form_base_alter" b
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function `!p snip.rv = snip.basename`_form_${1:BASE}_alter(&$form, $form_state) {
+  ${2:// your code.}
+}
+
+endsnippet
+
+snippet hook_form_id_alter "hook_form_id_alter" b
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function `!p snip.rv = snip.basename`_form_${1:ID}_alter(&$form, $form_state) {
   switch ($form_id) {
-    case '${1:/* your form */}':
-      ${2:// your code.}
+    case '${2:/* your form */}':
+      ${3:// your code.}
   }
 }
 
@@ -484,7 +504,7 @@ endsnippet
 
 snippet hook_taxonomy "hook_taxonomy" b
 /**
- * Implementation of hook_taxonomy()
+ * Implements hook_taxonomy().
  */
 function `!p snip.rv = snip.basename`_taxonomy($op, $type, $array = NULL) {
   switch ($op) {
@@ -497,7 +517,7 @@ endsnippet
 
 snippet hook_theme "hook_theme" b
 /**
- * Implements hook_theme()
+ * Implements hook_theme().
  */
 function `!p snip.rv = snip.basename`_theme($existing, $type, $theme, $path) {
   return array(
@@ -578,9 +598,44 @@ snippet hook_views_query_alter "hook_views_query_alter" b
  * Implementation of hook_views_query_alter()
  */
 function `!p snip.rv = snip.basename`_views_query_alter(&$view, &$query) {
-  ${2:// Your code here.}
+  ${1:// Your code here.}
 }
 
 endsnippet
 
+# }}}
+
+# Plugins {{{
+snippet bean_plugin "Bean plugin" b
+/**
+ * Implements hook_bean_types_api_info().
+ */
+function `!p snip.rv = snip.basename`_bean_types_api_info() {
+  return array(
+    'api' => bean_current_version(),
+  );
+}
+
+/**
+ * Implements hook_bean_types().
+ */
+function `!p snip.rv = snip.basename`_bean_types() {
+  $plugins = array();
+  $plugin_path = drupal_get_path('module', '`!p snip.rv = snip.basename`');
+
+  $plugins['`!p snip.rv = snip.basename`_${1:beantype}'] = array(
+    'label' => t('${2:Bean Label}'),
+    'handler' => array(
+      'class' => '`!p snip.rv = snip.basename`_$1',
+      'parent' => 'BeanPlugin',
+    ),
+    'path' => $plugin_path,
+    'file' => '`!p snip.rv = snip.basename`.bean.inc',
+    'editable' => TRUE,
+  );
+
+  return $plugins;
+}
+
+endsnippet
 # }}}
