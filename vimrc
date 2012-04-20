@@ -497,6 +497,10 @@ let g:UltiSnipsExpandTrigger = '<tab>'
 " }}}
 
 " Sessions {{{
-  let g:sessions_project_path = "$HOME/Dropbox/Sites"
+let g:sessions_project_path = "$HOME/Dropbox/Sites"
+" }}}
+
+" gitv {{{
+let g:Gitv_DoNotMapCtrlKey = 1
 " }}}
 " }}}
