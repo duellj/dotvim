@@ -142,3 +142,12 @@
 	path = bundle/vim-git
 	url = https://github.com/tpope/vim-git.git
   update = rebase
+[submodule "bundle/splice"]
+	path = bundle/splice
+	url = https://github.com/sjl/splice.vim.git
+[submodule "bundle/toggle"]
+	path = bundle/toggle
+	url = https://github.com/vim-scripts/Toggle.git
+[submodule "bundle/scratch"]
+	path = bundle/scratch
+	url = https://github.com/vim-scripts/scratch.vim.git

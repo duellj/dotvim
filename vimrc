@@ -391,6 +391,15 @@ augroup ft_snippets
   au FileType snippets setlocal foldmethod=marker
 augroup END
 " }}}
+"
+" gitcommit {{{
+augroup ft_gitcommit
+  au!
+
+  au FileType gitcommit setlocal textwidth=80
+  au FileType gitcommit setlocal wrap
+augroup END
+" }}}
 " }}}
 
 " Plugin configuration {{{

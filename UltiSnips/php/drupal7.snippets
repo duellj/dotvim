@@ -198,7 +198,7 @@ endsnippet
 
 snippet hook_comment "hook_comment" b
 /**
- * Implementation of hook_comment().
+ * Implements hook_comment().
  */
 function `!p snip.rv = snip.basename`_comment(&$a1, $op) {
   switch ($op) {
@@ -375,7 +375,7 @@ endsnippet
 
 snippet hook_node_operations "hook_node_operations" b
 /**
- * Implementation of hook_node_operations()
+ * Implements hook_node_operations().
  */
 function `!p snip.rv = snip.basename`_node_operations() {
   $operations = array(
@@ -408,7 +408,7 @@ endsnippet
 
 snippet hook_node_type "hook_node_type" b
 /**
- * Implementation of hook_node_type()
+ * Implements hook_node_type().
  */
 function `!p snip.rv = snip.basename`_node_type($op, $info) {
   switch ($op) {
@@ -451,7 +451,7 @@ endsnippet
 
 snippet hook_perm "hook_perm" b
 /**
- * Implementation of hook_perm()
+ * Implements hook_perm().
  */
 function `!p snip.rv = snip.basename`_perm() {
   return array('${1:/* permission */}');
@@ -476,7 +476,7 @@ endsnippet
 
 snippet hook_schema "hook_schema" b
 /**
- * Implementation of hook_schema()
+ * Implements hook_schema().
  */
 function `!p snip.rv = snip.basename`_schema() {
   $schema['${1:table}'] = array(
@@ -545,7 +545,7 @@ endsnippet
 
 snippet hook_user "hook_user" b
 /**
- * Implementation of hook_user()
+ * Implements hook_user().
  */
 function `!p snip.rv = snip.basename`_user($op, &$edit, &$account, $category = NULL) {
   switch ($op) {
@@ -558,7 +558,7 @@ endsnippet
 
 snippet hook_user_operations "hook_user_operations" b
 /**
- * Implementation of hook_user_operations()
+ * Implements hook_user_operations().
  */
 
 function `!p snip.rv = snip.basename`_user_operations() {
@@ -582,7 +582,7 @@ endsnippet
 
 snippet hook_views_api "hook_views_api" b
 /**
- * Implementation of hook_views_api()
+ * Implements hook_views_api().
  */
 function `!p snip.rv = snip.basename`_views_api() {
   return array(
@@ -595,7 +595,7 @@ endsnippet
 
 snippet hook_views_query_alter "hook_views_query_alter" b
 /**
- * Implementation of hook_views_query_alter()
+ * Implements hook_views_query_alter().
  */
 function `!p snip.rv = snip.basename`_views_query_alter(&$view, &$query) {
   ${1:// Your code here.}
@@ -626,10 +626,10 @@ function `!p snip.rv = snip.basename`_bean_types() {
   $plugins['`!p snip.rv = snip.basename`_${1:beantype}'] = array(
     'label' => t('${2:Bean Label}'),
     'handler' => array(
-      'class' => '`!p snip.rv = snip.basename`_$1',
+      'class' => '${3:BeanClass}',
       'parent' => 'BeanPlugin',
-      'path' => $plugin_path,
-      'file' => '`!p snip.rv = snip.basename`.bean.inc',
+      'path' => $plugin_path . '/includes',
+      'file' => '$3.php',
     ),
     'editable' => TRUE,
   );
