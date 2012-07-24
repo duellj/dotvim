@@ -118,10 +118,6 @@
 	path = bundle/ultisnips
 	url = git@github.com:duellj/ultisnips.git
   update = rebase
-[submodule "bundle/badwolf"]
-	path = bundle/badwolf
-	url = git@github.com:duellj/badwolf.git
-  update = rebase
 [submodule "bundle/jellybeans"]
 	path = bundle/jellybeans
 	url = git@github.com:duellj/jellybeans.vim.git
@@ -151,3 +147,9 @@
 [submodule "bundle/scratch"]
 	path = bundle/scratch
 	url = https://github.com/vim-scripts/scratch.vim.git
+[submodule "bundle/signature"]
+	path = bundle/signature
+	url = https://github.com/kshenoy/vim-signature.git
+[submodule "bundle/linediff"]
+	path = bundle/linediff
+	url = https://github.com/AndrewRadev/linediff.vim.git

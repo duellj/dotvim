@@ -159,10 +159,6 @@ nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 " Quickly edit snippets
 nnoremap <leader>es <C-w>s :Exp ~/.vim/bundle/snipmate/snippets/<cr>
 
-" Map <tab to match bracket pairs
-nnoremap <tab> %
-vnoremap <tab> %
-
 " page down with <Space>
 nnoremap <Space> <PageDown>
 
@@ -241,9 +237,8 @@ endfunc
 
 " Strip trailing whitespace.
 function! DeleteTrailingWS()
-  exe "normal mz"
   %s/\s\+$//ge
-  exe "normal `z"
+  exe "normal g;"
 endfunc
 
 " Easily replace the current word.
@@ -305,7 +300,7 @@ augroup ft_php
   au BufRead,BufNewFile *.make setfiletype dosini
   au BufRead,BufNewFile *.info setfiletype ini
 
-  au FileType php au BufWrite <buffer> :call DeleteTrailingWS()
+  au FileType php au BufWritePre <buffer> :%s/\s\+$//e
 augroup END
 " }}}
 
@@ -391,13 +386,21 @@ augroup ft_snippets
   au FileType snippets setlocal foldmethod=marker
 augroup END
 " }}}
-"
+
 " gitcommit {{{
 augroup ft_gitcommit
   au!
 
   au FileType gitcommit setlocal textwidth=80
   au FileType gitcommit setlocal wrap
+augroup END
+" }}}
+
+" gitrebase {{{
+augroup ft_gitrebase
+  au!
+
+  nnoremap <buffer> <silent> S :Cycle<CR>
 augroup END
 " }}}
 " }}}
