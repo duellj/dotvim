@@ -65,7 +65,11 @@ set undodir=~/.vimundo/
 set autoread                " Auto reload files when changed on disk
 set hidden                  " Manage multiple buffer history
 
-set shell=/bin/bash
+set shell=/usr/local/bin/zsh
+
+" Allow local .vimrc files per directory
+set exrc
+set secure
 
 set backspace=indent,eol,start       " Allow backspacing over everything
 set completeopt=menu,longest,preview " Insert mode completion options
