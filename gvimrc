@@ -58,4 +58,6 @@ if version >= 500
 
 endif
 
+set fuoptions=maxvert,maxhorz
+
 set guifont=Menlo\ for\ Powerline:h12

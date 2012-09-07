@@ -65,7 +65,7 @@ set undodir=~/.vimundo/
 set autoread                " Auto reload files when changed on disk
 set hidden                  " Manage multiple buffer history
 
-set shell=/usr/local/bin/zsh
+set shell=/bin/bash
 
 " Allow local .vimrc files per directory
 set exrc
@@ -226,7 +226,6 @@ onoremap <silent> in( :<C-U>normal! f(vi(<cr>
 nnoremap <esc> :nohl<CR>
 
 " Go away, help key.
-set fuoptions=maxvert,maxhorz
 noremap <F1> :set invfullscreen<CR>
 inoremap <F1> <ESC>:set invfullscreen<CR>a
 
@@ -395,8 +394,7 @@ augroup END
 augroup ft_gitcommit
   au!
 
-  au FileType gitcommit setlocal textwidth=80
-  au FileType gitcommit setlocal wrap
+  au FileType gitcommit setlocal textwidth=80 wrap
 augroup END
 " }}}
 
@@ -407,6 +405,13 @@ augroup ft_gitrebase
   nnoremap <buffer> <silent> S :Cycle<CR>
 augroup END
 " }}}
+
+" {{{ Twig
+augroup ft_twig
+  au BufRead,BufNewFile *.twig setfiletype html
+augroup END
+" }}}
+"
 " }}}
 
 " Plugin configuration {{{
@@ -518,5 +523,10 @@ let g:sessions_project_path = "$HOME/Dropbox/Sites"
 
 " gitv {{{
 let g:Gitv_DoNotMapCtrlKey = 1
+" }}}
+
+" Sideways {{{
+nnoremap <leader>h :SidewaysLeft<cr>
+nnoremap <leader>l :SidewaysRight<cr>
 " }}}
 " }}}

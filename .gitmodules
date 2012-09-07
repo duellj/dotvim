@@ -153,3 +153,12 @@
 [submodule "bundle/linediff"]
 	path = bundle/linediff
 	url = https://github.com/AndrewRadev/linediff.vim.git
+[submodule "bundle/csscolor"]
+	path = bundle/csscolor
+	url = https://github.com/skammer/vim-css-color.git
+[submodule "bundle/sideways"]
+	path = bundle/sideways
+	url = https://github.com/AndrewRadev/sideways.vim.git
+[submodule "bundle/hybrid"]
+	path = bundle/hybrid
+	url = https://github.com/w0ng/vim-hybrid.git
