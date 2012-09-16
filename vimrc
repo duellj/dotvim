@@ -15,11 +15,12 @@ set nocompatible
 
 " Turn syntax highlighting on
 syntax on
+autocmd BufEnter * :syntax sync fromstart
 "}}}
 
 " GLOBAL SETTINGS {{{
 
-colorscheme jellybeans
+colorscheme solarized
 set background=dark
 
 set statusline=%f%m%r%h%w%=
@@ -497,6 +498,13 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_by_filename = 1
 let g:ctrlp_extensions = ['tag']
+let g:ctrlp_user_command = {
+  \ 'types': {
+    \ 1: ['.git', 'cd %s && git ls-files'],
+    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+    \ },
+  \ 'fallback': 'find %s -type f'
+  \ }
 " }}}
 
 " VimDebugger configuration {{{
@@ -528,5 +536,9 @@ let g:Gitv_DoNotMapCtrlKey = 1
 " Sideways {{{
 nnoremap <leader>h :SidewaysLeft<cr>
 nnoremap <leader>l :SidewaysRight<cr>
+" }}}
+
+" Vitality {{{
+let g:vitality_fix_focus = 0
 " }}}
 " }}}

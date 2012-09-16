@@ -150,6 +150,10 @@ snippet watchdog "watchdog" b
 watchdog('${1:/* type */}', '${2:/* message */}'${3});
 endsnippet
 
+snippet fgi "field_get_items" b
+$${1:items} = field_get_items('${2:node}', $${3:entity}, '${4:field_$1}');
+endsnippet
+
 # }}}
 
 # Hooks {{{
