@@ -4,7 +4,7 @@
 
 " Preliminary definitions {{{
 " Active pathogen bundle manager
-source ~/.vim/bundle/pathogen/autoload/pathogen.vim
+runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
 " Enable loading filetype and indentation plugins
@@ -18,69 +18,81 @@ syntax on
 autocmd BufEnter * :syntax sync fromstart
 "}}}
 
-" GLOBAL SETTINGS {{{
+" Global settings {{{
 
-colorscheme solarized
-set background=dark
 
-set statusline=%f%m%r%h%w%=
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-set statusline+=%y\ (line\ %l\/%L,\ col\ %c)
-
-set autoindent              " Set autoindent for all files
-set autowrite               " Write contents of the file, if it has been modified, on buffer exit
-set enc=utf-8               " Use UTF-8 as the default buffer encoding
-set history=100             " Remember up to 100 'colon' commmands and search patterns
-set incsearch               " Enable incremental search
-set ignorecase              " Enable case insensitive search
-set smartcase               " Ignore ignorecase when search pattern contains an upper case character
-set laststatus=2            " Always show status line, even for one window
-set shiftwidth=2            " Use 2 spaces for (auto)indent
-set tabstop=2               " Use 2 spaces for <Tab> and :retab
-set expandtab               " expand tabs to spaces
-set matchtime=3             " Jump to matching bracket for 3/10th of a second (works with showmatch)
-set hlsearch                " Highlight results of a search
-set wrap                    " Wrap long lines
-set textwidth=80            " Wrap at 80 characters
-set nrformats=octal,hex     " Enable CTRL-A/CTRL-X to work on octal and hex numbers
-set pastetoggle=<F10>       " Use F10 to toggle 'paste' mode
-set ruler                   " Show line, column number, and relative position within a file in the status line
-set number                  " show line numbers
-set scrolloff=3             " Scroll when cursor gets within 3 characters of top/bottom edge
-set shiftround              " Round indent to multiple of 'shiftwidth' for > and < commands
-set showcmd                 " Show (partial) commands (or size of selection in Visual mode) in the status line
-set showmatch               " When a bracket is inserted, briefly jump to a matching one
-set t_RV=                   " Don't request terminal version string (for xterm)
-set updatecount=50          " Write swap file to disk after every 50 characters
-set cursorline              " Highlight cursor line
-set directory=~/.vimbackup/ " Save backups outside of current directory
-set wildmenu                " More useful command-line completion
-set fo=crq
+set enc=utf-8                   " Use UTF-8 as the default buffer encoding
+set autoindent                  " Set autoindent for all files
+set history=1000                " Remember up to 100 'colon' commmands and search patterns
 set list
-set listchars=tab:▸\ ,trail:· " Highlight extra whitespace
-set undofile
-set undodir=~/.vimundo/
-set autoread                " Auto reload files when changed on disk
-set hidden                  " Manage multiple buffer history
-
+set listchars=tab:▸\ ,trail:·   " Highlight extra whitespace
+set ruler                       " Show line, column number, and relative position within a file in the status line
+set hidden                      " Manage multiple buffer history
+set autowrite                   " Write contents of the file, if it has been modified, on buffer exit
+set autoread                    " Auto reload files when changed on disk
+set showmatch                   " When a bracket is inserted, briefly jump to a matching one
+set matchtime=3                 " Jump to matching bracket for 3/10th of a second (works with showmatch)
+set number                      " show line numbers
+set backspace=indent,eol,start  " Allow backspacing over everything
 set shell=/bin/bash
+set showcmd                     " Show (partial) commands (or size of selection in Visual mode) in the status line
+set laststatus=2                " Always show status line, even for one window
+set tags=./tags;                " Find tags file in parent directories
+set cursorline                  " Highlight cursor line
+
+" Insert mode completion options
+set completeopt=menu,longest,preview
 
 " Allow local .vimrc files per directory
 set exrc
 set secure
 
-set backspace=indent,eol,start       " Allow backspacing over everything
-set completeopt=menu,longest,preview " Insert mode completion options
+" Leaders {{{
 
-" Make horizontal scrolling less horrible.
-set sidescroll=1
-set sidescrolloff=10
+let mapleader = ","
 
-" Ignore VCS and image files during wildmode (and command-t)
-set wildignore=*.git,*.hg,*.svn,*.jpg,*.jpeg,*.gif,*.png,*.gz
+" }}}
+
+" Colorscheme {{{
+
+set background=dark
+colorscheme solarized
+
+" }}}
+
+" Tabs, spaces {{{
+
+set shiftwidth=2            " Use 2 spaces for (auto)indent
+set shiftround              " Round indent to multiple of 'shiftwidth' for > and < commands
+set tabstop=2               " Use 2 spaces for <Tab> and :retab
+set expandtab               " expand tabs to spaces
+set wrap                    " Wrap long lines
+set textwidth=80            " Wrap at 80 characters
+set formatoptions=crqn1
+
+" }}}
+
+" Wildmenu {{{
+
+set wildmenu
+
+" Set command-line completion mode:
+"   - on first <Tab>, when more than one match, list all matches and complete
+"     the longest common  string
+"   - on second <Tab>, complete the next full match and show menu
+set wildmode=list:longest,full
+
+set wildignore=*.git,*.hg,*.svn          " Version control
+set wildignore+=*.jpg,*.jpeg,*.gif,*.png " Images
+set wildignore+=.DS_Store                " OSX
+
+" }}}
+
+" Backups {{{
+
+set directory=~/.vimbackup/ " Save backups outside of current directory
+set undodir=~/.vimundo/
+set undofile
 
 " Remember things between sessions
 "
@@ -94,40 +106,79 @@ set viminfo='20,\"50,:20,%,n~/.viminfo
 " Add session support
 set sessionoptions=blank,buffers,curdir,folds,globals,help,resize,tabpages,winsize,winpos
 
-" Set command-line completion mode:
-"   - on first <Tab>, when more than one match, list all matches and complete
-"     the longest common  string
-"   - on second <Tab>, complete the next full match and show menu
-set wildmode=list:longest,full
-
 " Go back to the position the cursor was on the last time this file was edited
-au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")|execute("normal `\"")|endif
-
-" Avoid loading MatchParen plugin
-let loaded_matchparen = 1
+augroup line_return
+  au!
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")|execute("normal `\"")|endif
+augroup END
 
 " Configure vim so it can be called from crontab -e
 au BufEnter /private/tmp/crontab.* setl backupcopy=yes
 set backupskip=/tmp/*,/private/tmp/*
 
-" Find tags file in parent directories
-set tags=./tags;
+" }}}
 
-" Highlight statusbar when in insert mode
-au InsertEnter * hi StatusLine ctermfg=196 guifg=#CD5907
-au InsertLeave * hi StatusLine ctermfg=130 guifg=#8e8f8d
+" Terminal {{{
+
+  " Time out on key codes but not mappings.
+  " Basically this makes terminal Vim work sanely.
+  set notimeout
+  set ttimeout
+  set ttimeoutlen=10
+
+" }}}
 
 " Resize splits when the window is resized
 au VimResized * exe "normal! \<c-w>="
+
+"}}}
+
+" Searching  and moving {{{
+
+" Highlight results of a search
+set hlsearch
+
+" Enable incremental search
+set incsearch
+
+" Enable case insensitive search
+set ignorecase
+
+" Ignore ignorecase when search pattern contains an upper case character
+set smartcase
 
 " Use sane regexes.
 nnoremap / /\v
 vnoremap / /\v
 
-"}}}
+" Scroll when cursor gets within 3 characters of top/bottom edge
+set scrolloff=3
 
-" MAPPINGS {{{
-let mapleader = ","
+" Make horizontal scrolling less horrible.
+set sidescroll=1
+set sidescrolloff=10
+
+" Keep search matches in the middle of the window.
+" nnoremap n nzzzv
+" nnoremap N Nzzzv
+
+" Much better then the default behavior.
+noremap H ^
+noremap L $
+vnoremap L g_
+
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+" }}}
+
+" Quick editing {{{
+nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
+nnoremap <silent> <leader>ez :e ~/.zshrc<CR>
+" }}}
+
+" Mappings {{{
 
 " save changes
 noremap <leader>s :w<CR>
@@ -157,9 +208,6 @@ nnoremap <leader>f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t
 " reselect text that was just pasted
 nnoremap <leader>v V`]
 
-" Quickly edit/reload the vimrc file
-nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
-nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " Quickly edit snippets
 nnoremap <leader>es <C-w>s :Exp ~/.vim/bundle/snipmate/snippets/<cr>
