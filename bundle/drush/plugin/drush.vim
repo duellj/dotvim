@@ -1,6 +1,7 @@
 " On your vimrc:
 "   let g:drushprg="drush"
 "
+" Todo: Should probably check to see if drush can bootstrap
 
 " Location of the drush utility
 if !exists("g:drush")
@@ -48,4 +49,13 @@ function! s:Drush(cmd, args)
     redraw!
 endfunction
 
+" Pulls in Drupal variables (from Drush) and outputs variable_set() calls for
+" each variable.
+function! s:DrushVariableGet(args)
+  exec "normal o"
+  exec "r !drush variable-get --pipe " . a:args . " | sed 's/$variables\\[\\(.*\\)\\] = /variable_set(\\1, /' | sed 's/;$/);/'"
+  exec "normal ={"
+endfunction
+
 command! -bang -nargs=* -complete=file DrushHook call s:Drush('vim-hook', <q-args>)
+command! -bang -nargs=* -complete=file DrushVar call s:DrushVariableGet(<q-args>)
