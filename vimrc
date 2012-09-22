@@ -24,7 +24,7 @@ autocmd BufEnter * :syntax sync fromstart
 set enc=utf-8                   " Use UTF-8 as the default buffer encoding
 set autoindent                  " Set autoindent for all files
 set history=1000                " Remember up to 100 'colon' commmands and search patterns
-set list
+set list                        " Show hidden characters
 set listchars=tab:▸\ ,trail:·   " Highlight extra whitespace
 set ruler                       " Show line, column number, and relative position within a file in the status line
 set hidden                      " Manage multiple buffer history
@@ -128,15 +128,15 @@ set backupskip=/tmp/*,/private/tmp/*
 
 " }}}
 
-" Resize splits when the window is resized
-au VimResized * exe "normal! \<c-w>="
-
 "}}}
 
-" Searching  and moving {{{
+" Search/replace {{{
 
 " Highlight results of a search
 set hlsearch
+
+" Disable search highlighting
+nnoremap <esc> :nohlsearch<CR>
 
 " Enable incremental search
 set incsearch
@@ -151,6 +151,44 @@ set smartcase
 nnoremap / /\v
 vnoremap / /\v
 
+" map <leader>f to display all lines with keyword under cursor and ask which one to
+" jump to
+nnoremap <leader>f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+
+" Keep search matches in the middle of the window.
+" nnoremap n nzzzv
+" nnoremap N Nzzzv
+
+" Easily replace the current word.
+nnoremap <Leader>S :%s/<c-r>=expand("<cword>")<cr>//c<left><left>
+
+" Open a Quickfix window for the last search.
+nnoremap <silent> <leader>? :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
+
+" Change directory to directory of current file
+nnoremap <Leader>cd :cd %:p:h<CR>
+
+" }}}
+
+" Moving {{{
+
+" Much better then the default behavior.
+noremap H ^
+noremap L $
+vnoremap L g_
+
+" Sane movement keys.
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
+" page down with <Space>
+nnoremap <Space> <PageDown>
+
+" page up with -
+noremap - <PageUp>
+
 " Scroll when cursor gets within 3 characters of top/bottom edge
 set scrolloff=3
 
@@ -158,36 +196,9 @@ set scrolloff=3
 set sidescroll=1
 set sidescrolloff=10
 
-" Keep search matches in the middle of the window.
-" nnoremap n nzzzv
-" nnoremap N Nzzzv
-
-" Much better then the default behavior.
-noremap H ^
-noremap L $
-vnoremap L g_
-
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
 " }}}
 
-" Quick editing {{{
-nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
-nnoremap <silent> <leader>ez :e ~/.zshrc<CR>
-" }}}
-
-" Mappings {{{
-
-" save changes
-noremap <leader>s :w<CR>
-
-" exit vim 
-noremap <leader>q :q<CR>
-
-" exit vim saving changes
-noremap <leader>w :x<CR>
+" Split windows {{{
 
 " switch to split windows quickly
 noremap <C-J> <C-W>j
@@ -198,55 +209,105 @@ noremap <C-h> <C-W>h
 " jump to tag in a split
 nnoremap <silent> ,] :let word=expand("<cword>")<CR>:vsp<CR>:wincmd w<cr>:exec("tag ". word)<cr>
 
-" use CTRL-F for omni completion
-inoremap <C-F> 
+" Resize splits when the window is resized
+au VimResized * exe "normal! \<c-w>="
 
-" map <leader>f to display all lines with keyword under cursor and ask which one to
-" jump to
-nnoremap <leader>f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+" }}}
+
+" Quick editing {{{
+"
+nnoremap <silent> <leader>ev :tabedit $MYVIMRC<cr>
+nnoremap <silent> <leader>ez :tabedit ~/.zshrc<CR>
+nnoremap <silent> <leader>ed :tabedit ~/.drushrc.php<CR>
+nnoremap <silent> <leader>et :tabedit ~/.tmux.conf<CR>
+
+" }}}
+
+" Writing/saving {{{
+
+" save changes
+noremap <leader>s :w<CR>
+
+" exit vim 
+noremap <leader>q :q<CR>
+
+" exit vim saving changes
+noremap <leader>w :x<CR>
+
+" write file as sudo
+cnoremap w!! w !sudo tee % >/dev/null
+
+" }}}
+
+" Text Objects {{{
+
+" Next and Last {{{
+
+" https://gist.github.com/3762227
+" Motion for "next/last object".  "Last" here means "previous", not "final".
+" Unfortunately the "p" motion was already taken for paragraphs.
+"
+" Next acts on the next object of the given type in the current line, last acts
+" on the previous object of the given type in the current line.
+"
+" Currently only works for (, [, {, b, r, B, ', and ".
+"
+" Some examples (C marks cursor positions, V means visually selected):
+"
+" din'  -> delete in next single quotes                foo = bar('spam')
+"                                                      C
+"                                                      foo = bar('')
+"                                                                C
+"
+" canb  -> change around next parens                   foo = bar('spam')
+"                                                      C
+"                                                      foo = bar
+"                                                               C
+"
+" vil"  -> select inside last double quotes            print "hello ", name
+"                                                                        C
+"                                                      print "hello ", name
+"                                                             VVVVVV
+
+onoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
+xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
+onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
+xnoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
+
+onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
+xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
+onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
+xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
+
+function! s:NextTextObject(motion, dir)
+  let c = nr2char(getchar())
+
+  if c ==# "b"
+      let c = "("
+  elseif c ==# "B"
+      let c = "{"
+  elseif c ==# "r"
+      let c = "["
+  endif
+
+  exe "normal! ".a:dir.c."v".a:motion.c
+endfunction
+
+" }}}
+
+" }}}
+
+" Mappings {{{
 
 " reselect text that was just pasted
 nnoremap <leader>v V`]
-
-
-" Quickly edit snippets
-nnoremap <leader>es <C-w>s :Exp ~/.vim/bundle/snipmate/snippets/<cr>
-
-" page down with <Space>
-nnoremap <Space> <PageDown>
-
-" page up with -
-noremap - <PageUp>
 
 " visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv 
 
-" open URL in the current line
-function! HandleURI()
-  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
-  echo s:uri
-  if s:uri != ""
-	  exec "!open \"" . s:uri . "\""
-  else
-	  echo "No URI found in line."
-  endif
-endfunction
-nnoremap <Leader>w :call HandleURI()<CR>
-
-" Change directory to directory of current file
-nnoremap <Leader>cd :cd %:p:h<CR>
-
-" open Ack
-nnoremap <leader>a :Ack 
-" run Ack against word under cursor
-nnoremap <leader>A :Ack <c-r><c-w><CR>
-
-" write file as sudo
-cnoremap w!! w !sudo tee % >/dev/null
-
-"Shortcut for editing  vimrc file in a new tab
-nnoremap <leader>ev :tabedit $MYVIMRC<cr>
+" Yank selection to system clipboard
+vnoremap Y "*y
 
 " Quick returns
 inoremap <c-cr> <esc>A<cr>
@@ -254,68 +315,16 @@ inoremap <c-cr> <esc>A<cr>
 " Quick clear cache
 nnoremap <leader>cc :!drush cc all<CR>
 
-" Add an 'in next ()' text object, e.g.
-"   din( - 'Delete in next ()'
-"   vin( - 'Select in next ()'
-"   cin( - 'Change in next () (great for function calls)'
-vnoremap <silent> in( :<C-U>normal! f(vi(<cr>
-onoremap <silent> in( :<C-U>normal! f(vi(<cr>
-
-" Disable search highlighting
-nnoremap <esc> :nohl<CR>
-
 " Go away, help key.
 noremap <F1> :set invfullscreen<CR>
 inoremap <F1> <ESC>:set invfullscreen<CR>a
-
-" Show syntax highlighting groups for word under cursor
-nmap <C-S-P> :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
-" Strip trailing whitespace.
-function! DeleteTrailingWS()
-  %s/\s\+$//ge
-  exe "normal g;"
-endfunc
-
-" Easily replace the current word.
-nnoremap <Leader>S :%s/<c-r>=expand("<cword>")<cr>//c<left><left>
-
-" Yank selection to system clipboard
-vnoremap Y "*y
-
-" Open a Quickfix window for the last search.
-nnoremap <silent> <leader>? :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
-
-""""""""""""""""""""""""""""""
-" => Phpcs                {{{
-" see: http://www.koch.ro/blog/index.php?/archives/62-Integrate-PHP-CodeSniffer-in-VIM.html
-""""""""""""""""""""""""""""""
-function! RunPhpcs()
-    let l:filename=@%
-    let l:phpcs_output=system('/usr/local/zend/bin/phpcs --report=csv --standard=Drupal '.l:filename)
-    let l:phpcs_list=split(l:phpcs_output, "\n")
-    unlet l:phpcs_list[0]
-    cexpr l:phpcs_list
-    cwindow
-endfunction
-
-"set errorformat+="%f"\\,%l\\,%c\\,%t%*[a-zA-Z]\\,"%m"
-set errorformat+=\"%f\"\\,%l\\,%c\\,%t%*[a-zA-Z]\\,\"%m\"\\,%*[a-zA-Z0-9_.-]
-command! Phpcs execute RunPhpcs()
-nnoremap <leader>ps :Phpcs<CR>
-"}}}
 
 "}}}
 
 " Filetype configuration {{{
 
 " Vim {{{
+
 augroup ft_vim
   au!
 
@@ -326,9 +335,11 @@ augroup ft_vim
     autocmd bufwritepost .vimrc source ~/.vimrc
   endif
 augroup END
+
 "}}}
 
 " PHP/Drupal {{{
+
 augroup ft_php
   au!
 
@@ -344,10 +355,12 @@ augroup ft_php
 
   au FileType php au BufWritePre <buffer> :%s/\s\+$//e
 augroup END
+
 " }}}
 
 " Less/CSS {{{
-augroup ft_css
+
+augroup ft_less
   au!
 
   au BufRead,BufNewFile *.less setfiletype less
@@ -367,21 +380,26 @@ augroup ft_css
     "endif
   "endfunction
 augroup END
+
 " }}}
 
 " JavaScript {{{
+
 augroup ft_javascript
   au!
 
   au FileType javascript setlocal foldmethod=marker
   au FileType javascript setlocal foldmarker={,}
 augroup END
+
 " }}}
 
 " Markdown {{{
+
 augroup ft_markdown
   au!
 
+  au BufNewFile,BufRead *.md setlocal filetype=markdown
   au BufNewFile,BufRead *.m*down setlocal filetype=markdown
 
   au Filetype markdown setlocal spell spelllang=en
@@ -396,9 +414,11 @@ augroup ft_markdown
 
   au FileType markdown au BufWrite <buffer> :call DeleteTrailingWS()
 augroup END
+
 " }}}
 
 " Word Docs (haha suckit Office) {{{
+
 augroup ft_doc
   au!
 
@@ -409,10 +429,12 @@ augroup ft_doc
   autocmd BufReadPre *.docx set hlsearch!
   autocmd BufReadPost *.docx %!antiword "%"
 augroup END
+
 " }}}
 
 " Quickfix {{{
 " Clean up the QuickFix window (great for Ack)
+
 augroup ft_qf
   au!
 
@@ -421,117 +443,152 @@ augroup ft_qf
   au Filetype qf setlocal nocursorline
   au Filetype qf setlocal nowrap
 augroup END
+
 " }}}
 
 " Snippets {{{
+
 augroup ft_snippets
   au FileType snippets setlocal foldmethod=marker
 augroup END
+
 " }}}
 
 " gitcommit {{{
+
 augroup ft_gitcommit
   au!
 
   au FileType gitcommit setlocal textwidth=80 wrap
 augroup END
+
 " }}}
 
 " gitrebase {{{
+
 augroup ft_gitrebase
   au!
 
   nnoremap <buffer> <silent> S :Cycle<CR>
 augroup END
+
 " }}}
 
 " {{{ Twig
+
 augroup ft_twig
   au BufRead,BufNewFile *.twig setfiletype html
 augroup END
+
 " }}}
-"
+
+" {{{ ZSH
+
+augroup ft_zsh
+  au!
+
+  au BufRead,BufNewFile *.zsh-theme setfiletype zsh
+augroup END
+
+" }}}
+
 " }}}
 
 " Plugin configuration {{{
 
-" MatchIt configuration {{{
-let b:match_ignorecase=0
+" Ack {{{
+
+" open Ack
+nnoremap <leader>a :Ack 
+" run Ack against word under cursor
+nnoremap <leader>A :Ack <c-r><c-w><CR>
+
 " }}}
 
 " SuperTab configuration {{{
+
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabCrMapping = 0
-" }}}
 
-" SnipMate configuration {{{
-let g:snips_author = 'Jon Duell'
 " }}}
 
 " PIV configuration {{{
+
 nnoremap <F6> <Esc>:EnablePHPFolds<Cr>
 let PHP_vintage_case_default_indent = 1
 let PIVAutoClose = 0
+
 " }}}
 
 " TagBar configuration {{{
+
 let g:tagbar_foldlevel = 0
 let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
 nnoremap <F4> :TagbarToggle<cr>
+
 " }}}
 
 " AutoTag configuration {{{
-let autotagCtagsCmd = "/usr/local/bin/ctags --langmap=php:.install.inc.module.theme.php --php-kinds=cdfi --languages=php"
-" }}}
 
-" IndentGuides configuration {{{
-let g:indent_guides_enable_on_vim_startup = 0
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
+let autotagCtagsCmd = "/usr/local/bin/ctags --langmap=php:.install.inc.module.theme.php --php-kinds=cdfi --languages=php"
+
 " }}}
 
 " CheckSyntax configuration {{{
+
 nnoremap <F3> :CheckSyntax<CR>
+
 " }}}
 
 " Gundo configuration {{{
+
 nnoremap <F5> :GundoToggle<CR>
+
 " }}}
 
 " AutoComplPop configuration {{{
+
 let g:acp_enableAtStartup = 1
 let g:acp_completeoptPreview = 1
 let g:acp_completeOption = ".,w,b,k,t,i"
 let g:acp_behaviorSnipmateLength = 1
+
 " }}}
 
 " VimPager configuration {{{
+
 let vimpager_use_gvim = 1
+
 " }}}
 
 " Syntastic configuration {{{
+
 let g:syntastic_enable_signs=1
 let g:syntastic_phpcs_conf=' --standard=Drupal --extensions=php,module,inc,install,test,profile,theme'
+
 " }}}
 
 " EasyMotion configuration {{{
-let g:EasyMotion_leader_key = '<Leader>m'
-" }}}
 
-" delimitMate configuration {{{
-let delimitMate_expand_cr = 1
+let g:EasyMotion_leader_key = '<Leader>m'
+
 " }}}
 
 " BufExplorer configuration {{{
+
 let g:bufExplorerShowRelativePath=1
+
 " }}}
 
 " Commentary configuration {{{
+
 autocmd FileType php set commentstring=//\ %s
 autocmd FileType ini set commentstring=;\ %s
+
 " }}}
 
 " CtrlP configuration {{{
+
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_by_filename = 1
@@ -543,40 +600,79 @@ let g:ctrlp_user_command = {
     \ },
   \ 'fallback': 'find %s -type f'
   \ }
-" }}}
 
-" VimDebugger configuration {{{
-map <F11> :DbgStepInto<CR>
-map <F10> :DbgStepOver<CR>
-map <S-F11> :DbgStepOut<CR>
-map <F7> :DbgRun<CR>
-map <S-F7> :DbgDetach<CR>
-map <F8> :DbgToggleBreakpoint<CR>
 " }}}
 
 " Powerline {{{
+
 let g:Powerline_symbols = 'fancy'
+
 " }}}
 
 " UltiSnips {{{
+
 let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsExpandTrigger = '<tab>'
-" }}}
 
-" Sessions {{{
-let g:sessions_project_path = "$HOME/Dropbox/Sites"
 " }}}
 
 " gitv {{{
+
 let g:Gitv_DoNotMapCtrlKey = 1
+
 " }}}
 
 " Sideways {{{
+
 nnoremap <leader>h :SidewaysLeft<cr>
 nnoremap <leader>l :SidewaysRight<cr>
+
 " }}}
 
 " Vitality {{{
+
 let g:vitality_fix_focus = 0
+
 " }}}
+
+" }}}
+
+" Functions {{{
+
+" open URL in the current line {{{
+
+function! HandleURI()
+  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
+  echo s:uri
+  if s:uri != ""
+	  exec "!open \"" . s:uri . "\""
+  else
+	  echo "No URI found in line."
+  endif
+endfunction
+nnoremap <Leader>w :call HandleURI()<CR>
+
+" }}}
+
+" Strip trailing whitespace {{{
+
+function! DeleteTrailingWS()
+  %s/\s\+$//ge
+  exe "normal g;"
+endfunc
+
+" }}}
+
+" Show syntax highlighting groups for word under cursor {{{
+
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+nmap <C-S-P> :call <SID>SynStack()<CR>
+
+" }}}
+
 " }}}
