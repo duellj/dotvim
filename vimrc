@@ -57,6 +57,7 @@ let mapleader = ","
 
 set background=dark
 colorscheme solarized
+let g:solarized_termcolors=256
 
 " }}}
 
@@ -124,8 +125,7 @@ set backupskip=/tmp/*,/private/tmp/*
   " Basically this makes terminal Vim work sanely.
   set notimeout
   set ttimeout
-  set ttimeoutlen=10
-
+  set ttimeoutlen=100
 " }}}
 
 "}}}
@@ -151,6 +151,10 @@ set smartcase
 nnoremap / /\v
 vnoremap / /\v
 
+" Always reuse flags.
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
+
 " map <leader>f to display all lines with keyword under cursor and ask which one to
 " jump to
 nnoremap <leader>f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
@@ -164,9 +168,6 @@ nnoremap <Leader>S :%s/<c-r>=expand("<cword>")<cr>//c<left><left>
 
 " Open a Quickfix window for the last search.
 nnoremap <silent> <leader>? :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
-
-" Change directory to directory of current file
-nnoremap <Leader>cd :cd %:p:h<CR>
 
 " }}}
 
@@ -196,6 +197,9 @@ set scrolloff=3
 set sidescroll=1
 set sidescrolloff=10
 
+" Change directory to directory of current file
+nnoremap <Leader>cd :cd %:p:h<CR>
+
 " }}}
 
 " Split windows {{{
@@ -220,6 +224,7 @@ nnoremap <silent> <leader>ev :tabedit $MYVIMRC<cr>
 nnoremap <silent> <leader>ez :tabedit ~/.zshrc<CR>
 nnoremap <silent> <leader>ed :tabedit ~/.drushrc.php<CR>
 nnoremap <silent> <leader>et :tabedit ~/.tmux.conf<CR>
+nnoremap <silent> <leader>ea :tabedit ~/.dotfiles/oh-my-zsh/custom/aliases.zsh<CR>
 
 " }}}
 
@@ -477,7 +482,7 @@ augroup END
 " {{{ Twig
 
 augroup ft_twig
-  au BufRead,BufNewFile *.twig setfiletype html
+  au BufRead,BufNewFile *.twig setfiletype htmljinja
 augroup END
 
 " }}}
@@ -492,13 +497,19 @@ augroup END
 
 " }}}
 
+" tmux {{{
+augroup ft_tmux
+  au BufRead,BufNewFile .tmux.conf,tmux.conf* setfiletype tmux
+augroup END
+" }}}
 " }}}
 
 " Plugin configuration {{{
-
 " Ack {{{
 
 " open Ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
 nnoremap <leader>a :Ack 
 " run Ack against word under cursor
 nnoremap <leader>A :Ack <c-r><c-w><CR>
@@ -524,7 +535,7 @@ let PIVAutoClose = 0
 
 let g:tagbar_foldlevel = 0
 let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
-nnoremap <F4> :TagbarToggle<cr>
+nnoremap <Right> :TagbarToggle<cr>
 
 " }}}
 
@@ -642,7 +653,7 @@ let g:vitality_fix_focus = 0
 " open URL in the current line {{{
 
 function! HandleURI()
-  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
+  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;]*')
   echo s:uri
   if s:uri != ""
 	  exec "!open \"" . s:uri . "\""
@@ -672,6 +683,20 @@ function! <SID>SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 nmap <C-S-P> :call <SID>SynStack()<CR>
+
+" }}}
+
+" Allow quicklist to be operated on {{{
+
+command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
+endfunction
 
 " }}}
 

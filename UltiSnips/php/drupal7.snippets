@@ -270,6 +270,16 @@ function `!p snip.rv = snip.basename`_help($path, $arg) {
 
 endsnippet
 
+snippet hook_boot "hook_init" b
+/**
+ * Implements hook_boot().
+ */
+function `!p snip.rv = snip.basename`_boot() {
+  ${1:/* your code here */}
+}
+
+endsnippet
+
 snippet hook_init "hook_init" b
 /**
  * Implements hook_init().
