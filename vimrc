@@ -612,6 +612,7 @@ let g:ctrlp_user_command = {
   \ 'fallback': 'find %s -type f'
   \ }
 
+nnoremap <C-i> :CtrlPTag<CR>
 " }}}
 
 " Powerline {{{
