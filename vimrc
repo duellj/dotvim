@@ -535,7 +535,7 @@ let PIVAutoClose = 0
 
 let g:tagbar_foldlevel = 0
 let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
-nnoremap <Right> :TagbarToggle<cr>
+nnoremap <leader>t :TagbarToggle<cr>
 
 " }}}
 
@@ -553,7 +553,7 @@ nnoremap <F3> :CheckSyntax<CR>
 
 " Gundo configuration {{{
 
-nnoremap <F5> :GundoToggle<CR>
+nnoremap <leader>u :GundoToggle<CR>
 
 " }}}
 
@@ -612,7 +612,7 @@ let g:ctrlp_user_command = {
   \ 'fallback': 'find %s -type f'
   \ }
 
-nnoremap <C-i> :CtrlPTag<CR>
+nnoremap <C-T> :CtrlPTag<CR>
 " }}}
 
 " Powerline {{{
