@@ -2,18 +2,17 @@
 " MAIN CUSTOMIZATION FILE
 "
 
+" Bundles!
+source ~/.vim/vundle.vim
+
 " Preliminary definitions {{{
-" Active pathogen bundle manager
-runtime bundle/pathogen/autoload/pathogen.vim
-call pathogen#infect()
-
-" Enable loading filetype and indentation plugins
-filetype plugin indent on
-
 " Don't need VI
-set nocompatible
 
 " Turn syntax highlighting on
+
+" Automatically detect file types. (must turn on after Vundle)
+filetype plugin indent on
+
 syntax on
 autocmd BufEnter * :syntax sync fromstart
 "}}}
@@ -612,7 +611,7 @@ let g:ctrlp_user_command = {
   \ 'fallback': 'find %s -type f'
   \ }
 
-nnoremap <C-T> :CtrlPTag<CR>
+nnoremap <C-i> :CtrlPTag<CR>
 " }}}
 
 " Powerline {{{
