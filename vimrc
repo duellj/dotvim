@@ -6,9 +6,6 @@
 source ~/.vim/vundle.vim
 
 " Preliminary definitions {{{
-" Don't need VI
-
-" Turn syntax highlighting on
 
 " Automatically detect file types. (must turn on after Vundle)
 filetype plugin indent on
@@ -323,6 +320,23 @@ nnoremap <leader>cc :!drush cc all<CR>
 noremap <F1> :set invfullscreen<CR>
 inoremap <F1> <ESC>:set invfullscreen<CR>a
 
+" Plugin Mappings {{{
+
+nnoremap <C-i> :CtrlPTag<CR>
+nnoremap <leader>b :CtrlPBuffer<CR>
+
+nnoremap <leader>a :Ack 
+" run Ack against word under cursor
+nnoremap <leader>A :Ack <c-r><c-w><CR>
+
+nnoremap <leader>h :SidewaysLeft<cr>
+nnoremap <leader>l :SidewaysRight<cr>
+
+nnoremap <leader>u :GundoToggle<CR>
+
+nnoremap <leader>t :TagbarToggle<cr>
+" }}}
+
 "}}}
 
 " Filetype configuration {{{
@@ -358,6 +372,8 @@ augroup ft_php
   au BufRead,BufNewFile *.info setfiletype ini
 
   au FileType php au BufWritePre <buffer> :%s/\s\+$//e
+
+  autocmd FileType php set commentstring=//\ %s
 augroup END
 
 " }}}
@@ -501,149 +517,11 @@ augroup ft_tmux
   au BufRead,BufNewFile .tmux.conf,tmux.conf* setfiletype tmux
 augroup END
 " }}}
-" }}}
 
-" Plugin configuration {{{
-" Ack {{{
-
-" open Ack
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
-nnoremap <leader>a :Ack 
-" run Ack against word under cursor
-nnoremap <leader>A :Ack <c-r><c-w><CR>
-
-" }}}
-
-" SuperTab configuration {{{
-
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-let g:SuperTabCrMapping = 0
-
-" }}}
-
-" PIV configuration {{{
-
-nnoremap <F6> <Esc>:EnablePHPFolds<Cr>
-let PHP_vintage_case_default_indent = 1
-let PIVAutoClose = 0
-
-" }}}
-
-" TagBar configuration {{{
-
-let g:tagbar_foldlevel = 0
-let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
-nnoremap <leader>t :TagbarToggle<cr>
-
-" }}}
-
-" AutoTag configuration {{{
-
-let autotagCtagsCmd = "/usr/local/bin/ctags --langmap=php:.install.inc.module.theme.php --php-kinds=cdfi --languages=php"
-
-" }}}
-
-" CheckSyntax configuration {{{
-
-nnoremap <F3> :CheckSyntax<CR>
-
-" }}}
-
-" Gundo configuration {{{
-
-nnoremap <leader>u :GundoToggle<CR>
-
-" }}}
-
-" AutoComplPop configuration {{{
-
-let g:acp_enableAtStartup = 1
-let g:acp_completeoptPreview = 1
-let g:acp_completeOption = ".,w,b,k,t,i"
-let g:acp_behaviorSnipmateLength = 1
-
-" }}}
-
-" VimPager configuration {{{
-
-let vimpager_use_gvim = 1
-
-" }}}
-
-" Syntastic configuration {{{
-
-let g:syntastic_enable_signs=1
-let g:syntastic_phpcs_conf=' --standard=Drupal --extensions=php,module,inc,install,test,profile,theme'
-
-" }}}
-
-" EasyMotion configuration {{{
-
-let g:EasyMotion_leader_key = '<Leader>m'
-
-" }}}
-
-" BufExplorer configuration {{{
-
-let g:bufExplorerShowRelativePath=1
-
-" }}}
-
-" Commentary configuration {{{
-
-autocmd FileType php set commentstring=//\ %s
-autocmd FileType ini set commentstring=;\ %s
-
-" }}}
-
-" CtrlP configuration {{{
-
-let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_by_filename = 1
-let g:ctrlp_extensions = ['tag']
-let g:ctrlp_user_command = {
-  \ 'types': {
-    \ 1: ['.git', 'cd %s && git ls-files'],
-    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-    \ },
-  \ 'fallback': 'find %s -type f'
-  \ }
-
-nnoremap <C-i> :CtrlPTag<CR>
-" }}}
-
-" Powerline {{{
-
-let g:Powerline_symbols = 'fancy'
-
-" }}}
-
-" UltiSnips {{{
-
-let g:UltiSnipsEditSplit = 'vertical'
-let g:UltiSnipsExpandTrigger = '<tab>'
-
-" }}}
-
-" gitv {{{
-
-let g:Gitv_DoNotMapCtrlKey = 1
-
-" }}}
-
-" Sideways {{{
-
-nnoremap <leader>h :SidewaysLeft<cr>
-nnoremap <leader>l :SidewaysRight<cr>
-
-" }}}
-
-" Vitality {{{
-
-let g:vitality_fix_focus = 0
-
+" Ini {{{
+augroup ft_tmux
+  autocmd FileType ini set commentstring=;\ %s
+augroup END 
 " }}}
 
 " }}}
@@ -697,6 +575,74 @@ function! QuickfixFilenames()
   endfor
   return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
 endfunction
+
+" }}}
+
+" "Focus" the current line. {{{
+"
+" 1. Close all folds.
+" 2. Open just the folds containing the current line.
+" 3. Move the line to a little bit (15 lines) above the center of the screen.
+" 4. Pulse the cursor line. My eyes are bad.
+"
+" This mapping wipes out the z mark, which I never use.
+"
+" I use :sus for the rare times I want to actually background Vim.
+nnoremap <c-z> mzzMzvzz15<c-e>`z:Pulse<cr>
+
+function! MyFoldText() " {{{
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+" expand tabs into spaces
+    let onetab = strpart(' ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+set foldtext=MyFoldText()
+
+" }}}
+
+" Pulse Line {{{
+
+function! s:Pulse() " {{{
+    let current_window = winnr()
+    windo set nocursorline
+    execute current_window . 'wincmd w'
+    setlocal cursorline
+
+    redir => old_hi
+        silent execute 'hi CursorLine'
+    redir END
+    let old_hi = split(old_hi, '\n')[0]
+    let old_hi = substitute(old_hi, 'xxx', '', '')
+
+    let steps = 9
+    let width = 1
+    let start = width
+    let end = steps * width
+    let color = 233
+
+    for i in range(start, end, width)
+        execute "hi CursorLine ctermbg=" . (color + i)
+        redraw
+        sleep 6m
+    endfor
+    for i in range(end, start, -1 * width)
+        execute "hi CursorLine ctermbg=" . (color + i)
+        redraw
+        sleep 6m
+    endfor
+
+    execute 'hi ' . old_hi
+endfunction " }}}
+command! -nargs=0 Pulse call s:Pulse()
 
 " }}}
 
