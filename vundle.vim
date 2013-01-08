@@ -212,6 +212,11 @@ Bundle 'tpope/vim-git.git'
 Bundle 'groenewege/vim-less.git'
 
 " }}}
+" Sass Syntax {{{
+
+Bundle 'tpope/vim-haml.git'
+
+" }}}
 " Vim help files {{{
 
 Bundle 'juanpabloaj/help.vim.git'
@@ -273,6 +278,16 @@ Bundle 'vim-scripts/scratch.vim.git'
 Bundle 'sjl/vitality.vim.git'
 
 let g:vitality_fix_focus = 0
+
+" }}}
+" Sensible Defaults {{{
+
+Bundle 'tpope/vim-sensible.git'
+
+" }}}
+" Slueth (auto determine tabwidth) {{{
+
+Bundle 'tpope/vim-sleuth.git'
 
 " }}}
 

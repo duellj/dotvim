@@ -18,21 +18,12 @@ autocmd BufEnter * :syntax sync fromstart
 
 
 set enc=utf-8                   " Use UTF-8 as the default buffer encoding
-set autoindent                  " Set autoindent for all files
 set history=1000                " Remember up to 100 'colon' commmands and search patterns
 set list                        " Show hidden characters
-set listchars=tab:▸\ ,trail:·   " Highlight extra whitespace
-set ruler                       " Show line, column number, and relative position within a file in the status line
 set hidden                      " Manage multiple buffer history
-set autowrite                   " Write contents of the file, if it has been modified, on buffer exit
-set autoread                    " Auto reload files when changed on disk
-set showmatch                   " When a bracket is inserted, briefly jump to a matching one
 set matchtime=3                 " Jump to matching bracket for 3/10th of a second (works with showmatch)
 set number                      " show line numbers
-set backspace=indent,eol,start  " Allow backspacing over everything
 set shell=/bin/bash
-set showcmd                     " Show (partial) commands (or size of selection in Visual mode) in the status line
-set laststatus=2                " Always show status line, even for one window
 set tags=./tags;                " Find tags file in parent directories
 set cursorline                  " Highlight cursor line
 
@@ -71,8 +62,6 @@ set formatoptions=crqn1
 
 " Wildmenu {{{
 
-set wildmenu
-
 " Set command-line completion mode:
 "   - on first <Tab>, when more than one match, list all matches and complete
 "     the longest common  string
@@ -87,10 +76,6 @@ set wildignore+=.DS_Store                " OSX
 
 " Backups {{{
 
-set directory=~/.vimbackup/ " Save backups outside of current directory
-set undodir=~/.vimundo/
-set undofile
-
 " Remember things between sessions
 "
 " '20  - remember marks for 20 previous files
@@ -98,10 +83,7 @@ set undofile
 " :20  - remember 20 items in command-line history 
 " %    - remember the buffer list (if vim started without a file arg)
 " n    - set name of viminfo file
-set viminfo='20,\"50,:20,%,n~/.viminfo
-
-" Add session support
-set sessionoptions=blank,buffers,curdir,folds,globals,help,resize,tabpages,winsize,winpos
+set viminfo='20,\"50,:20,%,n~/.cache/vim/viminfo
 
 " Go back to the position the cursor was on the last time this file was edited
 augroup line_return
@@ -115,15 +97,6 @@ set backupskip=/tmp/*,/private/tmp/*
 
 " }}}
 
-" Terminal {{{
-
-  " Time out on key codes but not mappings.
-  " Basically this makes terminal Vim work sanely.
-  set notimeout
-  set ttimeout
-  set ttimeoutlen=100
-" }}}
-
 "}}}
 
 " Search/replace {{{
@@ -133,9 +106,6 @@ set hlsearch
 
 " Disable search highlighting
 nnoremap <esc> :nohlsearch<CR>
-
-" Enable incremental search
-set incsearch
 
 " Enable case insensitive search
 set ignorecase
@@ -186,12 +156,8 @@ nnoremap <Space> <PageDown>
 " page up with -
 noremap - <PageUp>
 
-" Scroll when cursor gets within 3 characters of top/bottom edge
-set scrolloff=3
-
 " Make horizontal scrolling less horrible.
 set sidescroll=1
-set sidescrolloff=10
 
 " Change directory to directory of current file
 nnoremap <Leader>cd :cd %:p:h<CR>
@@ -374,6 +340,9 @@ augroup ft_php
   au FileType php au BufWritePre <buffer> :%s/\s\+$//e
 
   autocmd FileType php set commentstring=//\ %s
+
+  autocmd FileType php set nosmartindent
+  autocmd FileType php set autoindent
 augroup END
 
 " }}}
@@ -392,13 +361,13 @@ augroup ft_less
 
   " Auto compress less files
   "autocmd FileWritePost,BufWritePost *.less :call LessCSSCompress()
-  "function! LessCSSCompress()
-    "let cwd = expand('<afile>:p:h')
-    "let name = expand('<afile>:t:r')
-    "if (executable('lessc'))
-      "cal system('lessc '.cwd.'/'.name.'.less > '.cwd.'/'.name.'.css &')
-    "endif
-  "endfunction
+  function! LessCSSCompress()
+    let cwd = expand('<afile>:p:h')
+    let name = expand('<afile>:t:r')
+    if (executable('lessc'))
+      cal system('lessc '.cwd.'/'.name.'.less > '.cwd.'/'.name.'.css &')
+    endif
+  endfunction
 augroup END
 
 " }}}
@@ -539,7 +508,7 @@ function! HandleURI()
 	  echo "No URI found in line."
   endif
 endfunction
-nnoremap <Leader>w :call HandleURI()<CR>
+nnoremap <Leader>w :silent call HandleURI()<CR>
 
 " }}}
 
