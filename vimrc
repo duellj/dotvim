@@ -448,7 +448,7 @@ augroup END
 augroup ft_gitcommit
   au!
 
-  au FileType gitcommit setlocal textwidth=80 wrap
+  au FileType gitcommit setlocal textwidth=80 wrap spell
 augroup END
 
 " }}}
