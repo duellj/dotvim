@@ -41,6 +41,7 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_by_filename = 1
 let g:ctrlp_extensions = ['tag']
+let g:ctrlp_custom_ignore = '\vsites/default/files$'
 " let g:ctrlp_user_command = {
 "   \ 'types': {
 "     \ 1: ['.git', 'cd %s && cd `git rev-parse --show-toplevel` && (git submodule --quiet foreach git ls-files -oc --exclude-standard; git ls-files -oc --exclude-standard;)'],
@@ -146,6 +147,11 @@ Bundle 'tpope/vim-ragtag.git'
 Bundle 'vim-scripts/Toggle.git'
 
 " }}}
+" Pasta! {{{
+
+Bundle 'sickill/vim-pasta'
+
+" }}}
 
 " }}}
 
@@ -228,6 +234,12 @@ Bundle 'duellj/PIV.git'
 
 let PHP_vintage_case_default_indent = 1
 let PIVAutoClose = 0
+
+" }}}
+" Php Documentor {{
+
+Bundle 'tobyS/pdv.git'
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
 
 " }}}
 " Drush{{{

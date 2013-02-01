@@ -301,6 +301,8 @@ nnoremap <leader>l :SidewaysRight<cr>
 nnoremap <leader>u :GundoToggle<CR>
 
 nnoremap <leader>t :TagbarToggle<cr>
+
+nnoremap <leader>d :call pdv#DocumentWithSnip()<CR>
 " }}}
 
 "}}}
