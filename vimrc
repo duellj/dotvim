@@ -34,6 +34,9 @@ set completeopt=menu,longest,preview
 set exrc
 set secure
 
+" Always spellcheck
+set spell
+
 " Leaders {{{
 
 let mapleader = ","
@@ -121,9 +124,9 @@ vnoremap / /\v
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
-" map <leader>f to display all lines with keyword under cursor and ask which one to
+" map <leader>w to display all lines with keyword under cursor and ask which one to
 " jump to
-nnoremap <leader>f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+nnoremap <leader>w [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
 " Keep search matches in the middle of the window.
 " nnoremap n nzzzv
@@ -197,9 +200,6 @@ noremap <leader>s :w<CR>
 
 " exit vim 
 noremap <leader>q :q<CR>
-
-" exit vim saving changes
-noremap <leader>w :x<CR>
 
 " write file as sudo
 cnoremap w!! w !sudo tee % >/dev/null
@@ -339,7 +339,7 @@ augroup ft_php
   au BufRead,BufNewFile *.make setfiletype dosini
   au BufRead,BufNewFile *.info setfiletype ini
 
-  au FileType php au BufWritePre <buffer> :%s/\s\+$//e
+  " au FileType php au BufWritePre <buffer> :%s/\s\+$//e
 
   autocmd FileType php set commentstring=//\ %s
 
@@ -390,10 +390,8 @@ augroup END
 augroup ft_markdown
   au!
 
-  au BufNewFile,BufRead *.md setlocal filetype=markdown
-  au BufNewFile,BufRead *.m*down setlocal filetype=markdown
-
   au Filetype markdown setlocal spell spelllang=en
+  au Filetype markdown setlocal conceallevel=2
 
   " QuickLook preview
   nnoremap <leader>p :!qlmanage -p % >& /dev/null<CR>
@@ -402,8 +400,6 @@ augroup ft_markdown
   au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=
   au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-
   au Filetype markdown nnoremap <buffer> <localleader>3 I### <ESC>
-
-  au FileType markdown au BufWrite <buffer> :call DeleteTrailingWS()
 augroup END
 
 " }}}

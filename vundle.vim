@@ -68,7 +68,7 @@ Bundle 'kshenoy/vim-signature.git'
 
 Bundle 'Lokaltog/vim-easymotion.git'
 
-let g:EasyMotion_leader_key = '<Leader>m'
+let g:EasyMotion_leader_key = '<Leader>f'
 
 " }}}
 " MatchIt {{{
@@ -236,7 +236,7 @@ let PHP_vintage_case_default_indent = 1
 let PIVAutoClose = 0
 
 " }}}
-" Php Documentor {{
+" Php Documentor {{{
 
 Bundle 'tobyS/pdv.git'
 let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
@@ -259,9 +259,13 @@ Bundle 'itspriddle/vim-jquery.git'
 " }}}
 " Markdown {{{
 
+Bundle 'tpope/vim-markdown.git'
 Bundle 'nelstrom/vim-markdown-folding.git'
 
 " }}}
+" Twig {{{
+
+Bundle 'evidens/vim-twig.git'
 
 " }}}
 
@@ -300,6 +304,11 @@ Bundle 'tpope/vim-sensible.git'
 " Slueth (auto determine tabwidth) {{{
 
 Bundle 'tpope/vim-sleuth.git'
+
+" }}}
+" Scriptease {{{
+
+Bundle 'tpope/vim-scriptease.git'
 
 " }}}
 
