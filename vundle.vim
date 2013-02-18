@@ -276,7 +276,11 @@ Bundle 'evidens/vim-twig.git'
 Bundle 'duellj/syntastic.git'
 
 let g:syntastic_enable_signs=1
-let g:syntastic_phpcs_conf=' --standard=Drupal --extensions=php,module,inc,install,test,profile,theme'
+let g:syntastic_php_phpcs_args=' --report=csv --standard=Drupal --extensions=php,module,inc,install,test,profile,theme'
+let g:syntastic_error_symbol='✗'
+let g:syntastic_style_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_style_warning_symbol='⚠'
 
 " }}}
 " Notes {{{

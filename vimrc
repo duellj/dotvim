@@ -362,14 +362,7 @@ augroup ft_less
   au Filetype less,css setlocal iskeyword+=-
 
   " Auto compress less files
-  "autocmd FileWritePost,BufWritePost *.less :call LessCSSCompress()
-  function! LessCSSCompress()
-    let cwd = expand('<afile>:p:h')
-    let name = expand('<afile>:t:r')
-    if (executable('lessc'))
-      cal system('lessc '.cwd.'/'.name.'.less > '.cwd.'/'.name.'.css &')
-    endif
-  endfunction
+  au Filetype less nnoremap <buffer> <localleader>c :w <BAR> !lessc % > %:p:h/%:t:r.css<cr><space>
 augroup END
 
 " }}}
@@ -394,7 +387,7 @@ augroup ft_markdown
   au Filetype markdown setlocal conceallevel=2
 
   " QuickLook preview
-  nnoremap <leader>p :!qlmanage -p % >& /dev/null<CR>
+  au Filetype markdown nnoremap <leader>p :!qlmanage -p % >& /dev/null<CR>
 
   " Use <localleader>1/2/3 to add headings.
   au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=
