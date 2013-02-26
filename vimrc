@@ -2,18 +2,14 @@
 " MAIN CUSTOMIZATION FILE
 "
 
-" Preliminary definitions {{{
-" Active pathogen bundle manager
-runtime bundle/pathogen/autoload/pathogen.vim
-call pathogen#infect()
+" Bundles!
+source ~/.vim/vundle.vim
 
-" Enable loading filetype and indentation plugins
+" Preliminary definitions {{{
+
+" Automatically detect file types. (must turn on after Vundle)
 filetype plugin indent on
 
-" Don't need VI
-set nocompatible
-
-" Turn syntax highlighting on
 syntax on
 autocmd BufEnter * :syntax sync fromstart
 "}}}
@@ -22,21 +18,12 @@ autocmd BufEnter * :syntax sync fromstart
 
 
 set enc=utf-8                   " Use UTF-8 as the default buffer encoding
-set autoindent                  " Set autoindent for all files
 set history=1000                " Remember up to 100 'colon' commmands and search patterns
 set list                        " Show hidden characters
-set listchars=tab:▸\ ,trail:·   " Highlight extra whitespace
-set ruler                       " Show line, column number, and relative position within a file in the status line
 set hidden                      " Manage multiple buffer history
-set autowrite                   " Write contents of the file, if it has been modified, on buffer exit
-set autoread                    " Auto reload files when changed on disk
-set showmatch                   " When a bracket is inserted, briefly jump to a matching one
 set matchtime=3                 " Jump to matching bracket for 3/10th of a second (works with showmatch)
 set number                      " show line numbers
-set backspace=indent,eol,start  " Allow backspacing over everything
 set shell=/bin/bash
-set showcmd                     " Show (partial) commands (or size of selection in Visual mode) in the status line
-set laststatus=2                " Always show status line, even for one window
 set tags=./tags;                " Find tags file in parent directories
 set cursorline                  " Highlight cursor line
 
@@ -46,6 +33,9 @@ set completeopt=menu,longest,preview
 " Allow local .vimrc files per directory
 set exrc
 set secure
+
+" Always spellcheck
+set spell
 
 " Leaders {{{
 
@@ -75,8 +65,6 @@ set formatoptions=crqn1
 
 " Wildmenu {{{
 
-set wildmenu
-
 " Set command-line completion mode:
 "   - on first <Tab>, when more than one match, list all matches and complete
 "     the longest common  string
@@ -91,10 +79,6 @@ set wildignore+=.DS_Store                " OSX
 
 " Backups {{{
 
-set directory=~/.vimbackup/ " Save backups outside of current directory
-set undodir=~/.vimundo/
-set undofile
-
 " Remember things between sessions
 "
 " '20  - remember marks for 20 previous files
@@ -102,10 +86,7 @@ set undofile
 " :20  - remember 20 items in command-line history 
 " %    - remember the buffer list (if vim started without a file arg)
 " n    - set name of viminfo file
-set viminfo='20,\"50,:20,%,n~/.viminfo
-
-" Add session support
-set sessionoptions=blank,buffers,curdir,folds,globals,help,resize,tabpages,winsize,winpos
+set viminfo='20,\"50,:20,%,n~/.cache/vim/viminfo
 
 " Go back to the position the cursor was on the last time this file was edited
 augroup line_return
@@ -119,15 +100,6 @@ set backupskip=/tmp/*,/private/tmp/*
 
 " }}}
 
-" Terminal {{{
-
-  " Time out on key codes but not mappings.
-  " Basically this makes terminal Vim work sanely.
-  set notimeout
-  set ttimeout
-  set ttimeoutlen=100
-" }}}
-
 "}}}
 
 " Search/replace {{{
@@ -137,9 +109,6 @@ set hlsearch
 
 " Disable search highlighting
 nnoremap <esc> :nohlsearch<CR>
-
-" Enable incremental search
-set incsearch
 
 " Enable case insensitive search
 set ignorecase
@@ -155,9 +124,9 @@ vnoremap / /\v
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
-" map <leader>f to display all lines with keyword under cursor and ask which one to
+" map <leader>w to display all lines with keyword under cursor and ask which one to
 " jump to
-nnoremap <leader>f [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+nnoremap <leader>w [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
 " Keep search matches in the middle of the window.
 " nnoremap n nzzzv
@@ -190,12 +159,8 @@ nnoremap <Space> <PageDown>
 " page up with -
 noremap - <PageUp>
 
-" Scroll when cursor gets within 3 characters of top/bottom edge
-set scrolloff=3
-
 " Make horizontal scrolling less horrible.
 set sidescroll=1
-set sidescrolloff=10
 
 " Change directory to directory of current file
 nnoremap <Leader>cd :cd %:p:h<CR>
@@ -235,9 +200,6 @@ noremap <leader>s :w<CR>
 
 " exit vim 
 noremap <leader>q :q<CR>
-
-" exit vim saving changes
-noremap <leader>w :x<CR>
 
 " write file as sudo
 cnoremap w!! w !sudo tee % >/dev/null
@@ -324,6 +286,25 @@ nnoremap <leader>cc :!drush cc all<CR>
 noremap <F1> :set invfullscreen<CR>
 inoremap <F1> <ESC>:set invfullscreen<CR>a
 
+" Plugin Mappings {{{
+
+nnoremap <C-i> :CtrlPTag<CR>
+nnoremap <leader>b :CtrlPBuffer<CR>
+
+nnoremap <leader>a :Ack 
+" run Ack against word under cursor
+nnoremap <leader>A :Ack <c-r><c-w><CR>
+
+nnoremap <leader>h :SidewaysLeft<cr>
+nnoremap <leader>l :SidewaysRight<cr>
+
+nnoremap <leader>u :GundoToggle<CR>
+
+nnoremap <leader>t :TagbarToggle<cr>
+
+nnoremap <leader>d :call pdv#DocumentWithSnip()<CR>
+" }}}
+
 "}}}
 
 " Filetype configuration {{{
@@ -358,7 +339,12 @@ augroup ft_php
   au BufRead,BufNewFile *.make setfiletype dosini
   au BufRead,BufNewFile *.info setfiletype ini
 
-  au FileType php au BufWritePre <buffer> :%s/\s\+$//e
+  " au FileType php au BufWritePre <buffer> :%s/\s\+$//e
+
+  autocmd FileType php set commentstring=//\ %s
+
+  autocmd FileType php set nosmartindent
+  autocmd FileType php set autoindent
 augroup END
 
 " }}}
@@ -376,14 +362,7 @@ augroup ft_less
   au Filetype less,css setlocal iskeyword+=-
 
   " Auto compress less files
-  "autocmd FileWritePost,BufWritePost *.less :call LessCSSCompress()
-  "function! LessCSSCompress()
-    "let cwd = expand('<afile>:p:h')
-    "let name = expand('<afile>:t:r')
-    "if (executable('lessc'))
-      "cal system('lessc '.cwd.'/'.name.'.less > '.cwd.'/'.name.'.css &')
-    "endif
-  "endfunction
+  au Filetype less nnoremap <buffer> <localleader>c :w <BAR> !lessc % > %:p:h/%:t:r.css<cr><space>
 augroup END
 
 " }}}
@@ -404,20 +383,16 @@ augroup END
 augroup ft_markdown
   au!
 
-  au BufNewFile,BufRead *.md setlocal filetype=markdown
-  au BufNewFile,BufRead *.m*down setlocal filetype=markdown
-
   au Filetype markdown setlocal spell spelllang=en
+  au Filetype markdown setlocal conceallevel=2
 
   " QuickLook preview
-  nnoremap <leader>p :!qlmanage -p % >& /dev/null<CR>
+  au Filetype markdown nnoremap <leader>p :!qlmanage -p % >& /dev/null<CR>
 
   " Use <localleader>1/2/3 to add headings.
   au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=
   au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-
   au Filetype markdown nnoremap <buffer> <localleader>3 I### <ESC>
-
-  au FileType markdown au BufWrite <buffer> :call DeleteTrailingWS()
 augroup END
 
 " }}}
@@ -464,7 +439,7 @@ augroup END
 augroup ft_gitcommit
   au!
 
-  au FileType gitcommit setlocal textwidth=80 wrap
+  au FileType gitcommit setlocal textwidth=80 wrap spell
 augroup END
 
 " }}}
@@ -502,149 +477,11 @@ augroup ft_tmux
   au BufRead,BufNewFile .tmux.conf,tmux.conf* setfiletype tmux
 augroup END
 " }}}
-" }}}
 
-" Plugin configuration {{{
-" Ack {{{
-
-" open Ack
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
-nnoremap <leader>a :Ack 
-" run Ack against word under cursor
-nnoremap <leader>A :Ack <c-r><c-w><CR>
-
-" }}}
-
-" SuperTab configuration {{{
-
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-let g:SuperTabCrMapping = 0
-
-" }}}
-
-" PIV configuration {{{
-
-nnoremap <F6> <Esc>:EnablePHPFolds<Cr>
-let PHP_vintage_case_default_indent = 1
-let PIVAutoClose = 0
-
-" }}}
-
-" TagBar configuration {{{
-
-let g:tagbar_foldlevel = 0
-let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
-nnoremap <leader>t :TagbarToggle<cr>
-
-" }}}
-
-" AutoTag configuration {{{
-
-let autotagCtagsCmd = "/usr/local/bin/ctags --langmap=php:.install.inc.module.theme.php --php-kinds=cdfi --languages=php"
-
-" }}}
-
-" CheckSyntax configuration {{{
-
-nnoremap <F3> :CheckSyntax<CR>
-
-" }}}
-
-" Gundo configuration {{{
-
-nnoremap <leader>u :GundoToggle<CR>
-
-" }}}
-
-" AutoComplPop configuration {{{
-
-let g:acp_enableAtStartup = 1
-let g:acp_completeoptPreview = 1
-let g:acp_completeOption = ".,w,b,k,t,i"
-let g:acp_behaviorSnipmateLength = 1
-
-" }}}
-
-" VimPager configuration {{{
-
-let vimpager_use_gvim = 1
-
-" }}}
-
-" Syntastic configuration {{{
-
-let g:syntastic_enable_signs=1
-let g:syntastic_phpcs_conf=' --standard=Drupal --extensions=php,module,inc,install,test,profile,theme'
-
-" }}}
-
-" EasyMotion configuration {{{
-
-let g:EasyMotion_leader_key = '<Leader>m'
-
-" }}}
-
-" BufExplorer configuration {{{
-
-let g:bufExplorerShowRelativePath=1
-
-" }}}
-
-" Commentary configuration {{{
-
-autocmd FileType php set commentstring=//\ %s
-autocmd FileType ini set commentstring=;\ %s
-
-" }}}
-
-" CtrlP configuration {{{
-
-let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_by_filename = 1
-let g:ctrlp_extensions = ['tag']
-let g:ctrlp_user_command = {
-  \ 'types': {
-    \ 1: ['.git', 'cd %s && git ls-files'],
-    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-    \ },
-  \ 'fallback': 'find %s -type f'
-  \ }
-
-nnoremap <C-T> :CtrlPTag<CR>
-" }}}
-
-" Powerline {{{
-
-let g:Powerline_symbols = 'fancy'
-
-" }}}
-
-" UltiSnips {{{
-
-let g:UltiSnipsEditSplit = 'vertical'
-let g:UltiSnipsExpandTrigger = '<tab>'
-
-" }}}
-
-" gitv {{{
-
-let g:Gitv_DoNotMapCtrlKey = 1
-
-" }}}
-
-" Sideways {{{
-
-nnoremap <leader>h :SidewaysLeft<cr>
-nnoremap <leader>l :SidewaysRight<cr>
-
-" }}}
-
-" Vitality {{{
-
-let g:vitality_fix_focus = 0
-
+" Ini {{{
+augroup ft_tmux
+  autocmd FileType ini set commentstring=;\ %s
+augroup END 
 " }}}
 
 " }}}
@@ -662,7 +499,7 @@ function! HandleURI()
 	  echo "No URI found in line."
   endif
 endfunction
-nnoremap <Leader>w :call HandleURI()<CR>
+nnoremap <Leader>w :silent call HandleURI()<CR>
 
 " }}}
 
@@ -698,6 +535,74 @@ function! QuickfixFilenames()
   endfor
   return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
 endfunction
+
+" }}}
+
+" "Focus" the current line. {{{
+"
+" 1. Close all folds.
+" 2. Open just the folds containing the current line.
+" 3. Move the line to a little bit (15 lines) above the center of the screen.
+" 4. Pulse the cursor line. My eyes are bad.
+"
+" This mapping wipes out the z mark, which I never use.
+"
+" I use :sus for the rare times I want to actually background Vim.
+nnoremap <c-z> mzzMzvzz15<c-e>`z:Pulse<cr>
+
+function! MyFoldText() " {{{
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+" expand tabs into spaces
+    let onetab = strpart(' ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+set foldtext=MyFoldText()
+
+" }}}
+
+" Pulse Line {{{
+
+function! s:Pulse() " {{{
+    let current_window = winnr()
+    windo set nocursorline
+    execute current_window . 'wincmd w'
+    setlocal cursorline
+
+    redir => old_hi
+        silent execute 'hi CursorLine'
+    redir END
+    let old_hi = split(old_hi, '\n')[0]
+    let old_hi = substitute(old_hi, 'xxx', '', '')
+
+    let steps = 9
+    let width = 1
+    let start = width
+    let end = steps * width
+    let color = 233
+
+    for i in range(start, end, width)
+        execute "hi CursorLine ctermbg=" . (color + i)
+        redraw
+        sleep 6m
+    endfor
+    for i in range(end, start, -1 * width)
+        execute "hi CursorLine ctermbg=" . (color + i)
+        redraw
+        sleep 6m
+    endfor
+
+    execute 'hi ' . old_hi
+endfunction " }}}
+command! -nargs=0 Pulse call s:Pulse()
 
 " }}}
 

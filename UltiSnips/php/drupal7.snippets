@@ -248,10 +248,7 @@ snippet hook_form_id_alter "hook_form_id_alter" b
  * Implements hook_form_FORM_ID_alter().
  */
 function `!p snip.rv = snip.basename`_form_${1:ID}_alter(&$form, $form_state) {
-  switch ($form_id) {
-    case '${2:/* your form */}':
-      ${3:// your code.}
-  }
+  ${2:// your code.}
 }
 
 endsnippet
