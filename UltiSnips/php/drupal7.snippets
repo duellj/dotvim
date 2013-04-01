@@ -1,16 +1,16 @@
 # Form Elements {{{
 
 snippet checkbox "checkbox" b
-$form['${1:/* form element */'] = array(
-  '#type' => 'checkbox', 
+$form['${1:/* form element */}'] = array(
+  '#type' => 'checkbox',
   '#title' => t('${2:/* title */}'),
   '#description' => t('${3:/* description */}'),
 );
 endsnippet
 
 snippet checkboxes "checkboxes" b
-$form['${1:/* form element */'] = array(
-  '#type' => 'checkboxes', 
+$form['${1:/* form element */}'] = array(
+  '#type' => 'checkboxes',
   '#title' => t('${2:/* title */}'),
   '#description' => t('${3:/* description */}'),
   '#options' => array(
@@ -21,15 +21,15 @@ endsnippet
 
 snippet form_file "file" b
 $form['${1:/* form element */}'] = array(
-  '#type' => 'file', 
-  '#title' => t('${2:/* title */}'), 
+  '#type' => 'file',
+  '#title' => t('${2:/* title */}'),
   '#description' => t('${3:/* description */}'),
 );
 endsnippet
 
 snippet fieldset "fieldset" b
 $form['${1:/* form element */}'] = array(
-  '#type' => 'fieldset', 
+  '#type' => 'fieldset',
   '#title' => t('${2:/* title */}'),
   '#description' => t('${3:/* description */}'),
   '#collapsible' => ${4:TRUE},
@@ -73,16 +73,16 @@ endsnippet
 
 snippet textarea "textarea" b
 $form['${1:/* form element */}'] = array(
-  '#type' => 'textarea', 
-  '#title' => t('${2:/* title */}'), 
+  '#type' => 'textarea',
+  '#title' => t('${2:/* title */}'),
   '#rows' => ${3:/* default:5 */},
 );
 endsnippet
 
 snippet textfield "textfield" b
 $form['${1:/* form element */}'] = array(
-  '#type' => 'textfield', 
-  '#title' => t('${2:/* title */}'), 
+  '#type' => 'textfield',
+  '#title' => t('${2:/* title */}'),
   '#size' => ${3:/* default:60 */},
 );
 endsnippet

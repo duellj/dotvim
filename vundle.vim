@@ -37,6 +37,7 @@ Bundle 'altercation/vim-colors-solarized.git'
 
 Bundle 'kien/ctrlp.vim.git'
 
+let g:ctrlp_switch_buffer = 'et'
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_by_filename = 1
@@ -147,9 +148,21 @@ Bundle 'tpope/vim-ragtag.git'
 Bundle 'vim-scripts/Toggle.git'
 
 " }}}
-" Pasta! {{{
+" Vdebug {{{
 
-Bundle 'sickill/vim-pasta'
+Bundle 'joonty/vdebug.git'
+let g:vdebug_keymap = {
+\    "run" : "<leader>dr",
+\    "run_to_cursor" : "<leader>dt",
+\    "step_over" : "<leader>do",
+\    "step_into" : "<leader>di",
+\    "step_out" : "<leader>du",
+\    "close" : "<leader>dx",
+\    "detach" : "<leader>dd",
+\    "set_breakpoint" : "<leader>db",
+\    "get_context" : "<leader>dc",
+\    "eval_under_cursor" : "<leader>de",
+\}
 
 " }}}
 
@@ -206,6 +219,11 @@ Bundle 'sjl/splice.vim.git'
 " Git syntax {{{
 
 Bundle 'tpope/vim-git.git'
+
+" }}}
+" Git Gutter {{{
+
+Bundle 'airblade/vim-gitgutter'
 
 " }}}
 

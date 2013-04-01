@@ -288,8 +288,8 @@ inoremap <F1> <ESC>:set invfullscreen<CR>a
 
 " Plugin Mappings {{{
 
-nnoremap <C-i> :CtrlPTag<CR>
 nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>z :CtrlPTag<CR>
 
 nnoremap <leader>a :Ack 
 " run Ack against word under cursor
@@ -302,7 +302,6 @@ nnoremap <leader>u :GundoToggle<CR>
 
 nnoremap <leader>t :TagbarToggle<cr>
 
-nnoremap <leader>d :call pdv#DocumentWithSnip()<CR>
 " }}}
 
 "}}}
@@ -317,9 +316,9 @@ augroup ft_vim
   au FileType vim setlocal foldmethod=marker
 
   " Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes.
-  if has("autocmd")
-    autocmd bufwritepost .vimrc source ~/.vimrc
-  endif
+  " if has("autocmd")
+  "   autocmd bufwritepost .vimrc source ~/.vimrc
+  " endif
 augroup END
 
 "}}}
@@ -385,6 +384,7 @@ augroup ft_markdown
 
   au Filetype markdown setlocal spell spelllang=en
   au Filetype markdown setlocal conceallevel=2
+  au Filetype markdown setlocal formatoptions+=a
 
   " QuickLook preview
   au Filetype markdown nnoremap <leader>p :!qlmanage -p % >& /dev/null<CR>
