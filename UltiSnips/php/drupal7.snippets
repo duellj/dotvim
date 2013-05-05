@@ -430,6 +430,16 @@ function `!p snip.rv = snip.basename`_node_type($op, $info) {
 
 endsnippet
 
+snippet hook_node_load "hook_node_load" b
+/**
+ * Implements hook_node_load().
+ */
+function `!p snip.rv = snip.basename`_node_load($nodes, $types) {
+  ${1}
+}
+
+endsnippet
+
 snippet hook_node_view "hook_node_view" b
 /**
  * Implements hook_node_view().
@@ -446,16 +456,6 @@ snippet hook_node_update "hook_node_update" b
  */
 function `!p snip.rv = snip.basename`_node_update($node) {
   ${1:// Your code here.}
-}
-
-endsnippet
-
-snippet hook_node_view "hook_node_view" b
-/**
- * Implements hook_node_view().
- */
-function `!p snip.rv = snip.basename`_node_view($node, $view_mode, $langcode) {
-  ${1}
 }
 
 endsnippet

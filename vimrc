@@ -49,6 +49,10 @@ set background=dark
 colorscheme solarized
 let g:solarized_termcolors=256
 
+" Ensure git gutter has same background as line numbers for solarized.
+" see https://github.com/altercation/vim-colors-solarized/pull/62
+highlight clear SignColumn
+
 " }}}
 
 " Tabs, spaces {{{
@@ -59,7 +63,7 @@ set tabstop=2               " Use 2 spaces for <Tab> and :retab
 set expandtab               " expand tabs to spaces
 set wrap                    " Wrap long lines
 set textwidth=80            " Wrap at 80 characters
-set formatoptions=crqn1
+set formatoptions=crqn1j
 
 " }}}
 
@@ -384,7 +388,6 @@ augroup ft_markdown
 
   au Filetype markdown setlocal spell spelllang=en
   au Filetype markdown setlocal conceallevel=2
-  au Filetype markdown setlocal formatoptions+=a
 
   " QuickLook preview
   au Filetype markdown nnoremap <leader>p :!qlmanage -p % >& /dev/null<CR>
@@ -454,6 +457,13 @@ augroup END
 
 " }}}
 
+" MySQL {{{
+
+augroup ft_mysql
+  nnoremap <buffer> <LocalLeader>w :0,$Twrite<cr>
+augroup END
+" }}}
+"
 " {{{ Twig
 
 augroup ft_twig
@@ -488,27 +498,13 @@ augroup END
 
 " Functions {{{
 
-" open URL in the current line {{{
-
-function! HandleURI()
-  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;]*')
-  echo s:uri
-  if s:uri != ""
-	  exec "!open \"" . s:uri . "\""
-  else
-	  echo "No URI found in line."
-  endif
-endfunction
-nnoremap <Leader>w :silent call HandleURI()<CR>
-
-" }}}
-
 " Strip trailing whitespace {{{
 
 function! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal g;"
 endfunc
+nnoremap <Leader>w :silent call DeleteTrailingWS()<CR>
 
 " }}}
 

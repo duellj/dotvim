@@ -1,0 +1,15 @@
+snippet wrapper "jQuery function wrapper" !b
+(function ($) {
+
+${1}
+
+})(jQuery);
+endsnippet
+
+snippet behavior "Drupal behavior" !b
+  Drupal.behaviors.${1:module} = {
+    attach: function(context, settings) {
+      ${2}
+    }
+  };
+endsnippet
