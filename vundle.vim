@@ -28,6 +28,11 @@ let g:Powerline_symbols = 'fancy'
 Bundle 'altercation/vim-colors-solarized.git'
 
 " }}}
+" Luna {{{
+
+Bundle 'Pychimp/vim-luna.git'
+
+" }}}
 
 " }}}
 
@@ -43,6 +48,9 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_by_filename = 1
 let g:ctrlp_extensions = ['tag']
 let g:ctrlp_custom_ignore = '\vsites/default/files$'
+let g:ctrlp_prompt_mappings = {
+    \ 'ToggleType(1)':        ['<c-s>'],
+    \}
 " let g:ctrlp_user_command = {
 "   \ 'types': {
 "     \ 1: ['.git', 'cd %s && cd `git rev-parse --show-toplevel` && (git submodule --quiet foreach git ls-files -oc --exclude-standard; git ls-files -oc --exclude-standard;)'],
@@ -89,7 +97,7 @@ Bundle 'tpope/vim-unimpaired.git'
 
 " Ultisnips {{{
 
-Bundle 'duellj/ultisnips.git'
+Bundle 'SirVer/ultisnips.git'
 
 let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsExpandTrigger = '<tab>'
@@ -101,6 +109,11 @@ Bundle 'ervandew/supertab.git'
 
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabCrMapping = 0
+
+" }}}
+" You Complete Me {{{
+
+" Bundle 'Valloric/YouCompleteMe'
 
 " }}}
 
@@ -207,7 +220,7 @@ let g:tagbar_type_javascript = {
 
 Bundle 'vim-scripts/AutoTag.git'
 
-let autotagCtagsCmd = "/usr/local/bin/ctags --langmap=php:.install.inc.module.theme.php --php-kinds=cdfi --languages=php"
+let autotagCtagsCmd = '/usr/local/bin/ctags  --langmap=php:.engine.inc.module.theme.php.install.test.profile --php-kinds=cdfi --languages=php --recurse --exclude="\.git" --exclude="\.svn" --exclude="\.hg" --exclude="\.bzr" --exclude="CVS" --tag-relative=yes --regex-PHP="/abstract\s+class\s+([^ ]+)/\1/c/" --regex-PHP="/interface\s+([^ ]+)/\1/c/" --regex-PHP="/(public\s+|static\s+|abstract\s+|protected\s+|private\s+)function\s+\&?\s*([^ (]+)/\2/f/"'
 
 " }}}
 
@@ -237,11 +250,12 @@ Bundle 'sjl/splice.vim.git'
 Bundle 'tpope/vim-git.git'
 
 " }}}
-" Git Gutter {{{
+" Git Signify {{{
 
-Bundle 'airblade/vim-gitgutter'
+Bundle 'mhinz/vim-signify.git'
 
-let g:gitgutter_eager = 0
+let g:signify_vcs_list = [ 'git', 'hg' ]
+let g:signify_sign_overwrite = 0
 
 " }}}
 
@@ -314,17 +328,13 @@ Bundle 'evidens/vim-twig.git'
 
 Bundle 'duellj/syntastic.git'
 
+let g:syntastic_check_on_wq=0
 let g:syntastic_enable_signs=1
 let g:syntastic_php_phpcs_args=' --report=csv --standard=Drupal --extensions=php,module,inc,install,test,profile,theme'
 let g:syntastic_error_symbol='✗'
 let g:syntastic_style_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_style_warning_symbol='⚠'
-
-" }}}
-" Notes {{{
-
-Bundle 'xolox/vim-notes.git'
 
 " }}}
 " Scratch Buffer{{{
@@ -344,11 +354,6 @@ let g:vitality_fix_focus = 0
 Bundle 'tpope/vim-sensible.git'
 
 " }}}
-" Slueth (auto determine tabwidth) {{{
-
-Bundle 'tpope/vim-sleuth.git'
-
-" }}}
 " Scriptease {{{
 
 Bundle 'tpope/vim-scriptease.git'
@@ -357,6 +362,11 @@ Bundle 'tpope/vim-scriptease.git'
 " Tbone (tmux integration) {{{
 
 Bundle 'tpope/vim-tbone.git'
+
+" }}}
+" DragVisuals {{{
+
+Bundle 'atweiden/vim-dragvisuals.git'
 
 " }}}
 

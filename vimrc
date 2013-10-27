@@ -23,6 +23,7 @@ set list                        " Show hidden characters
 set hidden                      " Manage multiple buffer history
 set matchtime=3                 " Jump to matching bracket for 3/10th of a second (works with showmatch)
 set number                      " show line numbers
+set relativenumber              " show line numbers
 set shell=/bin/bash
 set tags=./tags;                " Find tags file in parent directories
 set cursorline                  " Highlight cursor line
@@ -52,6 +53,10 @@ let g:solarized_termcolors=256
 " Ensure git gutter has same background as line numbers for solarized.
 " see https://github.com/altercation/vim-colors-solarized/pull/62
 highlight clear SignColumn
+
+" Allow background image from term to bleed through
+highlight Normal ctermbg=NONE
+highlight NonText ctermbg=NONE
 
 " }}}
 
@@ -101,6 +106,23 @@ augroup END
 " Configure vim so it can be called from crontab -e
 au BufEnter /private/tmp/crontab.* setl backupcopy=yes
 set backupskip=/tmp/*,/private/tmp/*
+
+" Set backup directories
+let s:dir = has('win32') ? '$APPDATA/Vim' : match(system('uname'), "Darwin") > -1 ? '~/Library/Vim' : empty($XDG_DATA_HOME) ? '~/.local/share/vim' : '$XDG_DATA_HOME/vim'
+if isdirectory(expand(s:dir))
+  if &directory =~# '^\.,'
+    let &directory = expand(s:dir) . '/swap//,' . &directory
+  endif
+  if &backupdir =~# '^\.,'
+    let &backupdir = expand(s:dir) . '/backup//,' . &backupdir
+  endif
+  if exists('+undodir') && &undodir =~# '^\.\%(,\|$\)'
+    let &undodir = expand(s:dir) . '/undo//,' . &undodir
+  endif
+endif
+if exists('+undofile')
+  set undofile
+endif 
 
 " }}}
 
@@ -184,6 +206,9 @@ nnoremap <silent> ,] :let word=expand("<cword>")<CR>:vsp<CR>:wincmd w<cr>:exec("
 
 " Resize splits when the window is resized
 au VimResized * exe "normal! \<c-w>="
+
+" Always open vertical splits on the right
+set splitright
 
 " }}}
 
@@ -306,6 +331,13 @@ nnoremap <leader>u :GundoToggle<CR>
 
 nnoremap <leader>t :TagbarToggle<cr>
 
+" Drag Visuals 
+ vmap <expr> <LEFT> DVB_Drag('left')
+vmap <expr> <RIGHT> DVB_Drag('right')
+vmap <expr> <DOWN> DVB_Drag('down')
+vmap <expr> <UP> DVB_Drag('up')
+vmap <expr> D DVB_Duplicate()
+
 " }}}
 
 "}}}
@@ -366,6 +398,8 @@ augroup ft_less
 
   " Auto compress less files
   au Filetype less nnoremap <buffer> <localleader>c :w <BAR> !lessc % > %:p:h/%:t:r.css<cr><space>
+
+  autocmd FileType less,css setlocal omnifunc=csscomplete#CompleteCSS
 augroup END
 
 " }}}
@@ -377,6 +411,8 @@ augroup ft_javascript
 
   au FileType javascript setlocal foldmethod=marker
   au FileType javascript setlocal foldmarker={,}
+
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 augroup END
 
 " }}}
@@ -463,7 +499,7 @@ augroup ft_mysql
   nnoremap <buffer> <LocalLeader>w :0,$Twrite<cr>
 augroup END
 " }}}
-"
+
 " {{{ Twig
 
 augroup ft_twig
@@ -492,6 +528,18 @@ augroup END
 augroup ft_tmux
   autocmd FileType ini set commentstring=;\ %s
 augroup END 
+" }}}
+
+" Python {{{
+augroup ft_python
+  autocmd FileType python set tabstop=8 expandtab shiftwidth=4 softtabstop=4
+augroup END
+" }}}
+
+" HTML {{{
+augroup ft_html
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+augroup END
 " }}}
 
 " }}}
@@ -599,6 +647,23 @@ function! s:Pulse() " {{{
     execute 'hi ' . old_hi
 endfunction " }}}
 command! -nargs=0 Pulse call s:Pulse()
+
+" }}}
+
+" Better Fold Text{{{
+" http://dhruvasagar.com/2013/03/28/vim-better-foldtext
+
+function! NeatFoldText()
+  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+  let lines_count = v:foldend - v:foldstart + 1
+  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+  let foldchar = matchstr(&fillchars, 'fold:\zs.')
+  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+  let foldtextend = lines_count_text . repeat(foldchar, 8)
+  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
+set foldtext=NeatFoldText()
 
 " }}}
 

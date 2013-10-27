@@ -1,3 +1,9 @@
+# Elements {{{
+snippet L "LANGUAGE_NONE" i
+LANGUAGE_NONE
+endsnippet
+# }}}
+
 # Form Elements {{{
 
 snippet checkbox "checkbox" b
@@ -14,8 +20,8 @@ $form['${1:/* form element */}'] = array(
   '#title' => t('${2:/* title */}'),
   '#description' => t('${3:/* description */}'),
   '#options' => array(
-    '${4:/* key */}' => t('${5:/* value */}),
-  );
+    '${4:/* key */}' => t('${5:/* value */}'),
+  ),
 );
 endsnippet
 
@@ -83,7 +89,7 @@ snippet textfield "textfield" b
 $form['${1:/* form element */}'] = array(
   '#type' => 'textfield',
   '#title' => t('${2:/* title */}'),
-  '#size' => ${3:/* default:60 */},
+  ${3:'#required' => TRUE,}
 );
 endsnippet
 
@@ -154,6 +160,27 @@ snippet fgi "field_get_items" b
 $${1:items} = field_get_items('${2:node}', $${3:entity}, '${4:field_$1}');
 endsnippet
 
+snippet vset "variable_set" b
+variable_set('${1:variable}', ${2:$value});
+endsnippet
+
+snippet vget "variable_get" b
+variable_get('${1:variable}', ${2:NULL});
+endsnippet
+
+snippet static "drupal_static" b
+${1:variable} = &drupal_static($2{__FUNCTION__});
+endsnippet
+
+snippet efq "EntityFieldQuery" b
+$query = new EntityFieldQuery();
+$result = $query
+  ->entityCondition('entity_type', '${1:node}')
+  ->entityCondition('bundle', '${2:page}')
+  ${3:->propertyCondition('status', 1)}
+  ${4:->fieldCondition('field_field', 'value', 'value')}
+  ->execute();
+endsnippet
 # }}}
 
 # Hooks {{{
@@ -297,6 +324,15 @@ function `!p snip.rv = snip.basename`_install() {
 
 endsnippet
 
+snippet hook_mail "hook_mail" b
+/**
+ * Implements hook_mail().
+ */
+function `!p snip.rv = snip.basename`_mail($key, &$message, $params) {
+  ${1:/* your code here */}
+}
+
+endsnippet
 snippet hook_mail_alter "hook_mail_alter" b
 /**
  * Implements hook_mail_alter().
@@ -314,7 +350,6 @@ snippet hook_menu "hook_menu" b
 function `!p snip.rv = snip.basename`_menu() {
   $${1:items} = array();
 
-  // Put your menu items here.
   $$1['${2:path}'] = array(
     ${3}
   );
