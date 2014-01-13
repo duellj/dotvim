@@ -320,9 +320,9 @@ inoremap <F1> <ESC>:set invfullscreen<CR>a
 nnoremap <leader>b :CtrlPBuffer<CR>
 nnoremap <leader>z :CtrlPTag<CR>
 
-nnoremap <leader>a :Ack 
-" run Ack against word under cursor
-nnoremap <leader>A :Ack <c-r><c-w><CR>
+nnoremap <leader>a :Ag 
+" run Ag against word under cursor
+nnoremap <leader>A :Ag <c-r><c-w><CR>
 
 nnoremap <leader>h :SidewaysLeft<cr>
 nnoremap <leader>l :SidewaysRight<cr>
@@ -452,7 +452,7 @@ augroup END
 " }}}
 
 " Quickfix {{{
-" Clean up the QuickFix window (great for Ack)
+" Clean up the QuickFix window (great for Ag)
 
 augroup ft_qf
   au!
@@ -532,7 +532,7 @@ augroup END
 
 " Python {{{
 augroup ft_python
-  autocmd FileType python set tabstop=8 expandtab shiftwidth=4 softtabstop=4
+  autocmd FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
 augroup END
 " }}}
 

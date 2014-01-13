@@ -60,12 +60,9 @@ let g:ctrlp_prompt_mappings = {
 "   \ }
 
 " }}}
-" Ack {{{
+" Ag {{{
 
-Bundle 'mileszs/ack.vim.git'
-
-" open Ack
-let g:ackprg = 'ag --nogroup --nocolor --column'
+Bundle 'rking/ag.vim.git'
 
 " }}}
 " Signature {{{
@@ -90,6 +87,11 @@ Bundle 'edsono/vim-matchit.git'
 Bundle 'tpope/vim-unimpaired.git'
 
 " }}}
+" Vinegar {{{
+
+Bundle 'tpope/vim-vinegar.git'
+
+" }}}
 
 " }}}
 
@@ -111,6 +113,11 @@ let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabCrMapping = 0
 
 " }}}
+" PHP Complete {{{
+
+Bundle 'shawncplus/phpcomplete.vim.git'
+
+" }}}
 " You Complete Me {{{
 
 " Bundle 'Valloric/YouCompleteMe'
@@ -121,11 +128,6 @@ let g:SuperTabCrMapping = 0
 
 " Editing {{{
 
-" Sideways {{{
-
-Bundle 'AndrewRadev/sideways.vim.git'
-
-" }}}
 " Repeat {{{
 
 Bundle 'tpope/vim-repeat.git'
@@ -238,11 +240,6 @@ Bundle 'tpope/vim-fugitive.git'
 Bundle 'gregsexton/gitv.git'
 
 let g:Gitv_DoNotMapCtrlKey = 1
-
-" }}}
-" Splice (3-way merge) {{{
-
-Bundle 'sjl/splice.vim.git'
 
 " }}}
 " Git syntax {{{
@@ -362,11 +359,6 @@ Bundle 'tpope/vim-scriptease.git'
 " Tbone (tmux integration) {{{
 
 Bundle 'tpope/vim-tbone.git'
-
-" }}}
-" DragVisuals {{{
-
-Bundle 'atweiden/vim-dragvisuals.git'
 
 " }}}
 
