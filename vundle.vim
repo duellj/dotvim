@@ -51,6 +51,10 @@ let g:ctrlp_custom_ignore = '\vsites/default/files$'
 let g:ctrlp_prompt_mappings = {
     \ 'ToggleType(1)':        ['<c-s>'],
     \}
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+if executable('ag')
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+end
 " let g:ctrlp_user_command = {
 "   \ 'types': {
 "     \ 1: ['.git', 'cd %s && cd `git rev-parse --show-toplevel` && (git submodule --quiet foreach git ls-files -oc --exclude-standard; git ls-files -oc --exclude-standard;)'],
@@ -100,17 +104,18 @@ Bundle 'tpope/vim-vinegar.git'
 " Ultisnips {{{
 
 Bundle 'SirVer/ultisnips.git'
+Bundle 'honza/vim-snippets.git'
 
 let g:UltiSnipsEditSplit = 'vertical'
-let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsExpandTrigger="<c-j>"
 
 " }}}
 " SuperTab configuration {{{
 
-Bundle 'ervandew/supertab.git'
+" Bundle 'ervandew/supertab.git'
 
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-let g:SuperTabCrMapping = 0
+" let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+" let g:SuperTabCrMapping = 0
 
 " }}}
 " PHP Complete {{{
@@ -120,7 +125,11 @@ Bundle 'shawncplus/phpcomplete.vim.git'
 " }}}
 " You Complete Me {{{
 
-" Bundle 'Valloric/YouCompleteMe'
+Bundle 'Valloric/YouCompleteMe'
+
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " }}}
 
@@ -194,6 +203,11 @@ let g:vdebug_options= {
 \    "marker_closed_tree" : '▸',
 \    "marker_open_tree" : '▾'
 \}
+
+" }}}
+" Abolish {{{
+
+Bundle 'tpope/vim-abolish.git'
 
 " }}}
 
