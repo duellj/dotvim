@@ -645,6 +645,31 @@ function `!p snip.rv = snip.basename`_views_query_alter(&$view, &$query) {
 
 endsnippet
 
+snippet hook_library "hook_library" b
+/**
+ * Implements hook_library().
+ */
+function `!p snip.rv = snip.basename`_library() {
+  $libraries['${1:library_name}'] = array(
+    'title' => '${2:Library Name}',
+    'website' => '${3:http://test.com}',
+    'version' => '0.1',
+    'js' => array(
+      drupal_get_path('module', '`!p snip.rv = snip.basename`') . '/js/${4:script.js}' => array(),
+    ),
+    'css' => array(
+      drupal_get_path('module', '`!p snip.rv = snip.basename`') . '/css/${5:style.css}' => array(
+        'type' => 'file',
+        'media' => 'screen',
+      ),
+    ),
+  );
+
+	return $libraries;
+}
+
+endsnippet
+
 # }}}
 
 # Plugins {{{
