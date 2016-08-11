@@ -688,15 +688,15 @@ function `!p snip.rv = snip.basename`_bean_types_api_info() {
  */
 function `!p snip.rv = snip.basename`_bean_types() {
   $plugins = array();
-  $plugin_path = drupal_get_path('module', '`!p snip.rv = snip.basename`');
+  $plugin_path = drupal_get_path('module', '`!p snip.rv = snip.basename`') . '/plugins';
 
   $plugins['`!p snip.rv = snip.basename`_${1:beantype}'] = array(
     'label' => t('${2:Bean Label}'),
     'handler' => array(
       'class' => '${3:BeanClass}',
       'parent' => 'BeanPlugin',
-      'path' => $plugin_path . '/includes',
-      'file' => '$3.php',
+      'path' => $plugin_path,
+      'file' => '$3.class.php',
     ),
     'editable' => TRUE,
   );

@@ -5,11 +5,11 @@
 set nocompatible " be iMproved
 filetype off     " required!
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin('~/.vim/bundle')
 
 " let Vundle manage Vundle, required
-Bundle 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 
 " lets install some bundles, shall we?
@@ -18,19 +18,20 @@ Bundle 'gmarik/vundle'
 
 " Powerline {{{
 
-Bundle 'Lokaltog/vim-powerline'
+Plugin 'Lokaltog/vim-powerline'
 
-let g:Powerline_symbols = 'fancy'
+" let g:Powerline_symbols = 'fancy'
+" let g:Powerline_dividers_override = ['', '', '', '']
 
 " }}}
 " Solarized {{{
 
-Bundle 'altercation/vim-colors-solarized.git'
+Plugin 'altercation/vim-colors-solarized.git'
 
 " }}}
 " Luna {{{
 
-Bundle 'Pychimp/vim-luna.git'
+Plugin 'Pychimp/vim-luna.git'
 
 " }}}
 
@@ -40,7 +41,7 @@ Bundle 'Pychimp/vim-luna.git'
 
 " CtrlP configuration {{{
 
-Bundle 'kien/ctrlp.vim.git'
+Plugin 'kien/ctrlp.vim.git'
 
 let g:ctrlp_switch_buffer = 'et'
 let g:ctrlp_match_window_reversed = 0
@@ -68,34 +69,34 @@ let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 " }}}
 " Ag {{{
 
-Bundle 'rking/ag.vim.git'
+Plugin 'rking/ag.vim.git'
 
 " }}}
 " Signature {{{
 
-Bundle 'kshenoy/vim-signature.git'
+Plugin 'kshenoy/vim-signature.git'
 
 " }}}
 " EasyMotion {{{
 
-Bundle 'Lokaltog/vim-easymotion.git'
+Plugin 'Lokaltog/vim-easymotion.git'
 
 let g:EasyMotion_leader_key = '<Leader>f'
 
 " }}}
 " MatchIt {{{
 
-Bundle 'edsono/vim-matchit.git'
+Plugin 'edsono/vim-matchit.git'
 
 " }}}
 " Unimpaired {{{
 
-Bundle 'tpope/vim-unimpaired.git'
+Plugin 'tpope/vim-unimpaired.git'
 
 " }}}
 " Vinegar {{{
 
-Bundle 'tpope/vim-vinegar.git'
+Plugin 'tpope/vim-vinegar.git'
 
 " }}}
 
@@ -105,8 +106,8 @@ Bundle 'tpope/vim-vinegar.git'
 
 " Ultisnips {{{
 
-Bundle 'SirVer/ultisnips.git'
-Bundle 'honza/vim-snippets.git'
+Plugin 'SirVer/ultisnips.git'
+Plugin 'honza/vim-snippets.git'
 
 let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -114,7 +115,7 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 " }}}
 " SuperTab configuration {{{
 
-" Bundle 'ervandew/supertab.git'
+" Plugin 'ervandew/supertab.git'
 
 " let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 " let g:SuperTabCrMapping = 0
@@ -122,12 +123,12 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 " }}}
 " PHP Complete {{{
 
-Bundle 'shawncplus/phpcomplete.vim.git'
+Plugin 'shawncplus/phpcomplete.vim.git'
 
 " }}}
 " You Complete Me {{{
 
-" Bundle 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 
 " let g:ycm_collect_identifiers_from_tags_files = 1
 " let g:ycm_add_preview_to_completeopt = 1
@@ -135,7 +136,7 @@ Bundle 'shawncplus/phpcomplete.vim.git'
 " }}}
 " NeoComplete {{{
 
-Bundle 'Shougo/neocomplete.vim.git'
+Plugin 'Shougo/neocomplete.vim.git'
 
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
@@ -144,6 +145,8 @@ let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+let g:neocomplete#sources#tags#cache_limit_size = 1000000
 
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
@@ -164,9 +167,9 @@ inoremap <expr><C-l>     neocomplete#complete_common_string()
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
-  return neocomplete#close_popup() . "\<CR>"
+  " return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
   " For no inserting <CR> key.
-  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+  return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -208,42 +211,42 @@ let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
 " Repeat {{{
 
-Bundle 'tpope/vim-repeat.git'
+Plugin 'tpope/vim-repeat.git'
 
 " }}}
 " Surround {{{
 
-Bundle 'tpope/vim-surround.git'
+Plugin 'tpope/vim-surround.git'
 
 " }}}
 " Tabular {{{
 
-Bundle 'godlygeek/tabular.git'
+Plugin 'godlygeek/tabular.git'
 
 " }}}
 " Gundo {{{
 
-Bundle 'sjl/gundo.vim.git'
+Plugin 'sjl/gundo.vim.git'
 
 " }}}
 " Commentary {{{
 
-Bundle 'tpope/vim-commentary.git'
+Plugin 'tpope/vim-commentary.git'
 
 " }}}
 " Ragtag {{{
 
-Bundle 'tpope/vim-ragtag.git'
+Plugin 'tpope/vim-ragtag.git'
 
 " }}}
 " Toggle {{{
 
-Bundle 'vim-scripts/Toggle.git'
+Plugin 'vim-scripts/Toggle.git'
 
 " }}}
 " Vdebug {{{
 
-" Bundle 'joonty/vdebug.git'
+" Plugin 'joonty/vdebug.git'
 let g:vdebug_keymap = {
 \    "run" : "<leader>dr",
 \    "run_to_cursor" : "<leader>dt",
@@ -276,7 +279,7 @@ let g:vdebug_options= {
 " }}}
 " Abolish {{{
 
-Bundle 'tpope/vim-abolish.git'
+Plugin 'tpope/vim-abolish.git'
 
 " }}}
 
@@ -286,7 +289,7 @@ Bundle 'tpope/vim-abolish.git'
 
 " Tagbar {{{
 
-Bundle 'majutsushi/tagbar.git'
+Plugin 'majutsushi/tagbar.git'
 
 let g:tagbar_foldlevel = 0
 let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
@@ -303,7 +306,7 @@ let g:tagbar_type_javascript = {
 " }}}
 " Autotag {{{
 
-Bundle 'vim-scripts/AutoTag.git'
+Plugin 'vim-scripts/AutoTag.git'
 
 let autotagCtagsCmd = '/usr/local/bin/ctags  --langmap=php:.engine.inc.module.theme.php.install.test.profile --php-kinds=cdfi --languages=php --recurse --exclude="\.git" --exclude="\.svn" --exclude="\.hg" --exclude="\.bzr" --exclude="CVS" --tag-relative=yes --regex-PHP="/abstract\s+class\s+([^ ]+)/\1/c/" --regex-PHP="/interface\s+([^ ]+)/\1/c/" --regex-PHP="/(public\s+|static\s+|abstract\s+|protected\s+|private\s+)function\s+\&?\s*([^ (]+)/\2/f/"'
 
@@ -315,24 +318,24 @@ let autotagCtagsCmd = '/usr/local/bin/ctags  --langmap=php:.engine.inc.module.th
 
 " Fugitive {{{
 
-Bundle 'tpope/vim-fugitive.git'
+Plugin 'tpope/vim-fugitive.git'
 
 " }}}
 " GitV {{{
 
-Bundle 'gregsexton/gitv.git'
+Plugin 'gregsexton/gitv.git'
 
 let g:Gitv_DoNotMapCtrlKey = 1
 
 " }}}
 " Git syntax {{{
 
-Bundle 'tpope/vim-git.git'
+Plugin 'tpope/vim-git.git'
 
 " }}}
 " Git Signify {{{
 
-Bundle 'mhinz/vim-signify.git'
+Plugin 'mhinz/vim-signify.git'
 
 let g:signify_vcs_list = [ 'git', 'hg' ]
 let g:signify_sign_overwrite = 0
@@ -345,22 +348,22 @@ let g:signify_sign_overwrite = 0
 
 " Less Syntax {{{
 
-Bundle 'groenewege/vim-less.git'
+Plugin 'groenewege/vim-less.git'
 
 " }}}
 " Sass Syntax {{{
 
-Bundle 'tpope/vim-haml.git'
+Plugin 'tpope/vim-haml.git'
 
 " }}}
 " Vim help files {{{
 
-Bundle 'juanpabloaj/help.vim.git'
+Plugin 'juanpabloaj/help.vim.git'
 
 " }}}
 " PIV {{{
 
-Bundle 'duellj/PIV.git'
+Plugin 'duellj/PIV.git'
 
 let PHP_vintage_case_default_indent = 1
 let PIVAutoClose = 0
@@ -369,34 +372,34 @@ let PHP_autoformatcomment = 0
 " }}}
 " Php Documentor {{{
 
-Bundle 'tobyS/pdv.git'
+Plugin 'tobyS/pdv.git'
 let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
 
 " }}}
 " Drush{{{
 
-Bundle 'duellj/drush.vim.git'
+Plugin 'duellj/drush.vim.git'
 
 " }}}
 " Ini syntax {{{
 
-Bundle 'duellj/ini-syntax-definition.git'
+Plugin 'duellj/ini-syntax-definition.git'
 
 " }}}
 " jQuery {{{
 
-Bundle 'itspriddle/vim-jquery.git'
+Plugin 'itspriddle/vim-jquery.git'
 
 " }}}
 " Markdown {{{
 
-Bundle 'tpope/vim-markdown.git'
-Bundle 'nelstrom/vim-markdown-folding.git'
+Plugin 'tpope/vim-markdown.git'
+Plugin 'nelstrom/vim-markdown-folding.git'
 
 " }}}
 " Twig {{{
 
-Bundle 'evidens/vim-twig.git'
+Plugin 'evidens/vim-twig.git'
 
 " }}}
 
@@ -406,7 +409,7 @@ Bundle 'evidens/vim-twig.git'
 
 " Syntastic {{{
 
-Bundle 'duellj/syntastic.git'
+Plugin 'duellj/syntastic.git'
 
 let g:syntastic_check_on_wq=0
 let g:syntastic_enable_signs=1
@@ -419,30 +422,32 @@ let g:syntastic_style_warning_symbol='⚠'
 " }}}
 " Scratch Buffer{{{
 
-Bundle 'vim-scripts/scratch.vim.git'
+Plugin 'vim-scripts/scratch.vim.git'
 
 " }}}
 " Vitality (iterm/tmux itegration) {{{
 
-Bundle 'sjl/vitality.vim.git'
+Plugin 'sjl/vitality.vim.git'
 
 let g:vitality_fix_focus = 0
 
 " }}}
 " Sensible Defaults {{{
 
-Bundle 'tpope/vim-sensible.git'
+Plugin 'tpope/vim-sensible.git'
 
 " }}}
 " Scriptease {{{
 
-Bundle 'tpope/vim-scriptease.git'
+Plugin 'tpope/vim-scriptease.git'
 
 " }}}
 " Tbone (tmux integration) {{{
 
-Bundle 'tpope/vim-tbone.git'
+Plugin 'tpope/vim-tbone.git'
 
 " }}}
 
 " }}}
+
+call vundle#end()

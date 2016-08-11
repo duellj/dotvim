@@ -182,8 +182,8 @@ noremap gk k
 " page down with <Space>
 nnoremap <Space> <PageDown>
 
-" page up with -
-noremap - <PageUp>
+" Explore directory with "-"
+noremap - :Ex<cr>
 
 " Make horizontal scrolling less horrible.
 set sidescroll=1
